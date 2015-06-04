@@ -1,0 +1,614 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[IL2]{fontenc}
+\usepackage[latin2]{inputenc}
+\usepackage[top=2cm, left=1.5cm, text={18cm, 26cm}]{geometry}
+%\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[czech]{babel}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Pøíprava na pùlsemestrálku z IMS}
+\rhead{\textbf{Nejedná se o oficiální materiál!}}
+\cfoot{\thepage}
+
+\begin{document}
+Obsah:
+\begin{itemize}
+	\item pojmy z modelování a simulace
+	\item diskrétní systémy a simulátory
+	\item SHO
+	\item konstrukce pro SHO v SIMLIB
+\end{itemize}
+
+\section{Základní pojmy}
+\begin{itemize}
+	\item Systém --- soubor elementárních èástí (prvkù systému), které mají mezi sebou urèité vztahy
+	\begin{itemize}
+		\item reálné systémy
+		\item nereálné systémy --- je¹tì neexistující, fiktivní
+	\end{itemize}
+	\item Model --- napodobenina systému jiným systémem
+	\begin{itemize}
+		\item reprezentace znalostí
+		\item typy modelù: fyzikální $<>$ matematické, statické $<>$ dynamické
+	\end{itemize}
+	\item Modelování --- vytváøení modelù systémù
+	\begin{itemize}
+		\item modelovat lze jen to, co doká¾eme popsat
+	\end{itemize}
+	\item Simulace --- získávání nových znalostí o systému experimentováním s jeho modelem
+	\item Princip modelování a simulace
+	\begin{itemize}
+		\item Realita $\rightarrow$ Znalosti $\rightarrow$ Abst. model $\rightarrow$ Simulaèní model
+		\item Cílem je získat nové znalosti o modelovaném systému
+	\end{itemize}
+	\item Etapy modelování a simulace
+	\begin{enumerate}
+		\item Vytvoøení abst. modelu --- formování zjednodu¹eného popisu zkoumaného systému
+		\item Vytvoøení simulaèního modelu --- zápis abst. modelu formou programu
+		\item Verifikace\footnote{Verifikace --- kontroluje pøevod abs. do sim. modelu} a validace\footnote{Validace -- kontroluje správnost výsledku} -- ovìøování správnosti modelu
+		\item Simulace --- experimentování se simulaèním modelem
+		\item Analýza a interpretace dat
+	\end{enumerate}
+\end{itemize}
+
+\subsection{Systém}
+\begin{itemize}
+	\item definice: S = (U, R)
+	\begin{itemize}
+		\item U = univerzum, koneèná mno¾ina prvkù systému
+		\item prvek systému u = (X,Y)
+		\begin{itemize}
+			\item[X] je mno¾ina v¹ech vstupních promìnných
+			\item[Y] je mno¾ina v¹ech výstupních promìnných
+		\end{itemize}
+		\item R = mno¾ina v¹ech propojení prvkù univerza
+	\end{itemize}
+	\item Vazby mezi prvky systému
+	\begin{itemize}
+		\item Sériová
+		\item Paralelní
+		\item Zpìtná vazba
+	\end{itemize}
+\end{itemize}
+
+\subsection{Èas}
+\begin{itemize}
+	\item Reálný èas --- probíhá v nìm skuteèný dìj v reálném èase
+	\item Modelový èas --- je èasová osa modelu, pøi simulaci nemusí být synchronní s reálným èasem
+	\item Strojový èas --- èas CPU spotøebovaný na výpoèet programu
+	\item Èasová mno¾ina --- mno¾ina èasových okam¾ikù, ve kterých jsou definovány hodnoty vstupních, stavových a výstupních promìnných prvkù systému
+	\begin{itemize}
+		\item Diskrétní: $T_d = \{ 1, 2, 3, 4, 5\}$
+		\item Spojitá: $T_s = \langle 1.0, 5.0 \rangle$
+	\end{itemize}
+\end{itemize}
+
+\subsection{Chování systému}
+\begin{itemize}
+	\item Ka¾dému èasovému prùbìhu vstupní velièiny pøiøazuje èasový prùbìh výstupní velièiny
+	\item Dáno vzájemnými interakcemi mezi prvky systému
+	\item Ekvivalence chování systémù:
+	\begin{itemize}
+		\item Systémy $S_1$ a $S_2$ pova¾ujeme za systémy se stejným chováním, vyvolají-li stejné podnìty u obou systémù stejné reakce
+	\end{itemize}
+	
+	\item Izomorfní systémy:
+	\begin{itemize}
+		\item Systémy $S_1 = (U_1, R_1)$ a $S_2 = (U_2, R_2)$ jsou izomorfní, kdy¾ a jen kdy¾:
+		\begin{enumerate}
+			\item Prvky univerza $U_1$ lze vzájemnì jednoznaènì (1:1) pøiøadit prvkùm univerza $U_2$
+			\item Prvky charakteristiky $R_1$ lze vzájemnì jednoznaènì pøiøadit prvkùm charakteristiky $R_2$, a to tak, ¾e prvku charakteristiky $R_1$, vyjadøujícímu orientovaný vztah mezi dvìma prvky univerza $U_1$, je v¾dy pøiøazen právì ten prvek charakteristiky $R_2$, který vyjadøuje stejnì orientovaný vztah mezi odpovídající dvojicí prvkù univerza $U_2$ a naopak.
+		\end{enumerate}
+		\item \textbf{Nezahrnuje chování}
+	\end{itemize}
+	
+	\item Homomorfní systémy:
+	\begin{itemize}
+		\item Systém $S_1 = (U_1, R_1)$ je homomorfní se systémem $S_2 = (U_2, R_2)$ právì kdy¾:
+		\begin{enumerate}
+			\item Prvkùm univerza $U_1$ je mo¾no pøiøadit jednoznaènì prvky univerza $U_2$ (opaènì tomu tak být nemusí, N:1)
+			\item Prvkùm charakteristiky $R_1$ je mo¾no jednoznaènì pøiøadit prvky charakteristiky $R_2$, a to tak, ¾e prvku charakteristiky $R_1$ vyjadøujícímu orientovaný vztah mezi dvìma prvky univerza $U_1$ je v¾dy pøiøazen právì ten prvek charakteristiky $R_2$, který vyjadøuje stejnì orientovaný vztah mezi odpovídající dvojicí prvkù univerza $U_2$ ve smyslu bodu~1.
+		\end{enumerate}
+	\end{itemize}
+
+	\item Okolí systému:
+	\begin{itemize}
+		\item Podstatné okolí systému = v¹e co má vliv na chování systému a není jeho souèástí
+		\begin{itemize}
+			\item Uzavøený systém --- nekomunikuje s okolím
+			\item Otevøený systém --- komunikuje s okolím
+		\end{itemize}
+	\end{itemize}
+
+	\item Klasifikace prvkù systémù:
+	\begin{itemize}
+		\item Klasifikace 1:
+		\begin{itemize}
+			\item Prvky se spojitým chováním
+			\item Prvky s diskrétním chováním
+		\end{itemize}
+		\item Klasifikace 2:
+		\begin{itemize}
+			\item Prvky s deterministickým\footnote{Za stejných vstupních podmínek vytvoøí stejné výsledky -- je pøedvídatelný} chováním
+			\item Prvky s nedeterministickým chováním
+		\end{itemize}
+	\end{itemize}
+
+	\item Klasifikace systémù:
+	\begin{itemize}
+		\item Spojité --- v¹echny prvky mají spojité chování
+		\item Diskrétní --- v¹echny prvky mají diskrétní chování
+		\item Kombinované --- obsahuje spojité i diskrétní prvky
+		\item Deterministické --- v¹echny prvky jsou deterministické
+		\item Nedeterministické --- alespoò jeden prvek s nedeterministickým chováním
+	\end{itemize}
+\end{itemize}
+
+\section{Simulace}
+= experimentování s reprezentací simulaèního modelu
+
+\paragraph{Cíl simulace:} získání nových informací o chování systému v závislosti na vstupních velièinách a na hodnotách parametrù
+
+\paragraph{Postup:} opakované øe¹ení modelu (provádìní simulaèních metod)
+\begin{itemize}
+	\item Nastavení hodnot parametrù a poèáteèního stavu modelu
+	\item Zadávání vstupních podnìtù z okolí pøi simulaci
+	\item Vyhodnocení výstupních dat (informaci o chování systému)
+\end{itemize}
+
+\paragraph{Typy simulace:} rozdìlujeme podle pou¾itého popisu modelu na:
+\begin{itemize}
+	\item Spojitá / Diskrétní / Kombinovaná
+	\item Kvalitativní / Kvantitativní
+\end{itemize}
+A podle simulátoru na:
+\begin{itemize}
+	\item Na analogovém / èíslicovém poèítaèi, fyzikální
+	\item "Real-time" simulace
+	\item Paralelní a distribuovaná simulace
+\end{itemize}
+
+\paragraph{Zpracování výsledkù simulace:}
+\begin{itemize}
+	\item Záznam prùbìhu simulace
+	\item Vizualizace výsledkù, animace
+\end{itemize}
+Analýza získaných výsledkù:
+\begin{itemize}
+	\item Intuitivní vyhodnocení, heuristiky, atd.
+	\item Statistické zpracování
+	\item Automatické vyhodnocení (napø. pro optimalizaci)
+	\item Provnávání s namìøovanými daty
+\end{itemize}
+
+\paragraph{Verifikace modelu:} ovìøuje korespondenci abstraktního a simulaèního modelu, tj. izomorfní vztah mezi AM a SM
+
+\paragraph{Validace modelu:} proces nad simulaèním modelem, v nìm¾ se sna¾íme dokázat, ¾e skuteènì pracujeme s modelem adekvátním modelovanému systému
+\begin{itemize}
+	\item Jeden z nejobtí¾nìj¹ích problémù modelování
+	\item Vy¾aduje neustálou konfrontaci informací, které o modelovaném systému máme a které simulací získáváme
+	\item Nelze absolutnì dokázat pøesnost modelu
+	\item Pokud chování neodpovídá, musí se model modifikovat
+\end{itemize}
+
+\paragraph{Simulaèní nástroje:} Simulaèní systémy usnadòují vytváøení modelù a provádìní experimentù.
+Pou¾ité pro:
+\begin{itemize}
+	\item práce s abstraktními modely
+	\item programování simulaèních modelù
+	\item experimentování se simulaèními modely
+	\item vizualizaci a vyhodnocení výsledkù
+\end{itemize}
+
+\section{Modely a modelování}
+Zpùsoby popisu modelù (matematicky):
+\begin{itemize}
+	\item Koneèný automat
+	\item Petriho sí»
+	\item Turingùv stroj
+	\item atd.
+\end{itemize}
+
+\paragraph{Specifické cíle a úèely modelù:}
+\begin{itemize}
+	\item Studium chování systému pro urèitá specifická kritéria, zkoumání povahy závislostí mezi parametry a odezvou systému
+	\item \emph{Predikce} --- vyhodnocení chování systému za urèitých podmínek
+	\item \emph{Analýza citlivosti} --- urèení faktorù (parametrù), které jsou pro èinnost systému nejvýznamnìj¹í
+	\item \emph{Optimalizace} --- nalezení takové kombinace parametrù, která vede k nejlep¹í odezvì systému
+\end{itemize}
+
+\paragraph{Simulaèní model:} abstraktní model zapsaný formou programu
+
+Vztahy mezi modely:
+\begin{itemize}
+	\item \textbf{homomorfní vztah:} modelovaný systém --- abstraktní model
+	\item \textbf{izomorfní vztah:} abstraktní model --- simulaèní model
+\end{itemize}
+
+\subsubsection{Klasifikace podle Fishwick}
+\paragraph{Konceptuální modely:}
+\begin{itemize}
+	\item Komponenty nebyly pøesnì popsány ve smyslu teorie systémù
+	\item Obvykle se pou¾ívají v poèáteèní fázi modelování pro ujasnìní souvislostí a komunikaci v týmu
+	\item Mají formu textu nebo obrázkù
+\end{itemize}
+
+\paragraph{Deklarativní modely:}
+\begin{itemize}
+	\item Popis pøechodù mezi stavy systému
+	\item Model je definován stavy a událostmi, které zpùsobí pøechod z jednoho stavu do druhého za jistých podmínek
+	\item Vhodné pøedev¹ím pro diskrétní modely
+	\item Obvykle zapouzdøeny do objektù
+	\item Napø.: Koneèené automaty, Petriho sítì, atd.
+\end{itemize}
+
+\paragraph{Funkcionální modely:}
+\begin{itemize}
+	\item Grafy zobrazující funkce a promìnné
+	\item 2 modifikace: uzel grafu je funkce nebo promìnná
+	\item Napø.: SHO, bloková schémata
+\end{itemize}
+
+\paragraph{Modely popsané rovnicemi (constraint):}
+\begin{itemize}
+	\item Rovnice --- algebraické, diferenciální, diferenèní
+	\item Neorientované grafy
+	\item Napø.: Balistika, kyvadlo
+\end{itemize}
+
+\paragraph{Prostorové modely:}
+\begin{itemize}
+	\item Rozdìlují systém na prostorovì men¹í ohranièené podsystémy
+	\item Napø.: Parciální diferenciální rovnice, celulární automaty
+\end{itemize}
+
+\paragraph{Multimodely:}
+\begin{itemize}
+	\item Modely slo¾ené z rùzných typù modelù, které jsou obvykle heterogenní
+	\item Napø.: Kombinované modely, modely s neurèitostí, modely na rùzné úrovni abstrakce
+	\item \textbf{Vìt¹ina netriviálních modelù spadá do této kategorie}
+\end{itemize}
+
+\subsection{Simulaèní nástroje}
+Mo¾nosti:
+\begin{itemize}
+	\item Pou¾ití obecných jazykù (C, C++, Java)
+	\item Simulaèní knihovny pro obecné jazyky (SIMLIB/C++)
+	\item Simulaèní jazyky
+	\item Simulaèní systémy
+	\item Propojování rùzných nástrojù
+\end{itemize}
+
+\paragraph{Simulaèní jazyky} = speciální programovací jazyky
+Poskytují prostøedky usnadòující efektivní popis:
+\begin{itemize}
+	\item struktury modelù
+	\item chování modelù
+	\item simulaèních experimentù
+\end{itemize}
+Výhody a nevýhody:
+\begin{itemize}
+	\item[$+$] Jednodu¹¹í popis modelu (snadnìj¹í verifikace)
+	\item[$+$] Mo¾nost automatické kontroly popisu modelu
+	\item[$-$] Dal¹í jazyk = pøekladaè, výuka, údr¾ba
+	\item[$-$] Málo pou¾íváno = problémy (cena, chyby)
+\end{itemize}
+
+\section{Diskrétní simulace}
+\paragraph{Formy zápisu diskrétních systémù}
+\begin{itemize}
+	\item V podobì programu zapsaného v (simulaèním) jazyce
+	\item Petriho sítì
+	\item Automaty, sítì automatù
+\end{itemize}
+
+\paragraph{Procesy:}
+\begin{itemize}
+	\item Posloupnost událostí
+	\item Paralelní procesy -- souèasnì provádìné procesy
+	\item Kvaziparalelismus -- provádìní paralelních procesù na jednoprocesorovém poèítaèi
+\end{itemize}
+
+\paragraph{Paralelismus}
+\begin{itemize}
+	\item Popis jednotlivých procesù sekvencí krokù
+	\item Popis komunikace procesù -- zprávy (synchronní, asynchronní)
+	\item Synchronizace pøi pou¾ívání sdílených prostøedkù
+\end{itemize}
+
+\subsection{Petriho sítì}
+Definice: $\Sigma = (P, T, F, W, C, M_0)$
+\begin{itemize}
+	\item P je mno¾ina míst (stavy)
+	\item T je mno¾ina pøechodù, $P \cap T = \emptyset$
+	\item Incidenèní relace $F \subseteq (P \times T) \cup (T \times P)$
+	\item Váhová funkce $W: F \rightarrow \{ 1,2,\hdots \}$
+	\item Kapacity míst $C: P \rightarrow N$
+	\item Poèáteèní znaèení $M_0: P \rightarrow N$ ($M$ se nazývá znaèení Petriho sítì)	
+\end{itemize}
+
+\paragraph{Graf Petriho sítì}
+\begin{itemize}
+	\item Místa = kru¾nice
+	\item Pøechody = obdélníky
+	\item Incidenèní relace = ¹ipky (orientované hrany)
+	\item Váhová funkce = ohodnocení hran
+\end{itemize}
+
+\paragraph{Proveditelnost pøechodu v Petriho síti:} pøechod je proveditelný pøi znaèení $M$, jestli¾e:
+\begin{itemize}
+	\item ve vstupních místech èeká dostatek procesù
+	\item a souèasnì výstupní místa mají dostateènì volnou kapacitu
+\end{itemize}
+
+\paragraph{Petriho sítì v modelování} mohou modelovat:
+\begin{itemize}
+	\item paralelismus procesù
+	\item komunikaci a synchronizaci procesù
+	\item nedeterminismus
+\end{itemize}
+
+\paragraph{Prioritní pøechody}
+\begin{itemize}
+	\item Je-li více pøechodù proveditelných z jednoho znaèení, mù¾eme jim dát priority
+	\item Pouze nezáporná èísla, implicitnì 0
+	\item Vy¹¹í èíslo $\Rightarrow$ vy¹¹í priorita
+\end{itemize}
+
+\paragraph{Pravdìpodobnost provedení pøechodu}
+\begin{itemize}
+	\item V pøípadì, ¾e jsou pøechody rùznì pravdìpodobné
+	\item Musí být zastoupeny v¹echny zbývající (nelze dát jen 30 \% a 70 \% u¾ ne)
+\end{itemize}
+
+\paragraph{Pravidla pou¾ívání roz¹íøených pøechodù}
+\begin{itemize}
+	\item Pøechod má pouze jeden parametr (priorita nebo pravdìpodobnost nebo èasování)
+	\item Není parametrem hrany
+\end{itemize}
+
+\paragraph{Èasované Petriho sítì}
+\begin{itemize}
+	\item Konstantní èas èekání
+	\item Náhodnì generovaná doba èekání
+	\item Sémantika èasovaného pøechodu:
+	\begin{enumerate}
+		\item Pokud je pøechod v èase $t$ proveditelný, spustí se odpoèet èasu
+		\item Po celou dobu odpoèítávání se nemìní stav znaèek
+		\item Na konci doby se provede pøemístìní znaèek
+	\end{enumerate}
+\end{itemize}
+
+\section{Systémy hromadné obsluhy}
+\paragraph{SHO (Queueing systems):} jsou systémy obsahující zaøízení (s frontami), která poskytují obsluhu transakcím.\\
+
+
+\noindent Typický SHO obsahuje:
+\begin{itemize}
+	\item Transakce (=procesy) a popis jejich pøíchodù
+	\item Obslu¾né linky (více typù) a popis obsluhy
+	\item Fronty rùzných typù, ve kterých transakce èekají
+\end{itemize}
+
+Co sledujeme pøi simulaci:
+\begin{itemize}
+	\item Informace o èase stráveném transakcí v systému
+	\item Doby èekání ve frontách
+	\item Vytí¾ení obslu¾ných linek
+\end{itemize}
+
+\paragraph{Vstupní tok po¾adavkù} obvykle jde o stochastický proces pøíchodù do systému. Kde pøi modelování pøíchodù zadáváme:
+\begin{itemize}
+	\item Støední dobu mezi pøíchody (obvykle pou¾íváme exponenciální rozlo¾ení)
+	\item Poèet pøíchodù za jednotku èasu (obvykle Poissonovo rozlo¾ení)
+\end{itemize}
+
+\paragraph{Fronty èekajících po¾adavkù} se vytvoøí v¾dy, kdy¾ po¾adavek chce být obslou¾en ji¾ obsazeným zaøízením. Pro fronty je charakteristické:
+\begin{itemize}
+	\item Øazení po¾adavkù ve frontì (napø. FIFO)
+	\item Zpùsob výbìru po¾adavkù z fronty
+	\item Nejvìt¹í mo¾ná délka fronty
+\end{itemize}
+
+
+\noindent \textbf{Frontové øady:} FIFO, LIFO, SIRO (Service In Random Order) \\
+\textbf{Nulová fronta:} po¾adavek nemù¾e vstoupit do fronty, jde o systém se ztrátami\\
+\textbf{Fronta koneèná:} omezení kapacity fronty\\
+\textbf{Fronta s netrpìlivými po¾adavky:} netrpìlivý po¾adavek opou¹tí systém, pøekroèí-li doba èekání urèitou mez (time-out)
+
+\paragraph{Prioritní po¾adavky, priorita obsluhy:}
+\begin{itemize}
+	\item Pøicházející po¾adavky nejsou rovnocenné, ka¾dý po¾adavek mù¾e mít svoji prioritu
+	\item Prioritních úrovní mù¾e být více
+	\item U jedné obslu¾né linky lze vytváøet i nìkolik front s rùznými prioritami
+	\item Vstupem po¾adavku s vy¹¹í prioritou nastane jedna ze ètyø mo¾ností pro právì probéhající obsluhu po¾adavku s ni¾¹í prioritou
+\end{itemize}
+
+\paragraph{Prioritní obsluha:}
+\begin{enumerate}
+	\item Zapoèatá obsluha se normálnì ukonèí (slabá priorita)
+	\item Obsluha se pøeru¹í a zaène obsluha po¾adavku s vy¹¹í prioritou obsluhy (silná priorita). Po¾adavek, jeho¾ obsluha byla pøeru¹ena
+	\begin{itemize}
+		\item Odchází ze systému neobslou¾en
+		\item Vrací se znovu do fronty a kdy¾ je pozdìji znovu obsluhován
+		\begin{itemize}
+			\item Obsluha pokraèuje od pøeru¹eného místa
+			\item Zaène znovu od zaèátku
+		\end{itemize}
+	\end{itemize}
+	\item Jsou-li v¹echny linky obsazeny a u ka¾dé je fronta, po¾adavek se sám rozhodne, do které fronty se zaøadí
+	\item Vytváøejí-li po¾adavky jednu spoleènou frontu, po¾adavek vstupuje do té obslu¾né linky, která se nejdøíve uvolní
+\end{enumerate}
+
+\paragraph{Obslu¾ná sí»} vznikne spojením nìkolika obslu¾ných linek
+\begin{itemize}
+	\item \textbf{Otevøená obslu¾ná sí»:} výmìna po¾adavkù mezi sítí a okolím
+	\item \textbf{Uzavøená obslu¾ná sí»:} nedochází k výmìnì po¾adavkù mezi sítí a okolím
+	\item \textbf{Smí¹ená obslu¾ná sí»:} pro nìkteré typy po¾adavkù je sí» otevøená, pro jiné uzavøená
+\end{itemize}
+
+\subsection{Kendallova klasifikace SHO}
+Standard struèného a pøehledného vyjádøení typu SHO -- pou¾ívá 3 hlavní hlediska:
+\begin{itemize}
+	\item \textbf{X} -- typ stochastického procesu popisujícího pøíchod po¾adavku k obsluze
+	\item \textbf{Y} -- zákon rozlo¾ení délky obsluhy
+	\item \textbf{c} -- poèet dostupných linek
+\end{itemize}
+Specifikace má tvar \textbf{X}/\textbf{Y}/\textbf{c}, kde:
+\begin{itemize}
+	\item X, Y -- velká písmena $M,D,G,E_n,K_n,Gl$
+	\item c -- pøirozené èíslo, vèetnì $\infty$
+\end{itemize}
+Popis znaèek:
+\begin{figure}[h!]
+\centering
+\begin{tabular}{| c | p{6cm} | p{6cm} |}
+	\hline
+	Symbol & X & Y \\
+	\hline
+	\hline
+	M & Poissonùv proces pøíchodù, tj. exponenciální rozlo¾ení vzájemnì nezávislých intervalù mezi pøíchody & Exponenciální rozlo¾ení doby obsluhy\\ \hline
+	$E_k$ & Erlangovo rozlo¾ení intervalù mezi pøíchody s parametry $\lambda$  a $k$ & Erlangovo rozlo¾ení doby obsluhy s parametry $\lambda$  a $k$\\ 	\hline
+	$K_n$ & Rozlo¾ení $\chi^2$ intervalù mezi pøíchody, $n$ stupòù volnosti & Rozlo¾ení $\chi^2$ doby obsluhy \\ \hline
+	D & Pravidelné deterministické pøíchody & Konstantní doba obsluhy \\ \hline
+	G & ®ádné pøedpoklady o procesu pøíchodu & Jakékoliv rozlo¾ení doby obsluhy \\ \hline
+	Gl & Rekurentní proces pøíchodù & \\ \hline
+\end{tabular}
+\end{figure}
+
+\subsection{Modelování SHO}
+Pøi modelování SHO popisujeme:
+\begin{itemize}
+	\item Procesy (transakce) v systému (pøíchod procesu do systému, jeho èinnost, odchod)
+	\item Stav obslu¾ných linek a front u zaøízení
+	\item Prùbìh obsluhy transakcí v zaøízeních
+\end{itemize}
+
+\paragraph{Typy obslu¾ných linek}
+\begin{itemize}
+	\item $Kapacita = 1$ -- Zaøízení (Facility)
+	\item $Kapacita > 1$ -- Sklad (Store)
+\end{itemize}
+
+\section{Knihovna SIMLIB}
+\paragraph{Prostøedky pro diskrétní modelování:}
+\begin{itemize}
+	\item \textbf{Process} --- báze pro modelování procesù
+	\item \textbf{Empty} --- báze pro modely událostí
+	\item \textbf{Facility} --- obslu¾ná linka -- výluèný pøístup
+	\item \textbf{Store} --- obslu¾ná linka s kapacitou
+	\item \textbf{Queue} --- fronta
+	\item \textbf{Statistiky} --- sada tøíd pro sbìr a uchování statistik
+\end{itemize}
+
+\paragraph{Modelový èas} reprezentován promìnnou \verb|double Time;|
+Do promìnné \verb|Time| nelze pøiøazovat, pøekladaè vyvolá chybu. Posun èasu øídí výhradnì jádro simulátoru. \verb|Init(t0,t1);| nastaví poèáteèní èas na \verb|t0|.
+
+\paragraph{Generátory pseudonáhodných èísel}
+\begin{itemize}
+	\item \texttt{double Random();)} -- rovnomìrné rozlo¾ení R(0,1)
+	\item \texttt{double Uniform(double L, double H);} -- rovnomìrné rozlo¾ení, R(L,H)
+	\item \texttt{double Exponential(double E);} -- exponenciální rozlo¾ení se støedem E
+	\item \texttt{double Normal(double M, double S);} -- normální rozlo¾ení se støedem M a rozptylem S
+\end{itemize}
+
+\subsection{Události v SIMLIB}
+Událost je jednorázová (nepøeru¹itelná) akce vyvolaná v urèitém modelovém èase.
+
+\noindent Èasto jsou nutné periodické události -- událost se sama znovu naplánuje
+\begin{figure}[h!]
+\begin{verbatim}
+class Udalost : public Event {
+    void Behavior() {
+        // akce udalosti
+        Activate(Time + e); // muze se periodicky aktivovat
+    }
+};
+
+// volani
+(new Udalost)->Activate();          // na cas Time
+(new Udalost)->Activate(Time + e);  // na cas Time + e
+\end{verbatim}
+\end{figure}
+
+\subsection{Procesy}
+Procesy (transakce) jsou odvozeny z abstraktní tøidy \texttt{Process}.
+\begin{verbatim}
+class Transakce : public Process {
+    public:
+        Transakce( parametry ) { // konstruktor
+            // nepovinny popis inicializace
+        }
+        void Behavior() {
+            // popis chování procesu
+        }
+};
+\end{verbatim}
+
+\noindent Po aktivaci procesu se volá metoda \verb|Behavior|. Provádìní metody je pøeru¹eno pøi èekání:
+\begin{itemize}
+	\item Ve frontì u zaøízení (v rámci \verb|Seize|, \verb|Enter|)
+	\item Pøi explicitním \verb|Wait(dt);| -- abstrakce nìjaké èinnosti trvající dt èasových jednotek
+\end{itemize}
+Proces se provádí jako posloupnost událostí -- napø.:
+\begin{verbatim}
+void Behavior() {
+    ...
+    Wait(3);
+    ...
+}
+\end{verbatim}
+Proces èeká 3 èasové jednotky. Pøi simulaci to znamená, ¾e se naplánuje dal¹í jeho pokraèování na èas \verb|Time+3| (pøíkazem \texttt{Activate(Time+3)}). Aktivaèní záznam této události je ulo¾en do kalendáøe a proces je pøeru¹en (a spustí se první plánovaná akce v kalendáøi).
+
+\subsection{Kalendáø událostí}
+Kalendáø je uspoøádaná datová struktura uchovávající aktivaèí záznamy budoucích událostí.
+\begin{itemize}
+	\item Ka¾dá naplánovaná budoucí událost (next event) má v kalendáøi záznam (acttime, priority, event)
+	\item Kalendáø umo¾òuje výbìr prvního záznamu s nejmen¹ím aktivaèním èasem a vkládání/ru¹ení aktivaèních záznamù
+\end{itemize}
+
+\subsection{Vytvoøení, registrování a zru¹ení procesu}
+Vytvoøení instance tøídy: \texttt{Transakce *t = new Transakce();}\\
+\textbf{Plánování (re)aktivace procesu do kalendáøe:} \\
+\texttt{t->Activate(tm);} Aktivuje se v èase tm (implicitnì je tm = Time).\\
+\textbf{Zru¹ení procesu i jeho registrace ve v¹ech strukturách (fronty, kalendáø):} \\
+\texttt{t->Cancel(); // nebo delete t;} \\
+\textbf{Suspendování bì¾ícího procesu:} \\
+\texttt{Passivate();}
+\textbf{Pro události lze pou¾ít pouze:} \verb|Activate| a \verb|Cancel|.
+
+
+\section{Otázky z minulých let}
+\subsection{M/M/1 -- zakreslit pomocí PN a demonstrujte SIMLIBem}
+Systém má exponenciální rozlo¾ení intervalù mezi pøíchody, exponenciální rozlo¾ení dob trvání obsluhy a jednu obslu¾nou linku.
+
+\subsection{Definujte pojmy model, modelování, modelový èas, simulace, èasovaný pøechod u stochastické Petriho sítì.}
+\begin{itemize}
+	\item Model -- napodobenina systému jiným systémem
+	\item Modelování -- vytváøení modelù systémù
+	\item Modelový èas -- èasová osa modelu, pøi simulaci nemusí být synchronní s reálným èasem
+	\item Simulace -- získávání nových znalostí o systému experimentováním s jeho modelem
+	\item Èasovaný pøechod -- pokud je pøechod v èase t proveditelný, spustí se odpoèet èasu, na konci doby se provede pøemístìní znaèek
+\end{itemize}
+
+\subsection{Popi¹te strukturu obslu¾né linky s kapacitou 1 a ve formì pseudokódu zapi¹te operace obsazení a uvolnìní linky procesem.}
+
+\subsection{Priorita obsluhy u SHO, demonstujte simlibem a PN.}
+
+\subsection{Uvést pseudokódy seize a release u facility s prioritou obsluhy a uvest, jaké musí mít taková fronta atributy.}
+
+\subsection{Popsat v¹echny typy priorit pou¾ívané u SHO a Petriho sítí a ka¾dou popsat kódem v SIMLIBu a PN.}
+
+\subsection{Popi¹te èásti, ze kterých se skládají systémy hromadné obsluhy. Napi¹te pseudokód pro operace zabrání a uvolnìní obslu¾né linky transakcí.}
+\begin{itemize}
+	\item Transakce (= procesy) a popis jejich pøíchodù
+	\item Obslu¾né linky a popis obsluhy
+	\item Fronty rùzných typù, ve kterých transakce èekají
+\end{itemize}
+
+\subsection{Popi¹te varianty modelování priorit transakcí na obslu¾ných linkách a zakreslete je pomocí PN}
+
+\end{document}

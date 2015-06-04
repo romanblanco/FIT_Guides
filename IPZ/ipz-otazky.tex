@@ -1,0 +1,406 @@
+\documentclass[a5paper,10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[top=0.5cm, left=0.5cm, text={13.5cm, 19cm}, ignorefoot]{geometry}
+\usepackage{indentfirst, times}
+\usepackage[czech]{babel}
+\begin{document}
+
+\section{Fulltexty}
+
+\paragraph{Vysvětlete pojem "vkládání čekacích stavů do komunikace mezi zařízeními v systémové sběrnici". Proč je nutné touto technikou systémovou sběrnici vybavit? Jak je tento problém řešen ve sběrnici PCI?\hfill(8~bodů)}
+\begin{itemize}
+	\item řadič PZ musí být schopen dodat data na datovou část sběrnice v určitém čase
+	\item pokud toho není schopný je nutné vkládat čekací stavy
+	\item PCI to řeší pomocí stavů \texttt{IRDY} a \texttt{TRDY}
+\end{itemize}
+
+\paragraph{Popsat Zoned Bit Recording, čeho se dosáhne jeho použitím}
+\begin{itemize}
+	\item na stopách jsou rozdílné počty sektorů
+	\item vnější stopy - více sektorů
+	\item vnitřní stopy - méně sektorů
+	\item plocha disku je rozdělena na zóny, v zóně je stejný počet sektorů, odlišný od počtu sektorů v jiné zóně, lepší využití vnějších stop
+\end{itemize}
+
+\paragraph{Vysvětlete princip kódování v rozhraní SATA. Jaké cíle jsou tímto kódováním sledovány?\hfill(8~bodů)}
+\begin{itemize}
+	\item využívá se kódování 8b/10b, snaha dosáhnout nulové stejnosměrné složky a požadované hodnoty RLL přenášeného signálu
+	\item stejnosměrná složka umožňuje uchování disparity (počet 0 a 1) na vodiči
+	\item pro využití detekce chyb na přijímací straně
+	\item původních 256 8bitových znaků zakódováno do 10bitů
+	\item 8bitů nabízí vytvořit 256 různých kombinací 10b až 1024
+	\item z této množiny je pak možno vybrat potřebný počet kombinací, aby splňoval konkrétní požadavky
+\end{itemize}
+
+\paragraph{Vysvětlit pojmy: sdílená/nesdílená a dedikovaná/nededikovaná sběrnice, u sdílené a dedikované uvést příklady}
+\begin{itemize}
+	\item \textbf{Dedikovaná sběrnice} -- má pouze jeden účel a věnuje se pouze jedinému koncovému zařízení -- AGP
+	\item \textbf{Nededikovaná sběrnice} -- více možných koncových zařízení
+	\item \textbf{Sdílená sběrnice} -- příkaz, data a adresa se přenášejí po společné sadě vodičů. Musí zde být identifikační signály, kterými se rozliší jaký typ informace je v aktuálním okamžiku na sběrnici -- PCI
+	\item \textbf{Nesdílená sběrnice} -- samostatné vodiče pro příkazy, data, adresu, každý odděleně -- ISA
+\end{itemize}
+
+\paragraph{Princip zjišťování stavu PZ - stavová slabika, slabika závad. Použití příkazu "zjisti závady".}
+\begin{itemize}
+	\item po ukončení PO musí řadič PZ zjistit jak PO dopadla
+	\item nejdříve se přenese stavová slabika, ve které je bit "vznikla chyba"
+	\item pokud je tento bit nastavený, musí se analyzovat jaká chyba nastala, dochází k přenosu "slabiky závad"
+	\item řadič PZ se na slabiku dotazuje příkazem "zjisti závady", každý bit ve slabice závad odpovídá jednomu typu chyby
+\end{itemize}
+
+\paragraph{Třírozměrná adresace, LBA}
+\begin{itemize}
+	\item součást řadiče jsou registry válce, hlavy a sektorů
+	\item pokud se pracuje s těmito adresami jedná se o třírozměrnou adresaci
+	\item režim LBA, všechny tyto registry jsou viděny logikou řadiče jako jeden registr, v němž je umístěná adresa sektoru, tj. jednorozměrná adresace
+	\item v řadiči je k dispozici indikace (programovatelná ze strany procesoru), že adresa je typu LBA
+	\item řešení problému přístupu k větším kapacitám než umožňovala třítozměrná adresace
+\end{itemize}
+
+\paragraph{Rozdíl mezi programovatelným přerušením a přerušením u V/V operaci}
+\begin{enumerate}
+	\item PZ vyvolá požadavek na přerušení
+	\item V/V rozhranní vyšle signál IRQ na řadič přerušení
+	\item Řadič vygeneruje signál INTR "někdo žádá o přerušení" a odesílá na CPU
+	\item CPU se zeptá (pomocí signálu INTA) o jaké zařízení se jedná
+	\item[---] odtud je shodný postup s programovým přerušením ---
+	\item CPU uloží stavové operace prováděného programu do zásobníku
+	\item Ve vektoru přerušení nalezne adresu podprogramu a vykoná jej
+	\item Obnoví se stav ze zásobníku
+\end{enumerate}
+
+\paragraph{S čím souvisí "Vybavovací doba" u diskových pamětí?}
+\begin{itemize}
+	\item vybavovací doba = režie provedení příkazu + doba vystavení + doba uklidnění + zpoždění vlivem otáček
+\end{itemize}
+
+\paragraph{"Čekací doba" diskové paměti souvisí?}
+\begin{itemize}
+	\item s rychlostí otáčení
+\end{itemize}
+
+\paragraph{Vyjmenujte komponenty, které se podílejí na realizaci periferní operace?}
+\begin{itemize}
+	\item počítač (CPU nebo řadič DMA), systémová sběrnice, adaptér, V/V sběrnice, periferní zařízení
+\end{itemize}
+
+\paragraph{Pro paralelní rozhraní platí, že s narůstajícím synchronizačním kmitočtem (rychlostí přenosu) se zvyšuje nebezpečí přeslechů mezi signály. Jak je tento problém řešen v dalších generacích sběrnic a rozhraní?}
+\begin{itemize}
+	\item přechodem na sériové rozhraní a diferenciálním signálem přes dva vodiče
+\end{itemize}
+
+\paragraph{Vysvětlete pojmy: fullduplex a halfduplex}
+\begin{itemize}
+	\item \textbf{Fullduplex:} možnost současně přenášet data v obou směrech s maximální možnou frekvencí
+	\item \textbf{Halfduplex:} možnost přenášet pouze v jednom směru z
+\end{itemize}
+
+\paragraph{Vysvětlete princip fázového závěsu v technikách, kdy je synchronizace vložena do přenášených dat}
+\begin{itemize}
+	\item PLL, skládá se z fázového detektoru a oscilátoru
+	\item Princip: porovnává fázi vstupního signálu s fází signálu produkovaného oscilátorem a upravuje frekvenci tak, aby se obě fáze shodovaly
+	\item Použití: v záznamu metodou MFM
+\end{itemize}
+
+\paragraph{Princip fungování a struktura LCD. Jak řeší DVI přechod na vyšší rozlišení.}
+\begin{itemize}
+	\item Struktura:
+	\begin{itemize}
+		\item dvě skleněné vrstvy, mezi kterými jsou rozmístěny kapalné krystaly
+		\item zadní sklo (blíže ke zdroji světla)
+		\item přední sklo tvoří RGB filtry, tvoří barvu a její intenzitu podle toho jak jednotlivé složky barvy projdou kapalným krystalem
+	\end{itemize}
+	\item Princip: přechod světla je řízen kapalným krystalem
+	\item DVI: další kanál nebo zavedení techniky "reduced blanking" = zmenšení nezobrazované oblasti nebo zmenšení zatemněné oblasti
+\end{itemize}
+
+\paragraph{Ve kterých zařízeních se vyskytuje problém clock-skew?}
+\begin{itemize}
+	\item PCI a DVI
+\end{itemize}
+
+\paragraph{Vysvětlete pojem "registry mapované do adresového prostoru operační paměti". Zobrazte dekodér, popište jeho vstupy/výstupy, vysvětlete jejich funkci. \hfill (9~bodů)}
+\begin{itemize}
+	\item Paměť i PZ mají stejný adresný prostor, lze používat širokou škálu instrukcí, omezenější počet adres
+	\item je možné k registrům přistupovat stejně a stejnými instrukcemi jako k operační paměti
+	\item Bity A3-A9 jsou přivedeny na komparátor, který v případě příchodu vyšších adres povolí dekodér rozvádějící povolení v závislosti na bitech A0-A2 na jednotlivé registry
+	\item výhodou je velké množství instrukcí, nevýhodou menší vyhrazený adresní prostor -- omezené množství zařízení a registrů, nebo naopak omezený adresní prostor pro operační paměť
+\end{itemize}
+
+\paragraph{Synchronní sběrnice. Podle čeho posuzujeme, zda je sběrnice synchronní?}
+\begin{itemize}
+	\item operace jsou realizovány od jedné z hran synchronizačního pulzu: v okamžiku výskytu hrany se vyhodnocuje, zda se požadované operace může provést (připravenost obou zařízení)
+	\item interval mezi dvěma nástupnými sousedícími hranami: hodinový cyklus nebo sběrnicový cyklus
+	\item stab na sběrnici vyhodnocuji všechna zařízení (např. adresu vystavení na sběrnici)
+	\item činnost je rozdílná pro zápisný cyklus nebo čtecí cyklus
+\end{itemize}
+
+\paragraph{Vysvětlete následující pojmy: doba vystavení, vybavovací, rotační zpoždění\hfill(8~bodů)}
+\begin{itemize}
+	\item \textbf{Doba vystavení:} čas, za který se hlavy dostanou na požadovaná data
+	\item \textbf{Doba vybavení:} čas, za který je disk schopen předat data (doba vystavení + rotační zpoždění)
+	\item \textbf{Rotační zpoždění:} čas, za který je provedena jedna půlotáčka plotny
+\end{itemize}
+
+\paragraph{Vysvetlit pojem izolovane vstupy/vystupy. Zobrazit dekoder, popsat jeho vstupy/vystupy, vysvetlit jejich funkci\hfill(9~bodů)}
+\begin{itemize}
+	\item registry mají vlastní adresný prostor
+	\item existují dva disjunktní adresné prostory
+	\item jsou k dispozici dvě skupiny instrukcí (IN/OUT)	
+	\item v tomto adresním prostoru např. bity A3-A9 identifikují řadič PZ a zbývající bity A0-A2 registr v rámci tohoto řadiče
+	\item obvodová realizace provedena komparátorem napojeným na adresové bity sběrnice A3-A9, který v případě shody povolí průchod zbývajících bitů k dekodérům a datové bity sběrnoce pustí ke vstupům všechnsvých registrů
+	\item nevýhodou je omezená instrukční sada
+\end{itemize}
+
+\paragraph{Rozdíl mezi SATA a DVI}
+\begin{itemize}
+	\item Kódování:
+	\begin{itemize}
+		\item \textbf{SATA:} 8b/10b, vyběr pouze kombinací splňujících RLL, nulová stejnosměrná složka + počítání disparity
+		\item \textbf{DVI:} jiný způsob 8b/10b, 9. bit signalizuje použití inverze pro minimalizaci počtu přechodů, 10. bit signalizuje provedení inverze bitu pro dosažení nulové stejnosměrné složky signálu
+	\end{itemize}	
+	\item Synchronizační rozdíly:
+	\begin{itemize}
+		\item \textbf{SATA:} Embedded clock, synchronizaci lze odvodit z dat
+		\item \textbf{DVI:} Synchronizace vedena zvlášť (clock skew), jako součást rozhraní	
+	\end{itemize}
+\end{itemize}
+
+\paragraph{O rozhraní IDE platí:}
+\begin{itemize}
+	\item signály rozhraní IDE jsou podmnožinou signálů systémové sběrnice ISA
+	\item přes rozhraní IDE	jsou programově přístupné registry řadiče PZ (např. pevného disku)
+\end{itemize}
+
+\paragraph{Pojem vertikální zpětný běh:}
+\begin{itemize}
+	\item návrat paprsku zpět na začátek obrazovky
+	\item počet zpětných běhů za sekundu = počet zobrazených snímků za sekundu	
+\end{itemize}
+
+\paragraph{Nejhorší vzorek dat:}
+\begin{itemize}
+	\item vzorek s největším počtem změn magnetizace
+	\item FM -- samé jedničky
+	\item MFM -- samé jedničky nebo nuly 	
+\end{itemize}
+
+\paragraph{Adresace na SCSI a jak se dle toho řeší distributivní přidělování sběrnice, který prvek má ve SCSI nejvyšší prioritu, kolik je možné přidat zařízení do 16b sběrnice SCSI, struktura SCSI.}
+\begin{itemize}
+	\item adresa je 8b, z toho pouze jeden bit je 1, určuje které zařízení má prioritu obsluhy
+	\item omezený počet adres
+	\item lze připojit pouze 7 zařízení
+	\item distribuovaná přidělovací sběrnice (bez arbirta, menší priorita ruší žádost)
+	\item ID7 (nejvyšší adresa) host adapter
+	\item do 16b sběrnice je možné přidat 15 zařízení, 16té je adapter
+\end{itemize}
+
+\paragraph{Vysvětlit princip komunikace dotaz-odpověď u paralelní a sériové sběrnici.}
+\begin{itemize}
+	\item Na úrovni signálů paralelní sběrnice:
+	\item Na úrovni packetu v seriových sběrnicích:	
+\end{itemize}
+
+\paragraph{Přímý přístup do paměti (DMA)}
+\begin{itemize}
+	\item data se přenášejí z řadiče PZ do operační paměti přes sběrnice bez procesoru
+	\item data se nepřevádějí přes řadič DMA, řadič jen řídí přenos
+	\item využíván pro přenos mezi disketovou a operační pamětí	
+\end{itemize}
+
+\paragraph{PCI express}
+\begin{itemize}
+	\item Vysokorychlostní, seriová, nízko napěťová sběrnice, dvojitý jednosměrný přenos - full duplex
+	\item 8b/10b kódování, point-to-point, síť spojů	
+\end{itemize}
+
+\paragraph{AGP}
+\begin{itemize}
+	\item rozšíření PCI, je rychlejší, dedikovaná, využívá ji grafický adaptér
+	\item zřetězení adresování: adresy jsou zasílány zřetězeně, poté nastává souvislé čtení dat	
+\end{itemize}
+
+\paragraph{CRT monitor}
+\begin{itemize}
+	\item využívá se elektronkové dělo
+	\item černobílé zobrazení:
+	\begin{itemize}
+		\item odstín barvy dle intenzity energie
+		\item černá/bílá = 0/1
+		\item stupně šedi = počet hodnot závisí na počtu reprezentačních bitů o barvě
+	\end{itemize}	
+	\item barevné zobrazení:
+	\begin{itemize}
+		\item analogová reprezentace
+		\item aditivní míchání barev, jednotlivé body RGB leží vedle sebe, lidské oko je nedokáže rozlišit, vnímá celek jako barvu	
+	\end{itemize}
+	\item digitální zobrazení: barva RGB se buď podílí nebo nepodílí na výsledné barvě
+	\item analogové zobrazení: každá složka má svou úroveň jasu, využití DA převodníku pro převod informace o barvě na analogovou VGA -- 1 barva 6b, SVGA -- 1 barva 8b
+\end{itemize}
+
+\paragraph{Clock-skew}
+\begin{itemize}
+	\item zpoždění datových signálů oproti synchronizaci
+	\item nastává při zvyšování kmitočtu
+	\item řešením je zrušit přenos synchronizace jako samostatného signálu -- odvození dat z vnitřní synchronizace	
+\end{itemize}
+
+\paragraph{TMDS}
+\begin{itemize}
+	\item snaží se omezit počet přechodů mezi 1 a 0
+	\item používá se při přenosu před DVI
+	\item diferenciální signál -- vyšší odolnost proti rušení
+	\item každá barva na jeden dvoudrátový spoj -- dva kanály k dispozici	
+\end{itemize} 
+ 
+\paragraph{Cylinder skew}
+\begin{itemize}
+	\item posunutí číslování sektoru mezi cylindry
+	\item čteme od středu disku, po skončení čtení, musíme přestavit na další cylinder
+	\item sektory jsou mezi sebou posunuty
+	\item je dostatek času na vystavení
+	\item v relaci musí být rychlost otáčení a vystavení
+	\item pokud je rychlost otáčení velká, musí být posunutí mezi sektory větší
+\end{itemize}
+
+\paragraph{Při DMA režimu je na adresovou sběrnici vystavena:}
+\begin{itemize}
+	\item Adresa paměti	
+\end{itemize}
+ 
+ 
+\paragraph{Vysvětlit "přerušování spouštěné hranou". V jaké sběrnici se to vyskytuje. A něco o tom, zda je možné tyto přerušení sdružovat do stejného vodiče.}
+\begin{itemize}
+	\item detekování žádosti o přerušení a její následná obsluha jsou spouštěny hranou žádosti o přerušená
+	\item generování se odehraje na základě přechodu z "provádění PO" do stavu "PO skončila"
+	\item každá žádost o přerušení je vedena do počítače přes svůj vlastní a nesdílený kontakt v konektoru systémové sběrnice = není možné sdružovat do jednoho vodiče více žádostí
+	\item využita na sběrnici ISA		
+\end{itemize}
+
+\paragraph{Přerušení spouštěné úrovní, jaká sběrnice, je možné je sdružovat do stejného vodiče?}
+\begin{itemize}
+	\item více zařízení může žádat o přerušení ve stejnou dobu, procesor zjišťuje, kdo o co žádal, protože má omezený počet vodičů pro "žádost o přerušení"
+	\item generování žádosti -- signál je na úrovni 0
+	\item na všech zařízeních je signál realizován jako výstup s otevřeným kolektorem
+	\item sběrnice PCI	
+\end{itemize}
+
+\paragraph{Popište architekturu "počítač s V/V procesorem". Kde je uplatněn a jak -- zobrazte obrázkem.\hfill(8~bodů)}
+\begin{itemize}
+	\item procesor nemá přístup k registrům řadiče -- nemůže do nich zapisovat ani jejich obsah číst
+	\item V/V procesor komunikuje s řadiči jednotným způsobem formou tzv signálních sledů
+\end{itemize}
+
+\paragraph{Ze kterých sekcí sestává systémová sběrnice, popište funkci těchto sekcí. Popište princip "přenos slova dat z universálního registru procesoru do registru jiného klienta sběrnice" realizované na základě instrukce. Jak jsou tyto registry adresovány (přes adresovou část systémové sběrnice či jinak)?\hfill(9~bodů)}
+\begin{itemize}
+	\item CPU, paměť, DMA řadič, HDD řadič \hfill \textbf{asi} 
+\end{itemize}
+
+
+\paragraph{Vysvetlit duvody pro zavedeni radice preruseni do architektury pocitace. Vypsat zakladni principy obsluhy zadosti o preruseni vcetne role systemove sbernice\hfill(8~bodů)}
+\begin{itemize}
+	\item Pokud periferní zařízení potřebuje vyhodnotit stav, který na něm nastal, je potřeba to nějak sdělit CPU
+	\item CPU, které v zpracovává určité požadavky programu, nemůže kontrolovat ještě stav na periferních zařízeních
+	\item proto je zaveden řadič přerušení, který kontroluje stavy PZ a pokud nějaké žádá o přerušení, uvědomí o tom CPU, které náležitě zareaguje
+	\item 2 způsoby přerušení:
+	\begin{itemize}
+		\item[1.] \emph{Přerušení spouštěná hranou} -- detekován přechod "Provádění PO" do "PO skončila", signál beží po jednom vodiči pro každé PZ 
+		\item[2.] \emph{Přerušení spouštěná úrovní} -- na základě obdržení "žádosti o přerušení" se zjišťuje, kdo žádal, protože o přerušení může žádat ve stejnou chvíli více zařízení
+	\end{itemize}	
+\end{itemize}
+
+\paragraph{Popsat slabikovy a blokovy prenos dat. Popsat jak vypada struktura prenasene informace u obou principu. uvest priklad sbernice, kde se pracuje s blokovym prenosem dat. Kterym z techto principu se dosahuje vyssich objemu prenasenych dat?\hfill(8~bodů)}
+\begin{itemize}
+	\item \textbf{Blokový přenos:} přenášejí se souvislé bloky dat
+	\begin{itemize}
+		\item sdílená sběrnice, adresa se posílá jednou a data následují za sebou
+	\end{itemize}
+	\item \textbf{Slabikový přenos:} přenos po slabikách	
+\end{itemize}
+
+\paragraph{Pojmy z usb vysvětlit: device, function}
+\begin{itemize}
+	\item \textbf{Device} -- zařízení, které neposkytuje konkrétní služby, ale pouze rozšiřuje služby sběrnice (např. HUB)
+	\item \textbf{Function} -- zařízení, které poskytuje nějaké konkrétní služby (např. myš, klávesnice, tiskárna)	
+\end{itemize}
+
+\paragraph{Jak zrychluje přenos nízká úroveň napětí signálu, jak zvyšuje spolehlivost použití diferenciálního spoje}
+\begin{itemize}
+	\item Nízká úroveň napětí umožňuje rychlé přepínání mezi stavy v TTL, technika LVDS -- Low Voltage Differential Signaling
+	\item Diferenciální spoj posílá signál a jeho invertovanou podobu dvěma vodiči, na přijímači je možné tímto způsobem dostat původní signál bez rušení, které vzniklo během přenosu 
+\end{itemize}
+
+
+
+\newpage
+\section{Sběrnice -- popis}
+\subsection{ISA}
+\begin{itemize}
+	\item asynchronní, paralelní, sdílená, nededikovaná
+	\item rozšířená EISA
+	\item předchůdce PCI	
+\end{itemize}
+
+\subsection{PCI}
+\begin{itemize}
+	\item synchronní, paralelní, sdílená, nededikovaná
+	\item využívá přerušení spouštěná úrovní
+	\item centralizované přidělování sběrnice
+\end{itemize}
+
+\subsection{PCI Express}
+\begin{itemize}
+	\item sériová, sdílená, nededikovaná	
+	\item diferenciální spoj -- dvojitý jednosměrný, nízkonapěťový
+	\item do systémové sběrnice byla vložena sériová komunikace
+	\item \textbf{scalability:} rozšiřitelnost základního spoje s cílem dosáhnout vyššího výkonu
+	\item nahrazuje AGP, PCI, PCI-X
+	\item point-to-point = komunikace mezi zařízeními spojenými sběrnicí PCI-E
+\end{itemize}
+
+\subsection{SCSI}
+\begin{itemize}
+	\item synchronní/asynchronní, paralelní (může být i seriová), sdílená, nededikovaná
+	\item distribuované přidělování sběrnice
+	\item nejvyšší bit pro host adaptér (8b = 7 PZ a 1 host adapter)
+	\item typ adresace: 1 z n, jedno zařízení může být obsluhováno
+\end{itemize}
+
+\subsection{SATA}
+\begin{itemize}
+	\item asynchronní, seriová, sdílená, nededikovaná
+	\item synchronizace odvozována z dat == Embedded clock
+\end{itemize}
+
+
+
+\newpage
+\section{Principy}
+\subsection{Kódování 8b/10b}
+\begin{itemize}
+	\item 256 původně 8b znaků je zakódováno do 10 bitů
+	\item 10b umožňuje 1024 kombinací -- odtud se vyberou pouze ty, které splňují požadavky
+	\item Požadavek 1:
+	\begin{itemize}
+		\item[\textbf{?}] Co nejmenší RL(Run Length) -- dlouhé intervaly mezi změnami signálu
+		\item odebrány ty kombinace, kde jsou např. samé 1 nebo samé 0	
+	\end{itemize}	
+	\item Požadavek 2:
+	\begin{itemize}
+		\item[\textbf{?}] Nulová ss složka přenášeného signálu
+		\item zakódovaná data obsahují stejný počet 0 a 1
+		\item nebo kapacitní člen na vstupu, který zablokuje ss složku
+	\end{itemize}
+	\item \emph{Disparita}
+	\begin{itemize}
+		\item[\textbf{?}] Rozdíl mezi počtem vyslaných 0 a 1
+		\item záporná disparita = počet 0 je větší než počet 1
+		\item průběžná disparita = aktuální disparita	
+	\end{itemize}
+	
+	\item Použito v SATA a DVI, ale rozdílně
+\end{itemize}
+
+
+\end{document}

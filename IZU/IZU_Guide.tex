@@ -1,0 +1,657 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[IL2]{fontenc}
+\usepackage[latin2]{inputenc}
+\usepackage[top=2cm, left=1.5cm, text={18cm, 26cm}]{geometry}
+\usepackage{graphics}
+\usepackage[czech]{babel}
+\usepackage{color}
+
+
+\newcommand{\pojem}[2]{\item \textbf{#1:}\quad #2}
+\newcommand{\tedy}{$\Rightarrow$ }
+
+\begin{document}
+
+	{\Huge IZU Guide}
+
+	\begin{quote}
+	Jedná se neoficiálního prùvodce pøedmìtem Základy umìlé inteligence. \\
+
+	\textbf{Toto není jediný materiál pro studium ke zkou¹ce, doporuèujeme jej kombinovat s pøedná¹kami.} \\
+
+	Dokument mù¾e obsahovat pravopisné chyby, za které se pøedem omlouváme a budeme rádi, za pøípadné upozornìní. 
+	\end{quote}
+	
+	\vfill
+	\tableofcontents
+
+	\pagebreak
+	\section{Prohledávací algorimty}	
+		\subsection{BFS\,--\,Breadth First Search}
+		\begin{itemize}
+			\item Je úplný a optimální
+			\item Èasová i pamì»ová nároènost je exponenciální O($b^{d+1}$), proto se nepou¾ívá  
+			\pojem{Popis}{}
+			\begin{enumerate}
+				\item Sestroj frontu \texttt{OPEN} (bude obsahovat v¹echny uzly urèené k expanzi) a umísti do ní poèáteèní uzel
+				\item Je-li fronta \texttt{OPEN} prázdná, pak úloha nemá øe¹ení a ukonèi proto prohledávání jako neúspì¹né
+				\item Vyber z èela fronty \texttt{OPEN} první uzel
+				\item Je-li vybraný uzel uzlem cílovým, ukonèi prohledávání jako úspì¹né a vra» cestu od koøenového uzlu k uzlu cílovému (vrací se posloupnost stavù, nebo operátorù)
+				\item Vybraný uzel expanduj, v¹echny jeho bezprostøední následníky umísti do fronty \texttt{OPEN} a vra» se na bod 2
+			\end{enumerate}
+			\pojem{Mo¾né modifikace}{}
+			\begin{enumerate}
+				\item Pøidání fronty \texttt{CLOSED}
+				\item Výbìr tìch, kteøí je¹tì nejsou v \texttt{OPEN}
+				\item Výbìr tìch, kteøí nejsou pøedky
+				\item Testování a generování
+			\end{enumerate}
+		\end{itemize}
+
+		\subsection{BS\,--\,Bidirectional Search}
+		\begin{itemize}
+			\item Je úplný a optimální
+			\item Nároènost je O(2*$b^{(d/2)}$)
+			\pojem{Popis}{}
+			\begin{enumerate}
+				\item Sestroj fronty \texttt{OPEN1} a \texttt{OPEN2} (budou obsahovat v¹echny uzly urèené k expanzi) a seznamy \texttt{CLOSED1} a \texttt{CLOSED2} (budou obsahovat v¹echny expandované uzly). Do fronty \texttt{OPEN1} umísti poèáteèní uzel a do fronty \texttt{OPEN2} cílový uzel
+				\item Je-li fronta \texttt{OPEN1} prázdná, pak úloha nemá øe¹ení, a proto ukonèi prohledávání jako neúspì¹nì
+				\item Vyber z èela fronty \texttt{OPEN1} první uzel a umísti tento uzel do seznamu \texttt{CLOSED1}
+				\item Vybraný uzel expanduj. Pokud nìkterý bezprostøední následník je prvkem fronty \texttt{OPEN2} (\textit{''mùstek''}), ukonèi prohledávání jako úspì¹né a vyznaè cestu od poèáteèního uzlu k uzlu cílovému (v \texttt{CLOSED1} jsou uzly od poèáteèního stavu k mùstku, v \texttt{CLOSED2} jsou uzly od mùstku k cílovému stavu), jinak ulo¾ tohoto následníka do fronty \texttt{OPEN1}
+				\item Vyber z èela fronty \texttt{OPEN2} první uzel a umísti tento uzel do seznamu \texttt{CLOSED2}
+				\item Vybraný uzel expanduj. Pokud nìkterý bezprostøední následník je prvkem fronty \texttt{OPEN1} (\textit{''mùstek''}), ukonèi prohledávání jako úspì¹né a vyznaè cestu od poèáteèního uzlu k uzlu cílovému (v \texttt{CLOSED1} jsou uzly od poèáteèního stavu k mùstku, v \texttt{CLOSED2} jsou uzly od mùstku k cílovému stavu), jinak ulo¾ tohoto následníka do fronty \texttt{OPEN2} a jdi na bod 2
+			\end{enumerate}
+		\end{itemize}
+
+		\subsection{DFS\,--\,Depth First Search}
+		\begin{itemize}
+			\item Není úplný ani optimální
+			\item Èasová slo¾itost je exponenciální O($b^m$), pamì»ová slo¾itost je lineární O(b * m)  
+			\pojem{Popis}{}
+			\begin{enumerate}
+				\item Sestroj zásobník \texttt{OPEN} (bude obsahovat v¹echny uzly urèené k expanzi) a umísti do ní poèáteèní uzel
+				\item Je-li zásobník \texttt{OPEN} prázdný, pak úloha nemá øe¹ení a ukonèi proto prohledávání jako neúspì¹né
+				\item Vyber z vrcholu zásobníku \texttt{OPEN} první uzel
+				\item Je-li vybraný uzel uzlem cílovým, ukonèi prohledávání jako úspì¹né a vra» cestu od koøenového uzlu k uzlu cílovému (vrací se posloupnost stavù, nebo operátorù)
+				\item Vybraný uzel expanduj, v¹echny jeho bezprostøední následníky umísti do zásobníku \texttt{OPEN} a vra» se na bod 2
+			\end{enumerate}
+			\pojem{Modifikace}{Neexpanduj u¾ expandované(ty v \texttt{OPEN}) a také pøedky. Tato modifikace je úplná ale není optimální}
+		\end{itemize}
+
+		\subsection{DLS\,--\,Depth Limited Search}
+		\begin{itemize}
+			\item Není úplný ani optimální
+			\pojem{Popis}{}
+			\begin{enumerate}
+				\item Sestroj zásobník \texttt{OPEN} (bude obsahovat v¹echny uzly urèené k expanzi) a umísti do ní poèáteèní uzel s oznaèením hloubky(0)
+				\item Je-li zásobník \texttt{OPEN} prázdný, pak úloha nemá øe¹ení a ukonèi proto prohledávání jako neúspì¹né
+				\item Vyber z vrcholu zásobníku \texttt{OPEN} první uzel
+				\item Je-li vybraný uzel uzlem cílovým, ukonèi prohledávání jako úspì¹né a vra» cestu od koøenového uzlu k uzlu cílovému (vrací se posloupnost stavù, nebo operátorù)
+				\item Pokud je hloubka vybraného uzlu men¹í ne¾ zadaná maximální hloubka, tak tento uzel expanduj, v¹em jeho bezprostøedním následníkùm pøiøaï hloubku o jednièku vìt¹í ne¾ je hloubka expandovaného uzlu a umísti je do zásobníku \texttt{OPEN} a vra» se na bod 2
+			\end{enumerate}
+		\end{itemize}
+
+		\subsection{UCS\,--\,Uniform Cost Search}
+		\begin{itemize}
+			\item Je úplný a optimální 
+			\pojem{Bez closed}{}
+			\begin{enumerate}
+				\item Sestroj seznam \texttt{OPEN} a umísti do nìj poèáteèní uzel vèetnì jeho (nulového) ohodnocení
+				\item Je-li seznam \texttt{OPEN} prázdný, pak úloha nemá øe¹ení a ukonèi proto prohledávání jako neúspì¹né
+				\item Vyber ze seznamu \texttt{OPEN} uzel s nejni¾¹ím ohodnocením
+				\item Je-li vybraný uzel cílový, ukonèi prohledávání jako úspì¹né a vra» cestu od koøenového uzlu k uzlu cílovému
+				\item Vybraný uzel expanduj, v¹echny jeho bezprostøední následníky vèetnì jejich ohodnocení umísti do seznamu \texttt{OPEN} a vra» se na bod 2
+			\end{enumerate}
+			\pojem{S closed}{}
+			\begin{enumerate}
+				\item Sestrojte dva prázdné seznamy \texttt{OPEN}(bude obsahovat uzly urèené k expanzi) a \texttt{CLOSED}(bude obsahovat seznam expandovaných uzlù). Do seznamu \texttt{OPEN} umísti poèáteèní uzel vèetnì jeho ohodnocení
+				\item Je-li seznam \texttt{OPEN} prázdný, pak úloha nemá øe¹ení a ukonèi proto prohledávání jako neúspì¹né
+				\item Vyber ze seznamu \texttt{OPEN} uzel s nejni¾¹ím ohodnocením
+				\item Je-li uzel cílový, ukonèi prohledáváni jako úspe¹né a vra»te cestu od koreòového uzlu k uzlu cílovému(vrací se posloupnost stavù nebo operátorù)
+				\item Vybraný uzel expandujte a jeho bezprostøedný následníky, kteøí nejsou ve seznamu \texttt{CLOSED} umístìte do seznamu \texttt{OPEN}(vèetne jejich ohodnocení). Expandovaný uzel umístìte do seznamu \texttt{CLOSED}. Z uzlù, které v seznamu \texttt{OPEN} vyskytují vícekrát ponechte, uzel s nejlep¹ím ohodnocením, ostatní ze seznamu OPEN vy¹krtnìte a vra»te se na bod 2
+			\end{enumerate}
+		\end{itemize} 
+
+		\subsection{A*}
+		\begin{itemize}
+			\item Je úplný a optimální
+			\item Zná cilový stav a vyu¾ívá téhle informace k tomu, aby lépe odhadl cestu k nìmu
+			\item Jako heuristiku pou¾ívá spodní odhad k realné cenì \tedy odhad, který je realné cenì cesty nejblí¾
+			\pojem{Popis}{}
+			\begin{enumerate}
+				\item Sestroj seznam \texttt{OPEN} (bude obsahovat v¹echny uzly urèené k expanzi) a umísti do nìj poèáteèní uzel vèetnì jeho ohodnocení
+				\item Je-li seznam \texttt{OPEN} prázdný, pak úloha nemá øe¹ení a ukonèi proto prohledávání jako neúspì¹né
+				\item Vyber ze seznamu \texttt{OPEN} uzel s nejlep¹ím(nejni¾¹ím) ohodnocením
+				\item Je-li vybraný uzel uzlem cílovým, ukonèi prohledávání jako úspì¹né a vra» cestu od koøenového uzlu k uzlu cílovému (vrací se posloupnost stavù, nebo operátorù)
+				\item Vybraný uzel expanduj, v¹echny jeho bezprostøední následníky, kteøí nejsou jeho pøedky, umísti do seznamu \texttt{OPEN}, a to vèetnì jejich ohodnocení. Z uzlù, které se v seznamu \texttt{OPEN} vyskytují vícekrát, ponech pouze uzel s nejlep¹ím ohodnocením, ostatní ze seznamu \texttt{OPEN} vy¹krtni, a vra» se na bod 2
+			\end{enumerate}
+		\end{itemize}
+
+		\subsection{GS\,--\,Greedy Search}
+		\begin{itemize}
+			\item Je úplný ale není optimální
+			\item Ohodnocuje uzly pouze heuristickou funkcí \tedy odhadovanou cenou z daného uzlu do uzlu cílového \tedy k expanzi vybírá uzel, který má toto hodnocení nejni¾¹í
+			\item Dobrá heuristika mù¾e èasovou nároènost výraznì redukovat
+			\item Pokud se do seznamu \texttt{OPEN}  ukládají v¹ichni bezprostøední následníci expandovaného uzlu \tedy i jeho pøedci(v bodu 5 se pak vypustí kontrola \textit{"kteøí nejsou jeho pøedky"}) pak \textbf{GS není uplný!} 
+			\pojem{Popis}{}
+			\begin{enumerate}
+				\item Sestroj seznam \texttt{OPEN} (bude obsahovat v¹echny uzly urèené k expanzi) a umísti do nìj poèáteèní uzel vèetnì jeho ohodnocení
+				\item Je-li seznam \texttt{OPEN} prázdný, pak úloha nemá øe¹ení a ukonèi proto prohledávání jako neúspì¹né
+				\item Vyber ze seznamu \texttt{OPEN} uzel s nejlep¹ím(nejni¾¹ím) ohodnocením
+				\item Je-li vybraný uzel uzlem cílovým, ukonèi prohledávání jako úspì¹né a vra» cestu od koøenového uzlu k uzlu cílovému (vrací se posloupnost stavù, nebo operátorù)
+				\item Vybraný uzel expanduj, v¹echny jeho bezprostøední následníky, kteøí nejsou jeho pøedky, umísti do seznamu \texttt{OPEN}, a to vèetnì jejich ohodnocení. Z uzlù, které se v seznamu \texttt{OPEN} vyskytují vícekrát, ponech pouze uzel s nejlep¹ím ohodnocením, ostatní ze seznamu \texttt{OPEN} vy¹krtni, a vra» se na bod 2
+			\end{enumerate}
+		\end{itemize}
+
+		\subsection{Backtracking}
+		\begin{itemize}
+			\item Není úplný ani optimální
+			\item Má extremnì nízkou pamì»ovou nároènost
+			\pojem{Popis}{}
+			\begin{enumerate}
+				\item Sestroj zásobník \texttt{OPEN} (bude obsahovat uzly urèené k expanzi) a umísti do nìj poèáteèní uzel
+				\item Je-li zásobník \texttt{OPEN} prázdný, pak úloha nemá øe¹ení a ukonèi proto prohledávání jako neúspì¹né
+				%\item Vyber ze zásobník \texttt{OPEN} uzel s nejlep¹ím (nejni¾¹ím) ohodnocením
+				\item Jde-li na uzel na vr¹ku zásobníku aplikovat první/dal¹í operátor, tak tento operátor aplikuj a pokraèuj bodem 4, v opaèném pøípadì odstraò testovaný uzel z vrcholu zásobníku a vra» se na bod 2
+				\item Je-li nový vygenerovaný uzel, tj. uzel vzniklý aplikací operátoru na uzel na vr¹ku zásobníku, uzlem cílovým, ukonèi prohledávání jako úspì¹né a vra» cestu od koøenového uzlu k uzlu cílovému (vrací se posloupnost stavù, nebo operátorù). Jinak ulo¾ nový uzel na vr¹ek zásobníku a vra» se na bod 2
+			\end{enumerate}
+		\end{itemize}
+
+		\subsection{BestFS\,--\,Best First Search(prohledávání od nejlep¹ího)}
+		\begin{itemize}
+			\pojem{Popis}{}
+			\begin{enumerate}
+				\item Sestrojte seznam \texttt{OPEN} (bude obsahovat v¹echny uzly urèené k expanzi) a umístìte do nìj poèáteèní uzel vèetnì jeho ohodnocení
+				\item Je-li seznam \texttt{OPEN} prázdný, pak úloha nemá øe¹ení, a ukonèete proto prohledávání jako neúspì¹né
+				\item Vyberte ze seznamu \texttt{OPEN} uzel s nejlep¹ím(nejni¾¹ím) ohodnocením
+				\item Je-li vybraný uzel uzlem cílovým, ukonèete prohledávání jako úspì¹né a vra»te cestu od koøenového uzlu k uzlu cílovému
+				\item Vybraný uzel expandujte. V¹echny jeho bezprostøední následníky, kteøí nejsou jeho pøedky, umístìte do seznamu \texttt{OPEN} vèetnì jejich ohodnocení. Z uzlù, které se v seznamu \texttt{OPEN} vyskytují vícekrát, ponechte pouze uzel s nejlep¹ím ohodnocením, ostatní ze seznamu \texttt{OPEN} vy¹krtnìte a vra»te se na bod 2
+			\end{enumerate}
+		\end{itemize}
+
+		\subsection{IDS\,--\,Postupné zanoøování do hloubky}
+		\begin{itemize}
+			\item Je úplný i optimální
+			\item Nelze-li stanovit hloubku øe¹ení a nemáme-li k dispozici dostatek pamìti pro pou¾ití metody BFS u¾ijeme IDS
+			\item Princip této metody spoèívá v opakovaném pou¾ití metody DLS s postupným zvy¹ováním hloubky prohledávání
+			\pojem{Popis}{}
+			\begin{enumerate}
+				\item Nastav hloubku prohledávání na hodnotu 1
+				\item Pou¾ij metodu \texttt{DLS}. Skonèí-li tato metoda úspìchem (nalezením cesty), skonèi také úspìchem  a vra» nalezenou cestu
+				\item Dosáhla-li hloubka prohledávání maximální hodnotu, skonèi  neúspìchem. Jinak inkrementuj hloubku prohledávání a vra» se na bod 2
+			\end{enumerate}
+		\end{itemize}
+
+		\subsection{Hill-climbing\,--\,Lezení do kopce}
+		\begin{itemize}
+			\item Není úplný ani optimální
+			\item Pou¾ívá k ohodnocení uzlu, podobnì jako metoda Greedy search, pouze heuristiku h(n) \tedy funkce, která ohodnocuje \textit{''kvalitu øe¹ení''} spí¹e ne¾ vzdálenost od cílového øe¹ení \tedy pak èím lep¹í øe¹ení ohodnocovaný uzel pøedstavuje, tím vy¹¹í je mu pøiøazena hodnota a algoritmus vybírá k expanzi uzel s nejvy¹¹ím ohodnocením
+			\pojem{Popis}{}
+			\begin{enumerate}
+				\item Vytvoø uzel \textit{Current} toto¾ný s poèáteèním uzlem (vèetnì jeho ohodnocení)
+				\item Expanduj uzel \textit{Current}, ohodno» jeho bezprostøední následníky a vyber z nich nejlépe ohodnoceného (nazvìme jej \textit{Next})
+				\item Je-li ohodnocení uzlu \textit{Current} lep¹í ne¾ ohodnocení uzlu \textit{Next}, ukonèi øe¹ení a vra» jako výsledek uzel \textit{Current}
+				\item Ulo¾ uzel \textit{Next} do uzlu \textit{Current} a vra» se na bod 2
+			\end{enumerate}
+		\end{itemize}
+
+		\subsection{Simulovaného ¾íhání}
+		\begin{itemize}
+			\item Pro reálné èasové mo¾nosti není zaruèena ani úplnost ani optimálnost.
+			\item Má extrémnì malou prostorovou slo¾itost
+			\item Stochastická metoda
+			\item Cílem je pøekonání lokálních extrémù vedoucích k èastým neúspìchùm metody Hill- climbing
+			\pojem{Popis}{}
+			\begin{enumerate}
+				\item Vytvoø tabulku s pøedpisem pro klesání teploty v závislosti na kroku výpoètu.
+				\item Vytvoø uzel \textit{Current} toto¾ný s poèáteèním uzlem (vèetnì jeho ohodnocení). Nastav krok výpoètu na nulu ($k = 0$)
+				\item Z tabulky zjisti aktuální teplotu $T (T = f(k))$. Je-li tato teplota nulová ($T = 0$) ukonèi øe¹ení a vra» jako výsledek uzel \textit{Current} 
+				\item Expanduj uzel \textit{Current} a z jeho bezprostøedních následníkù vyber náhodnì jednoho z nich (nazvìme jej \textit{Next})
+				\item Vypoèítej rozdíl ohodnocení uzlù \textit{Current} a \textit{Next} \tedy $\Delta E$ = value(\textit{Next}) $-$ value(\textit{Current}).  
+				\item Jestli¾e $\Delta E > 0$, tak ulo¾ uzel \textit{Next} do uzlu \textit{Current}, jinak ulo¾ uzel \textit{Next} do uzlu \textit{Current} s pravdìpodobností  $e^{\Delta E/T}$
+				\item Inkrementuj krok výpoètu k a vra» se na bod 3
+			\end{enumerate}
+		\end{itemize}
+		\subsection{AO\,--\,AND/OR}
+		\begin{itemize}
+			\item Je základním neinformovaným algoritmem	
+			\pojem{Popis}{}
+			\begin{enumerate}
+				\item Sestroj dva prázdné seznamy \texttt{OPEN} a \texttt{CLOSED}. Do seznamu \texttt{OPEN} ulo¾ poèáteèní uzel (problém)
+				\item Vyjmi uzel zleva ze seznamu \texttt{OPEN} a oznaè jej jako uzel X
+				\begin{itemize}
+					\item[a)] Je-li uzel (problém) X øe¹itelný, pøenes informaci o jeho øe¹itelnosti jeho pøedchùdcùm. Je-li øe¹itelný poèáteèní problém, ukonèi øe¹ení  jako úspì¹né \tedy vytvoø a vra» relevantní èást AND/OR grafu
+					\item[b)] Není-li uzel (problém) X øe¹itelný a nelze-li jej rozlo¾it na podproblémy, pøenes informaci o jeho ne øe¹itelnosti jeho pøedchùdcùm. Není-li øe¹itelný poèáteèní problém, ukonèi øe¹ení jako neúspì¹né
+					\item[c)]Expanduj X (rozlo¾ X na podproblémy) a v¹echny jeho následníky ulo¾ do \texttt{OPEN}
+				\end{itemize}
+				\item Ulo¾ X do \texttt{CLOSED}
+				\item Je-li seznam \texttt{OPEN} prázdný, ukonèi øe¹ení jako neúspì¹né, jinak se vra» na bod 2
+			\end{enumerate}
+		\end{itemize}
+
+\section{Hraní her}
+	\subsection{Jednoduché hry}
+	\begin{itemize}
+		\item Za jednoduché hry budeme pova¾ovat hry, u kterých lze v reálném èase prohledat celý jejich AND/OR graf
+		\item K øe¹ení takových her lze pou¾ít algoritmus AO s tím, ¾e v pøípadì øe¹itelnosti není nutné vracet celou èást AND/OR grafu, ale pouze tah hráèe A, který vede k jeho výhøe
+	\end{itemize}
+
+	\subsection{Hry s náhodou}
+	\begin{itemize}
+		\item Existuje øada podobných her, které opìt hrají dva protihráèi, kteøí se po jednotlivých tazích hry pravidelnì støídají, mají úplnou informaci o stavu hry, hrají èestnì a oba si pøejí zvítìzit
+		\item Na rozdíl od jinych her v¹ak pøi høe pou¾ívají kostku, resp. kostky, a do hry tak vstupuje neurèitost \tedy náhoda
+	\end{itemize}
+
+	\subsection{ExpectiMiniMax}
+	\begin{enumerate}
+		\item Nazvìme pøedaný vstupní uzel uzlem X
+		\item Je-li uzel X listem (koneèným stavem hry, nebo uzlem v maximální hloubce) vra» ohodnocení tohoto uzlu
+		\item Je-li na tahu hráè A, tak postupnì pro v¹echny jeho mo¾né tahy (bezprostøední následníky uzlu X a hráèe B) volej proceduru \texttt{ExpectMiniMax} a vra» maximální hodnotu z hodnot \texttt{expectimax}. Je-li X koøenovým uzlem vra» i tah, který vede k nejlépe ohodnocenému bezprostøednímu následníkovi
+		\item Je-li na tahu hráè B, tak postupnì pro v¹echny jeho mo¾né tahy(bezprostøední následníky uzlu X a hráèe A) volej proceduru \texttt{ExpectMiniMax} a vra» minimální hodnotu z hodnot \texttt{expectimin}
+	\end{enumerate}
+
+	\subsection{MiniMax}
+	\begin{itemize}
+		\item Volá v¾dy, kdy¾ je na tahu hráè A
+		\item Vstupními parametry procedury jsou aktuální stav hry X, maximální hloubka prohledávání a informaci o hráèi, který je právìna tahu (A nebo B)
+		\item Procedura vrací pøepoèítané nejvy¹¹í ohodnocení aktuálního stavu a tah, který k tomuto ohodnocení vede
+		\pojem{Popis}{}
+		\begin{enumerate}
+			\item Je-li uzel X listem (koneèným stavem hry, nebo uzlem v maximální hloubce) vra»te ohodnocení tohoto uzlu
+			\item Je-li na tahu hráè A, tak postupnì pro v¹echny jeho mo¾né tahy (bezprostøední následníky uzlu X, tj. stavy pøed tahem hráèe B) volejte proceduru \texttt{MiniMax} a vra»te maximální z navrácených hodnot a tah, který k nejlépe ohodnocenému bezprostøednímu následníkovi vede (pou¾ije se pak pouze u koøenového uzlu, tj. u aktuálního stavu hry, pøed skuteèným tahem hráèe A)
+			\item Je-li na tahu hráè B, tak postupnì pro v¹echny jeho mo¾né tahy (bezprostøední následníky uzlu X, tj. stavy pøed tahem hráèe A) volejte proceduru \texttt{MiniMax} a vra»te minimální z navrácených hodnot
+		\end{enumerate}
+	\end{itemize}
+
+	\subsection{AlfaBeta}
+	\begin{itemize}
+		\item Volá podobnì jako procedura MiniMax v¾dy, kdy¾ je na tahu hráè A
+		\item Parametry procedury AlfaBeta jsou stejné, jako parametry procedury MiniMax, navíc pou¾ívá dva parametry, $\alpha$ a $\beta$ : 1
+		\pojem{Popis}{}
+		\begin{enumerate}
+			\item Je-li X dosud neohodnoceným poèáteèním/koøenovým uzlem, nastavte parametry $\alpha$ a $\beta$ na hodnoty $\alpha$ = $-\infty$, $\beta$ = $\infty$ (v praxi nastavte hodnoty tìchto promìnných na minimální a maximální mo¾nou hodnotu)
+			\item Je-li uzel X listem (koneèným stavem hry, nebo uzlem v maximální hloubce) ukonèete proceduru a vra»te ohodnocení tohoto uzlu
+			\item Je-li na tahu hráè B, tak pøejdìte na bod 4, jinak pokraèujte (na tahu je hráè A)
+			\begin{itemize}
+				\item Dokud platí nerovnost $\alpha < \beta$, tak postupnì pro první/dal¹í tah (tj. pro prvního/dal¹ího bezprostøedního následníka uzlu X) volejte proceduru AlfaBeta s aktuálními hodnotami parametrù $\alpha$ a $\beta$. Po ka¾dém vy¹etøeném tahu nastavte hodnotu parametru $\alpha$ na maximum z aktuální a navrácené hodnoty
+				\item Je-li $\alpha \geq \beta$, nebo nemá-li uzel X ¾ádného dal¹ího bezprostøedního následníka, ukonèete proceduru, vra»te aktuální hodnotu parametru $\alpha$ a tah, který vede k nejlépe ohodnocenému bezprostøednímu následníkovi (opìt se pou¾ije pouze pøi návratu ke koøenovému uzlu \tedy pøi návratu k aktuálnímu stavu hry pøed tahem hráèe A pokud má stejné ohodnocení více mo¾ných tahù, musí se pou¾ít v¾dy tah, který byl ohodnocen jako první z tìchto tahù)
+			\end{itemize} 
+			\item Na tahu je hráè B
+			\begin{itemize}
+				\item Pokud platí nerovnost $\alpha < \beta$, tak postupnì pro první/dal¹í tah (tj. pro prvního/dal¹ího bezprostøedního následníka uzlu X) volejte proceduru AlfaBeta s aktuálními hodnotami parametrù $\alpha$ a $\beta$. Po ka¾dém vy¹etøeném tahu nastavte hodnotu parametru $\beta$ na minimum z aktuální a navrácené hodnoty
+				\item Je-li $\alpha \geq \beta$, nebo nemá-li uzel X ¾ádného dal¹ího bezprostøedního následníka, ukonèete proceduru a vra»te aktuální hodnotu parametru $\beta$.
+			\end{itemize}
+		\end{enumerate}
+	\end{itemize}
+
+\section{Uèící algoritmy}
+	\subsection{DTW\,--\,Dynamic Time Warping}
+	\begin{itemize}
+		\item Metoda potøebuje mno¾inu referenèních slov a pokud mo¾no, ka¾dé slovo nìkolikrát v rùzné podobì
+		\item Slova rozlo¾íme na mikrosegmenty a urèíme jejich pøíznaky
+		\item Posloupnost pøíznakù postupnì porovnáváme s referenèními posloupnostmi a za rozpoznané slovo vezmeme to, které nejvíce odpovídá
+		\item Neporovnáváme ale jen pøíznaky mikrosegmentù, které mají stejný èas, ale také mikrosegmentù okolních, èím¾ dosahujeme nezávislosti rozpoznávání na rychlosti mluvení
+		\item To, se kterými mikrosegmenty porovnáváme urèují rùzné strategie
+	\end{itemize}
+
+	\subsection{Rozpoznání èernobílého obrazu}
+	\begin{itemize}
+		\pojem{Dekompozice obrazù (barvení bìhù)}{}
+		\begin{itemize}
+			\item Barvení bìhù zaèíná bodem uvnitø objektu \tedy jdeme v urèitém smìru
+			\item Pokud narazí na objekt, oznaèí pixel jednou barvou
+			\item nespojité pixely \tedy ka¾dý jinou barvou dokud se postupným prùchodem nespojí \tedy pøebarvení na stejnou barvu \tedy rozpoznaný jeden objekt 
+		\end{itemize}
+		\pojem{Rozpoznání}{}
+		\begin{itemize}
+			\item Rozpoznává se napø. podle tìchto pøíznakù \tedy plocha (poèet px), plocha dìr, poèty dìr, délka hranice atd..
+			\item Dùle¾ité je, ¾e po této fázi porovnávám rozpoznaný objekt s referencèními objekty v DB
+			\item Pomocí R/S/T rùznì modifikuji tvar \tedy pøi urèité míøe podobnosti je prohlásím za shodné  
+		\end{itemize}
+		\pojem{Zpracování}{}
+		\begin{itemize}
+			\item Jednobodové transformace
+			\item Dvoubodové transformace \tedy souèet obrazù, rozdíl obrazù, násobení obrazu maskou, prostorové transformace 
+		\end{itemize}
+	\end{itemize}
+
+	\subsection{ID3}
+	\begin{itemize}
+		\item Entropie (míra neuspoøádanosti) zprávy \textit{M} s \textit{m} mo¾nými odpovìïmi \textit{{$m_{1}$,$m_{2}$,$m_{n}$}}, jejich¾ pravdìpodobnosti výskytu jsou oznaèeny jako\textit{p($m_{i}$)}
+		\item Maximální je pro rovnomìrné rozlo¾ení pravdìpodobností mo¾ných odpovìdí
+		\item Minimální(nulová) je pro jedinou, pøedem známou odpovìï
+		\item Vlastnost \textit{V}, která má \textit{k} hodnot, rozdìluje mno¾inu trénovacích pøíkladù \textit{c} do \textit{k} podmno¾in, z nich¾ ka¾dá obsahuje \textit{$c_{i}$} pøíkladù
+		\item Uèení s uèitelem, tzn. algoritmus má odezvy na svoje kroky a pozná, jestli \textit{"jde"} spravným nebo ¹patným smìrem
+		\item Je postaven na základì rozhodovacích stromù
+		\item Nejvhodnìj¹í atribut vybírá podle informaèního zisku, který se da poèítat pomocí vzoreèkù pro entropii a pravdìpodobnost
+		\item Pokud se vybere atribut ¹patný, mù¾e dojít k postavení naprosto ¹patného stromu, který i triviální úlohu velmi zkomplikuje
+		\pojem{Operace zobecòování}{Nahrazení konstanty promìnnou}
+		\pojem{Operace specializace}{Nahrazení promìnné konstantou}
+		\pojem{Prostor verzí}{mno¾ina v¹ech popisù pojmù, která je konzistentní  se v¹emi pøíklady z trénovací mno¾iny pøíkladù}
+		\item Ukázka pravidel:
+		\begin{enumerate}
+			\item Má-li ¾adatel pøíjem ni¾¹í ne¾ 15 tis. Kè, je risk úvìru vysoký
+			\item Má-li ¾adatel pøíjem mezi 15 a¾ 35 tis. Kè, pak:
+			\begin{itemize}
+				\item[a)] Je-li historie splácení jeho úvìrù ¹patná, je risk úvìru vysoký
+				\item[b)] Je-li historie splácení jeho úvìrù dobrá, je risk úvìru pøimìøený
+				\item[c)] Je-li historie splácení jeho úvìrù neznámá, pak:
+				\begin{itemize}
+					\item[i.] Je-li jeho dluh vysoký, je risk úvìru vysoký. 
+					\item[ii.] Je-li jeho dluh nízký, je risk úvìru pøimìøený.
+				\end{itemize}
+			\end{itemize}
+			\item Má-li ¾adatel pøíjem vy¹¹í ne¾ 35 tis. Kè, pak:
+			\begin{itemize}
+				\item[a)] Je-li historie splácení jeho úvìrù ¹patná, je risk úvìru pøimìøený
+				\item[b)] Je-li historie splácení jeho úvìrù dobrá, je risk úvìru nízký
+				\item[c)] Je-li historie splácení jeho úvìrù neznámá, je risk úvìru nízký
+			\end{itemize}
+		\end{enumerate}
+	\end{itemize}
+
+	\subsection{ACO\,--\,Ant Colony Optimization}
+	\begin{itemize}
+		\item Je inspirována postupem, který pou¾ívají mravenci pøi hledání potravy (hledáním nejkrat¹í cesty mezi mraveni¹tìm a zdrojem potravy):
+		\begin{enumerate}
+			\item Nejprve náhodnì prohledávají blízké okolí mraveni¹tì
+			\item Bìhem svého pohybu vypou¹tí na zem chemickou látku, tzv. feromon
+			\item Tuto látku cítí a pravdìpodobnost výbìru jejich dal¹ích cest je dána aktuálními koncentracemi feromonù na zaèátcích mo¾ných dal¹ích cest
+			\item Kdy¾ nìkdo narazí na zdroj potravy, vyhodnotí její kvalitu i kvantitu a vrací se s èástí této potravy do mraveni¹tì
+			\item Bìhem zpáteèní cesty se mno¾ství vypou¹tìného feromonu tímto mravencem zvy¹uje, a to úmìrnì s kvalitou a mno¾stvím nalezené potravy
+			\item Feromonové stopy tak smìrují ostatní mravence ke zdrojùm potravy, s èasem v¹ak vyprchávají
+		\end{enumerate}
+		\item Hlavní rozdíly mezi chováními skuteèných mravencù a umìlých mravencù v modelech ACO jsou tyto:
+		\begin{itemize}
+			\item Skuteèní mravenci se pohybují v prostøedí asynchronnì, pohyb umìlých mravencù/agentù je synchronizován.
+			\item Skuteèní mravenci se pøi návratu do mraveni¹tì øídí feromonovými stopami, umìlí mravenci se v ka¾dém cyklu vrací do mraveni¹tì po stejných cestách, kterými se v tomto cyklu pohybovali od mraveni¹tì.
+			\item Skuteèní mravenci vypou¹tí feromon neustále, umìlí mravenci znaèkují cestu \textit{"feromonem"} pouze pøi návratu do mraveni¹tì.
+			\item Chování skuteèných mravencù je zalo¾eno na implicitním vyhodnocení cest. To spoèívá v tom, ¾e pohyb po krat¹ích cestách trvá mravencùm krat¹í dobu, proto je mohou opakovat èastìji a tím se mno¾ství feromonu na tìchto cestách zvy¹uje. Umìlí mravenci vyhodnocují cesty explicitnì, a to pøi návratech do mraveni¹tì podle kvality a délky cesty.
+			\item Skuteèní mravenci jsou prakticky slepí, umìlí mravenci \textit{"zrak"} mají.
+			\item Umìlí mravenci mají pamì».
+			\item Prostøedí, ve kterém se umìlí mravenci pohybují, je diskrétní.
+		 \end{itemize}
+	\end{itemize}
+
+	\subsection{GA\,--\,Genetické algoritmy}
+	\begin{itemize}
+		\pojem{Jedinìc(chromozom)}{}
+		\begin{itemize}
+			\item Jsou tak obvykle reprezentovány jako øetìzy znakù, ale obecnì jsou mo¾né i jiné jejich reprezentace, napøíklad grafy, matice atp.
+			\item Délky øetìzù jsou pak závislé na konkrétních øe¹ených úlohách
+			\item Kombinace jednotlivých znakù (genù) v chromozomu nese informaci, která se nazývá øe¹ením dané optimalizaèní úlohy \tedy a to pøesto¾e toto \textit{"øe¹ení"} mù¾e mít (a obvykle také má) ke skuteènému,tj. k optimálnímu øe¹ení velmi daleko
+		\end{itemize}
+		\pojem{Populace}{}
+		\begin{itemize}
+			\item Tvoøí jí pøedem daný poèet chromozomù \tedy tento poèet je závislý na øe¹ené úloze, obvykle jde o stovky a¾ tisíce jedincù
+			\item Jedinci poèáteèní/výchozí populace se generují náhodnì, mù¾e se v¹ak samozøejmì vyu¾ít libovolná dostupná heuristika, která umo¾ní generování jedincù s poèáteèními hodnotami (øe¹eními) blízkými optimálnímu øe¹ení
+		\end{itemize}
+		\pojem{Hodnocení jedincù a kvalita populace}{}
+		\begin{itemize}
+			\item Spoèívá ve vyhodnocení, jak se øe¹ení pøedstavované tímto jedincem li¹í od správného/optimálního øe¹ení dané úlohy (fitness of solution)
+			\item Hodnota udává kvalitu øe¹ení chromozomu se nazývá fitness funkce
+			\item Hodnota fitness funkce se musí zvy¹ovat s kvalitou øe¹ení \tedy musí být tím vy¹¹í, èím je øe¹ení pøedstavované ohodnocovaným chromozomem bli¾¹í správnému øe¹ení
+			\item Fitness funkce mají výrazný vliv jak na kvalitu øe¹ení, tak i na délku výpoètu, a proto jejich návrhu je nutné vìnovat velkou pozornost
+			\item Kvalita je dána ohodnocením populace \tedy prùmìrnou hodnotou hodnot fitness funkcí v¹ech jedincù populace(hodnotu prùmìrného jedince)
+			\item Pokud nìkterý jedinec pøedstavuje správné/optimální øe¹ení (nelze zjistit u v¹ech úloh!), výpoèet samozøejmì okam¾itì konèí
+			\item Jinak se pro ukonèení výpoètu pou¾ívá dvou pøístupù:
+			\begin{itemize}
+				\item kvalita populace del¹í dobu nezvy¹uje
+				\item bylo dosa¾eno pøedem stanoveného maximálního poètu iterací (tj. vytváøení nových populací)
+			\end{itemize}
+			\item Øe¹ení v tomto pøípadì pak pøedstavuje nejlépe hodnocený chromozom
+		\end{itemize}
+		\pojem{Reprodukce}{}
+		\begin{itemize}
+			\pojem{Výbìr rodièù}{}
+			\begin{itemize}
+				\item Provádí na základì ohodnocení v¹ech jedincù populace fitness funkcí, a to buï podle proporcí nebo poøadí
+				\item Výbìr elity k rodièovství se vybere nejlépe ohodnocený jedinc(èi jedinci)
+				\item Turnajový výbìr z náhodnì vybraných jedincù vítìzí (stává se rodièem) nejlépe ohodnocený jedinec
+				\item Poèet  se samozøejmì musí rovnat potøebnému poètu rodièù. V turnajové výbìru pak dostávají ¹anci stát se rodièi i hùøe ohodnocení jedinci, proto¾e nìkteré turnaje mohou být díky náhodnému výbìru \textit{"slabìji"} obsazené
+			\end{itemize}
+			\pojem{Køí¾ení}{}
+			\begin{itemize}
+				\item Produkuje nové jedince z informací obsa¾ených v genech rodièù(vzájemná výmìna chromozomù)
+				\item Místa, od kterých zmìny zaèínají, se nazývají místy køí¾ení a bývají vybrána náhodnì
+				\item Nejjednodu¹¹í køí¾ením je jednobodové køí¾ení \tedy stanoví se náhodnì místo køí¾ení
+			\end{itemize}
+			\pojem{Mutace}{}
+			\begin{itemize}
+				\item Spoèívá ve zmìnì hodnoty náhodnì vybraného genu náhodnì vybraného potomka
+				\item Pravdìpodobnost mutace je obvykle velmi nízká
+			\end{itemize}
+			\pojem{Tvorba nové populace}{}
+			\begin{itemize}
+				\pojem{Generaèní model}{v¹ichni jedinci pùvodní populace jsou v nové populaci nahrazeni potomky}
+				\pojem{Inkrementaèní model}{v nové populaci je nahrazen potomkem jediný jedinec pùvodní populace}
+				\pojem{Modely s pøekrytím generací}{v nové populaci je nahrazena potomky èást jedincù pùvodní populace \tedy pøedchozí dva typy modelù jsou extrémními pøípady tohoto modelu}
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+
+	\subsection{PSO\,--\,Optimalizace hejnem èástic}
+	\begin{itemize}
+		\item Pùvodnì navr¾en pro simulaci pohybù ptaèího hejna, pùvodní pøístup modifikován va vícerozmìrné vyhledávání a¾ se zjistilo, ¾e algoritmus lze pou¾ít k øe¹ení spojitých optimalizaèních úloh(hejno pøi hledání potravy)
+		\item S GA má nìkolik spoleèných rysù:
+		\begin{enumerate}
+			\item Pracuje s populacemi jedincù, nazývanými èastice, které pøedstavují \textit{"øe¹ení"} jako chromozomy v GA
+			\item Hodnocení kvality èásti je provádìno pomocí hodnotících(fitness) funkcí.
+			\item Poèáteèní rozlo¾ení èástic v prohledávaném prostoru je náhodné
+		\end{enumerate}
+		\item Ka¾dá èástice \textit{k} je reprezentována polohou v \textit{n}-rozmìrném prostoru, vektorem rychlosti a pamìti pøedchozích úspìchù pøi hledaní
+		\item V prùbìhù výpoètu se jak poloha, tak rychlost ka¾dé èástice \textit{k} mìní, a to v závislosti na dosud nejlep¹í poloze této èástice a na dosud nejlep¹í poloze nalezené dosud v¹emi \textit{m} èásticemi hejna
+		\item Koecifient setrvaènosti \textit{$\omega$} se pùvodnì bral jako hodnota 1 dnes se pou¾ívá rozmezí 0.4\,--\,0.9
+		\item Koeficienty \textit{$c_p$}(kognitivní) a \textit{$c_g$}(sociální) jsou váhové a udávají míru dùle¾itosti individuální pamìti a sociálního vlivu
+		\begin{itemize}
+			\item[a)] Pokud je ($c_p + c_g \leq 4$) hejno zvolna opisuje spirálu kolem nejlep¹ího øe¹ení bez garance konvergence 
+			\item[b)] Pokud je ($c_p + c_g  > 4$) je konvergence rychlá a zaruèená
+			\item A proto se oba koeficity volí stejné \tedy ($c_p = c_g = 2.05$)
+		\end{itemize}
+		\pojem{Algoritmus}{}
+		\begin{enumerate}
+			\item Zvol poèet èástic \textit{m} (20 a¾ 100)
+			\item Zvol hodnoty koedicientù \textit{$\omega, c_p q c_g $}
+			\item Nastav náhodnì poèáteèní hodnoty pozic a rychlosti èástic (\textit{x},\textit{v})
+			\item Nastav pozici \textit{$x^k$} èástice \textit{k} jako její dosud nejlep¹í pozici \textit{$p^k$}
+			\item Urèi nejlep¹í pozici hejna \textit{g}, pro které je dáno pozicí nejlépe hodnocené èástice \textit{$g = p^k$}
+			\item Nastav index \textit{k} na první èástici(\textit{k = 1})
+			\item Urèi náhodná èísla \textit{$r_p$} a \textit{$r_g$} z intervalu $<0,1>$
+			\pojem{Vypoèti novou rychlost èástice a její novou pozici}{}
+			\begin{itemize}
+				\item $v^k = \omega v^k + c_p r_p (p^k - x^k) + c_g r_g (g-x^k)$
+				\item $x^k = x^k + v^k$
+			\end{itemize}
+			\item Ohodno» novou polohu èástice \textit{$x_k$} a pokud je hodnocení lep¹í ne¾ dosavadní nejlep¹í ohodnocení, pak uprav nejlep¹í pozici \textit{$p^k = x^k$}
+ 			\item Pokud je hodnocení èástice lep¹í, ne¾ dosud nejlep¹í pozice hejna, uprav nejlep¹í pozici hejna \textit{$g = p^k$}
+			\item Inkrementuj index \textit{k}, a pokud platí $k \leq m$, tak se vra» na bod 7
+			\item Pokud se øe¹ení zlep¹uje a pokud nebyl pøekroèen zvolený maximální èas výpoètu, tak se vra» na bod 6, jinak øe¹ení ukonèi \tedy vra» \textit{g} co¾ je nejlep¹í pozice hejna
+		 \end{enumerate}
+	\end{itemize}
+
+	\subsection{STRIPS}
+	\begin{itemize}
+		\item Program/jazyk urèený k øe¹ení úloh
+		\item Odstraòuje problémy monotónní logiky
+		\item Máme operátory a ka¾dý z nich má trojici seznamù:
+		\begin{itemize}
+			\pojem{Conditions}{podmínky, kdy smí být operátor pou¾it}
+			\pojem{Delete}{které predikáty se pou¾itím mají odstranit z databáze}
+			\pojem{Add}{seznam predikátù, které se pou¾itím musí do databáze pøidat}
+		\end{itemize}
+		\pojem{Zásobník cílù}{algoritmus konèí s prázdným zásobníkem cílù}
+		\pojem{Databáze}{seznam aktuálnì platných predikatù}
+	\end{itemize}
+
+	\subsection{Uèení pojmùm (Version-space search)}
+	\begin{itemize}
+		\item Hledá se popis pojmù nebo hypotézy, který má v¹echny pozitivní pøíklady a ¾ádný negativní
+		\item Vyu¾ívá se zobecòování nebo specializace  
+		\item Metody prohledávání prostoru verzí:
+		\begin{itemize}
+			\pojem{Specific to general}{od specifického k obecnému}
+			\pojem{General to specific}{od nejobecnìj¹ího ke specifickému}
+			\pojem{Candidate eliminations}{spojení obou pøedchozích principù do jednoho, vybere se jak specifický tak obecný pøíklad a postupnì se zdokonalují, dokud nevýjde stejná vìc}
+		\end{itemize}
+	\end{itemize}
+
+	\subsection{Zpracování øeèi}
+	\begin{itemize}  
+		\pojem{Akustická analýza}{}
+		\begin{enumerate}
+			\item izolovanì pronesená slova
+			\item pøevod spojité øeèi na text
+		\end{enumerate}
+		\pojem{Lingvistická analýza}{}
+		\begin{enumerate}
+			\pojem{Lexikální analýza}{pøevod textu na jednotlivá slova}
+			\pojem{Morfologická analýza}{pøiøazení slovního druhu (podstatné jméno/sloveso/..) a gramatické rysy (rod, osoba, èíslo, èas,pád) a slovní základ}
+			\pojem{Syntaktická analýza}{}
+			\pojem{Sémantická analýza}{význam slov, gramatiky/ATN se sémantickými pøechody}
+			\pojem{Pragmatická analýza}{nejednoznaèné vìty, ukazovací zájmena, osobní zájmena, pøísloveèná urèení místa a èasu}
+		\end{enumerate}
+	\end{itemize}
+
+	\subsection{Posilované uèení}
+	\begin{itemize}
+		\item Funguje na principu odmìn a penalizací
+		\item èím déle tedy algoritmus bì¾í a dostavá odmìny a penalizace, tím lepe zvládá najít optimalní cestu, proto¾e pøi ka¾dém dal¹ím prùchodu je ta správná cesta stále výhodnìj¹í a výhodnìj¹í  
+		\pojem{Metody}
+		\begin{itemize}
+			\pojem{Pasivní ADP Learning}{}
+			\begin{itemize}
+				\item Ohodnocuje stavy podle toho, aby správná cesta vedla po cestì, její¾ ohodnocení se zvy¹uje (\textit{"Pøihoøívá pøihoøívá hoøí"})
+				\item Provede øadu náhodných procházek ze startovního místa a zaznamená si kudy ¹el. Výbìr cesty je v tomto kroku náhodný
+				\item Následnì se ze získaných dat zjistí, po kterých polích je dobrá jít a ta se podle toho ohodnotí (napøíklad odhadem maximální pravdìpodobnosti ML)
+				\item Pøi ohodnocování stavu se pou¾ívá také strategie oznaèené jako Pi. Vysvìtlení toho, jak to optimálnì zvolit pøesahuje rámec IZU
+			\end{itemize}
+			\pojem{Pasivní TD Learning}{}
+			\begin{itemize}
+				\item Skoro to samé co ADP, ale místo sbírání dat po nìkolika procházkách, pøepoèítává data po ka¾dé procházce
+				\item Ohodnocení ka¾dého stavu se propoèítá v¾dy, kdy¾ systém daného stavu dosáhne
+			\end{itemize}
+			\pojem{Aktivní Q Learning}{}
+			\begin{itemize}
+				\item Podobná jako TD learning, ale místo ohodnocení pøechodu vyhodnotí akci, která se má stát
+				\item Aèkoliv se to mù¾ou tyto algoritmy zdát podobné, Q learning je aktivní, tak¾e narozdíl od pøedchozích dvou, kde se pro vyhodnocení vyu¾ívá pøedem daná strategie, tady se system sám rozhoduje, kam má jít v ka¾dém stavu
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+
+	\subsection{Waltzova metoda}
+	\begin{itemize}
+		\item Metoda popisu scény s mnohostìny, rozdìlení uzlù a hran do kategorií
+		\item Zpùsob, jakým lze získat pøedstavu o 3D prostoru, který ná¹ 2D obrazek vyobrazuje
+		\item ®ádná stìna nesmí být v singularní poloze \tedy rovnobì¾nì se smìrem pohledu kamery
+		\item Jednodu¹¹í verze metody (scény s trojstrannými mnohostìny):
+		\begin{itemize}
+			\pojem{Hrany}{}
+			\begin{itemize}
+				\pojem{$+$ konvexní}{tvoøí ji dvì stìny svírající z vnitøku tìlesa úhel $<$ 180°}
+				\pojem{$-$ konkávní}{tvoøí ji dvì stìny svírající z vnitøku tìlesa úhel $>$ 180°}
+				\pojem{$\rightarrow$ obrysová}{tvoøí ji dvì stìny, jediná viditelná je po pravé stranì ¹ipky}
+			\end{itemize}
+			\pojem{Uzly}{}
+			\begin{itemize}
+				\pojem{V}{dvì hrany}
+				\pojem{W}{tøi hrany, jeden z úhlù $>$ 180°}
+				\pojem{Y}{tøi hrany, v¹echny úhly $>$ 90°}
+				\pojem{T}{tøi hrany, jeden z úhlù $=$ 180°}
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+
+	\section{K-means}
+	\begin{itemize}
+		\pojem{Body}{(1,1);(1,3);(1,4);(3,1);(4,1);(4,4)}
+		\pojem{Støedy}{[1,3](tøída 1);[1,4](tøída 2);[4,1](tøída 3)}
+		\subsection{1. aproximace}
+		\begin{itemize}
+			\item [\texttt{[1,3]}]:(1,1),(1,3) \tedy [1,2](nový støed)
+			\item [\texttt{[1,4]}]:(1,4) \tedy [1,4](nový støed)
+			\item [\texttt{[4,1]}]:(3,1),(4,1),(4,4) \tedy [3.66,2](nový støed)
+
+			\item Pøiøadíme body k nebli¾¹ím støedùm (ke støedùm s nìjmen¹í vzdálenosti od bodu)
+			\item Urèíme nové støedy tak, ¾e zprùmìrujeme body le¾ící ve støedech. Tím získáme nový støed. 
+		\end{itemize}
+		\subsection{2. aproximace}
+		\begin{itemize}
+			\item [\texttt{[1,2]}]:(1,1),(1,3) \tedy [1,2](nový støed)
+			\item [\texttt{[1,4]}]:(1,4) \tedy [1,4](nový støed)
+			\item [\texttt{[3.66,2]}]:(3,1),(4,1),(4,4) \tedy [3.66,2](nový støed)
+			
+			\item Jeliko¾ se støedy shodují s pøedochozími ukonèíme výpoèet a vrátíme nové støedy
+			\item Pokud by se ov¹em neshodovali aproximujeme do doby ne¾ se budou shodovat èi do urèité aproximace(musí být zadána)
+		\end{itemize}
+	\end{itemize}
+
+\section{Logika}
+	\subsection{Pøehled}
+	\begin{itemize}
+		\pojem{AND}{$A \land B$}
+		\pojem{OR}{$A \lor B$}
+		\pojem{Negace}{$\neg A \textrm{ nebo } !A$}
+		\pojem{Implikace}{$A \Rightarrow B$}
+		\pojem{Dvojitá implikace}{$A \Rightarrow (B \land C)$}
+		\pojem{Ekvivalence}{$A \Leftrightarrow B$}
+		\pojem{Pro v¹echny platí, ¾e}{$\forall(y)$}
+		\pojem{Existuje}{$\exists(y)$}
+		\pojem{Konstanta}{Vìt¹inou zaèátek abecedy[a,b,c...]}
+		\pojem{Promìnná}{Vìt¹inou konec abecedy[...,x,y,z]}
+	\end{itemize}
+
+	\subsection{Zjednodu¹ení}
+	\begin{itemize}
+		\item $A [\land,\lor] \neg A = T(1)$
+		\item $\neg (A \lor \neg A) = F(0)$
+		\item $A \land T = A$
+		\item $A \land F = F$
+		\item $A \land A = A$
+		\item $A \land (A \lor B) = A$
+		\item $A \lor T = T$
+		\item $A \lor F = A$
+		\item $A \lor A = A$
+		\item $A \lor (A \land B) = A$
+		\item $\forall yP(y) = P(y)$
+		\item $\forall x \exists yP(x,y) = P(x,f(x))$
+		\item $\exists x \exists yP(x,y) = P(a,b)$
+	\end{itemize}
+
+	\subsection{Pøíklady\,--\,Knihovna}
+	\begin{itemize}
+		\pojem{V knihovnì je v¾dy Jana, Klára nebo obì}{$\left(J \lor K\right) \lor \left(J \land K\right) \longrightarrow J \lor K$}
+		\pojem{V knihovnì je buï Hana nebo Iva, ale ne obì}{$\left(H \land \neg I \right) \lor \left(\neg H \land I \right) \longrightarrow \left(H \lor I \right) \land \left(\neg H \lor \neg I \right)$}
+		\pojem{Je-li v knihovnì Klára, jsou tam i Gréta a Jana }{$K \Rightarrow \left(G \land J\right) \longrightarrow \left(\neg K \lor G\right) \land \left(\neg K \lor J\right)$}
+		\pojem{Jana a Iva jsou v¹ude spoleènì (jsou tam obì nebo ¾ádná z nich)}{$J \Leftrightarrow I \longrightarrow \left(\neg J \lor I\right) \land \left(J \lor \neg I\right)$}
+		\pojem{Je-li v knihovnì Gréta je tam i Hana}{$G \Rightarrow H \longrightarrow \neg G \lor H$}
+		\pojem{Doka¾te, ¾e je Iva v knihovnì}{$(\neg I)$}
+	\end{itemize}
+
+	\subsection{Pøíklady\,--\,Rezolvent}
+	\begin{itemize}
+		\item $\exists(x) \forall(y) (A(x,y,c) \land B(x,f(b),y))$
+		\item $\forall(v) \forall(w) \exists(z)(C(z,f(w)) \lor\neg (A(w,z,v)))$
+		\pojem{Redukování EXIST($\exists(x)$)}{}
+		\begin{itemize}
+			\item[a)] Pokud se pøed EXIST nic nenachází, sma¾u ho a danou pøomìnnou \tedy (x) nahradím konstantou, která se ve formuli nevyskytuje \tedy (a)
+			\item[b)] Pokud se pøed EXIST nachází univerzalní kvantifikátor, sma¾u EXIST a danou pøomìnnou \tedy (z) nahradím funkèním symbolem, který se ve formuli nevyskytuje a obsahuje univerzalní kvantifikátory pøed EXIST(v pøesném poøadí v jakém se pøed ním nachází)
+		\end{itemize}
+		\item $\exists(x) \forall(y) (A(\textcolor{red}{x},y,c) \land B(\textcolor{red}{x},f(b),y)) \longrightarrow \forall(y) (A(\textcolor{red}{a},y,c) \land B(\textcolor{red}{a},f(b),y))$
+		\item $\forall(v) \forall(w) \exists(z)(C(\textcolor{red}{z},f(w)) \lor\neg (A(w,\textcolor{red}{z},v))) \longrightarrow \forall(v) \forall(w) (C(\textcolor{red}{g(v,w)},f(w)) \lor\neg (A(w,\textcolor{red}{g(v,w)},v)))$
+		\pojem{Získání klauzulí\footnote{Klauzule je cokoliv co má v¹echny kvantifikátory(obecnì - Velká písmena) pøed závorkou a vnì jsou literály}}{Oddìlíme od sebe operace obsahující AND($A \land B$), tak ¾e formulí pøed AND umístíme jako první a pod ní umístímì zbytek formule za ANDem tím nám vzniknou dvì formule}
+		\pojem{Klauzule}{}
+		\begin{enumerate}
+			\item A(a,y,c)
+			\item B(a,f(b),y)
+			\item $C(g(v,w),f(w)) \lor\neg (A(w,g(v,w),v))$
+		\end{enumerate}
+		\pojem{Resolvent a subtituce}{}
+		\begin{itemize}
+			\item[a)] Pokud klauzule A existuje i jako $NOT(\neg) A$ a má stejný poèet paramatrù udìláme rezolventu z 1 a 3 pøedtím v¹ak musíme provést substituci
+			\item[b)] Substituce: \textbf{$w \rightarrow a [a/w]; v \rightarrow c [c/v]; y \rightarrow g(c,a) [g(c,a)/y]$}
+		\end{itemize}
+		\item Výsledek je pouze 1 rezolventa: $C(g(c,a),f(a))$ nepoèítá se zde ov¹em rezolventa, která nám zbyla($B(a,f(b),y)$). Toto nám nevede k dokázání platnosti
+		\item Platnost doká¾eme tak ¾e nám po aplikaci rezolventy zbyte prázdná mno¾ina
+	\end{itemize}
+\end{document}
+

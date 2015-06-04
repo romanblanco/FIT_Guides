@@ -1,0 +1,1155 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[IL2]{fontenc}
+\usepackage[latin2]{inputenc}
+\usepackage[top=2cm, left=1.5cm, text={18cm, 26cm}]{geometry}
+\usepackage{graphics}
+\usepackage[czech]{babel}
+\usepackage{alltt}
+
+
+\newcommand{\pojem}[2]{\item \textbf{#1:}\quad #2}
+\newcommand{\tedy}{$\Rightarrow$ }
+
+\begin{document}
+	{\Huge IPP Guide\,--\,Teorie}\\[2cm]
+
+	\begin{quote}
+	Jedná se neoficiálního prùvodce pøedmìtem Principy programovacích jazykù a OOP.\\
+
+	\textbf{Toto není jediný materiál pro studium ke zkou¹ce, doporuèujeme jej kombinovat s pøedná¹kami a ji¾ zmiòovanými oporami.} \\
+
+	Dokument mù¾e obsahovat pravopisné chyby, za které se pøedem omlouváme a budeme rádi, za pøípadné upozornìní. 
+	\end{quote}
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Doplneni teorie %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\vfill
+	\tableofcontents
+	\pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\section{Opora 1\,--\,jazyky}
+			\paragraph{Imperativní jazyk} je takový, kde programátor musí øe¹it tyto otázky øízení bìhu programu:
+			\begin{itemize}
+				\item co za operace má být provedeno
+				\item v jakém poøadí to má být provedeno
+			\end{itemize}
+
+			\paragraph{Deklarativní jazyk} je takový, kde programátor musí øe¹it tuto otázku øízení bìhu programu:
+			\begin{itemize}
+				\item co za operace má být provedeno
+			\end{itemize}
+
+			\paragraph{Procedurální jazyk} sestavuje program jako posloupnost pøíkazù, z nich¾ nìkteré a u nìkterých jazykù lze také vnoøovat.
+
+			\paragraph{Syntaxe jazyka} definuje strukturu programu, tj. to, jakým zpùsobem je dovoleno jednotlivé konstrukce øadit za sebe.
+			\paragraph{Sémantika} je popis/definice významu jednotlivých syntaktických konstrukcí, zpùsobu jejich vyhodnocení, zpracování, atd.
+			\begin{itemize}
+				\pojem{Axiomatická sémantika}{pro ka¾dou syntaktickou konstrukci definuje mno¾inu axiomù, které musí být splnìny, aby byla kostrukce platná}
+				\pojem{Operaèní sémantika}{definuje sémantiku chování programu jako posloupnost pøechodù mezi danými stavy}
+				\pojem{Denotaèní sémantika}{program je definován jako matematická funkce, která zobrazuje vstupy na výstupy}
+				\pojem{Statická sémantika}{popisuje vlastnosti, které mohou být studovány a ovìøovány v dobì analýzy/pøekladu programu, napø. typová kompatibilita, existence promìnných, apod.}
+				\pojem{Dynamická sémantika}{popisuje vlastnosti, jejich¾ splnìní lze ovìrit a¾ v dobì bìhu programu, napø. velikost indexu pole daného výrazem, velikost výsledku, apod.}
+			\end{itemize}
+
+			\paragraph{Deklarace} úplnì vymezuje atributy dané entity, mù¾e být explicitní i implicitní.
+			\paragraph{Definice} úplnì vymezuje atributy dané entity a dále u promìnných zpùsob alokace pamìti a u funkcí/procedur navíc tìlo funkce.
+
+			\paragraph{Rozsah platnosti promìnné} urèuje tu èást programu, kdy je mo¾né s promìnnou pracovat.
+			\paragraph{Doba ¾ivota promìnné} je èasový interval, po který je pro danou promìnnou alokována pamì».
+
+			\subsection{Nestrukturované jazyky}
+				\paragraph{Formální báze} je takový formální prostøedek (kalkul, algebra, apod.), který umo¾òuje exaktnì popsat v¹echny konstrukce daného jazyka.
+
+				\paragraph{Otevøený podprogram} je ulo¾en v rámci hlavního (èasto jediného) zdrojového textu. Nemá definované pevné rozhraní, tzn. vstupní a výstupní bod, parametry, výsledek apod. Vstup se dìje skokem na pøíkaz, jím¾ má výpoèet podprogramu zaèít, ukonèení podprogramu je dáno vyvoláním pøíslu¹ného pøíkazu (nikolv dobìhnutím výpoètu do/za urèité místo)
+				\begin{itemize}
+					\item Parametry i výsledky jsou pøedávány jen jako globální promìnné -- neexistují lokální promìnné, tudí¾ je jednoduché udìlat chybu, kdy dojde k pøepsání jiných dat
+					\item Implicitní podpora rekurze chybí -- v urèitých pøípadech mù¾e øe¹it programátor ve vlastní re¾ii
+					\item Slo¾itá struktura programu -- vìt¹í a slo¾itìj¹í programy mohou být vytvoøeny tak, ¾e jejich analýza/úprava mù¾e být velmi slo¾itá
+				\end{itemize}
+				
+				\paragraph{Analyzátor}{je program, který analyzuje vstupní text v nìjakém programovacím jazyce a provádí jeho dùkladnou kontrolu pouze na základì jeho textu. Výstupem je potom potenciální seznam chyb, varování èi doporuèení k danému programu.}
+				\paragraph{Interpret}{je takový program, který jakmile rozpozná nìjaký pøíkaz ve vstupním programu, který má na vstupu, tak jej ihned provede. Pøevádí tak vstupní program na posloupnost okam¾itì provádìných akcí}
+				\begin{itemize}
+					\pojem{Lexikální analýza}{probíhá co nejdøíve, ale jen v omezeném rozsahu}
+					\pojem{Syntaktická analýza}{probíhá po øádcích}
+					\pojem{Sémantická analýza}{je mo¾né provádìt v posloupnosti a nebo ji odlo¾it a¾ na samotné vyhodnocení}
+				\end{itemize}
+				\paragraph{Pøekladaè}{je program, který vstupní text programu pøevádí na posloupnost pøíkazù jiného jazyka èi stroje. Cílem takového pøekladu mù¾e být napø. binární soubor, který je pøímo spustitelný na dané architektuøe}
+				\begin{itemize}
+					\pojem{Lexikální analýza}{pro nestrukturované jazyky, nic zvlá¹tního}
+					\pojem{Syntaktická analýza}{typické bezkontextové vlastnosti a je mo¾né vyu¾ít pøíslu¹né formální aparáty}
+					\pojem{Sémantická analýza}{u typických pøedstavitelù pomìrnì v pozadí, lze bezpeènì kontrolovat pouze existenci cíle skoku}
+					\pojem{Generování kódu}{ka¾dý pøíkaz se pøekládá oddìlenì nebo je mo¾né program analyzovat jako celek, tak¾e je mo¾né aplikovat celou øadu optimalizací}
+				\end{itemize}
+				
+			\subsection{Strukturované jazyky}
+				\paragraph{Formální báze} strukturované jazyky ji primárnì nemají, proto¾e byl jazyk navr¾en bez formalismù
+				\paragraph{Syntaxe} je podávána formální, èi semiformální cestou
+				\paragraph{Sémantika} popis èasto veden neformální cestou, popis èasto velmi propracovaný
+				\paragraph{Floyd-Hoare logika} specifikuje pravidla pro práci se základními konstrukcemi jazyka. Kromì toho urèuje i pravidla pro práci s èísly a jejich ekvivalenty.
+				\begin{quote}
+					\emph{Nech» C oznaèuje pøíkaz, P oznaèuje podmínku platnosti pøed provedením pøíkazu a Q podmínku platící po provedení pøíkazu, potom zápis $\{P\}C\{Q\}$ vyjadøuje parciální správnost vztahu podmínek a pøíkazu a zápis $[P]C[Q]$ úplnou správnost}
+				\end{quote}
+	
+				\paragraph{Ukazatele} umo¾òují vznik rekurzivních datových struktur tím, ¾e umo¾òují odkazovat urèitému typu dat na sebe sama.
+				\paragraph{Pervasivní funkce} jsou pøítomny pro manipulaci s daty, které jsou v jazyce pøímo definovány, nicménì u¾ivatel mù¾e vytvoøit funkci stejného jména.
+				\paragraph{Definice\,/\,deklarace} umístìní deklarací mù¾e být na rùzných místech
+				\paragraph{Návrh programu} dùle¾ité vlastnosti:
+				\begin{itemize}
+					\pojem{Vznik uzavøených podprogramù}{zjednodu¹uje:}
+					\begin{itemize}
+						\pojem{Rekurzi}{vùbec první pøímoèará mo¾nost implementace rekurze}
+						\pojem{Ukrytí implementace}{nelze náhodnì do kódu pøistoupit, jediný vstupní bod, jasnì definované rozhraní vstupu/výstupu}
+						\pojem{Odluka od hlavního toku programu}{jednodu¹¹í a bezpeènìj¹í modifikace, explicitní vyvolání, atd.}
+					\end{itemize}
+					\item Lokální promìnné v zanoøených blocích \tedy promìnné stejného jména, rùzného významu, rùzných mo¾ností pøístupu k nim
+				\end{itemize}
+				\paragraph{Týmová spolupráce} nemají tolik mo¾ností jako modulární, ale poskytují:
+				\begin{itemize}
+					\item uzavøené podprogramy mohou být vytváøeny nezávisle: datové manipulátory, èistì výpoèetní funkce, atd.
+					\item program je mo¾né rozdìlit na logicky nezávislé celky: tyto lze dále vyu¾ít v jiných projektech
+				\end{itemize}
+				\paragraph{Pøísné typování} rozli¹ujeme, zda-li typové konverze probíhají automaticky dle daných pravidel, nebo je v¾dy nutná explicitní konverze
+				\paragraph{Harvardská architektura} logicky oddìluje prostor pro data a pro ulo¾ení kódu programu.
+				\paragraph{Datové struktury} jejich¾ tvorba je plnì pod kontrolou u¾ivatele, jsou revolucí strukturovaných programovacích jazykù na úrovni tvorby a definice dat.
+				\begin{itemize}
+					\pojem{Variantní datová struktura}{sjednocení jednotlivých slo¾ek struktury, ka¾dá slo¾ka má jméno a typ}
+					\pojem{N-tice}{ukládají jednotlivé slo¾ky v pamìti za sebou, zpravidla bez mezer}
+					\pojem{Bitová pole}{zarovnávají svou velikost na velikost nejbli¾¹ího vy¹¹ího bytu èi slova (wordu)}
+					\pojem{Pole}{homogenní datová struktura, kdy ka¾dá slo¾ka je pevnì indexována urèitou hodnotou a v¹echny slo¾ky jsou stejného typu}
+					\item \textbf{Kompatibilita typù} u polí datových struktur se posuzuje dvìma zpùsoby:
+					\begin{itemize}
+						\item Shoda typu na jméno
+						\item Shoda typu dle shody vnitøní struktury
+					\end{itemize}
+					\pojem{Struktura parametrem}{existují tyto pøístupy}
+					\begin{itemize}
+						\pojem{Nelze}{jazyk nepodporuje pøedávání datových struktur jako parametry pøedávané hodnotou}
+						\pojem{Pøedání odkazem}{manipuluje prostøednictvím odkazù}
+						\pojem{Pøedání hodnotou}{implementace standardním zpùsobem, nicménì mù¾e být limitována velikost takto pøedávané struktury}
+					\end{itemize}
+				\end{itemize}
+
+				\paragraph{Tok øízení programu}
+				\begin{itemize}
+					\pojem{Statické zanoøení}{vnoøení na úrovni textu programu}
+					\pojem{Dynamická úroveò zanoøení}{jednotlivé funkce se navzájem volají, pøípadnì rekurzivnì samy sebe}
+					\item Øe¹ení pøístupu k promìnným:
+					\begin{itemize}
+						\pojem{Display}{paralelní zásobník k programovému s ukazateli na aktuální pozici promìnných z dané statické úrovnì}
+						\pojem{Pøístupové ukazatele}{ka¾dá funkce dostane jako skrytý parametr ukazatele na aktuální promìnné z vy¹¹ích úrovní}
+					\end{itemize}
+				\end{itemize}
+				\paragraph{Pøekladaè} lexikální, syntaktická a sémantická analýza lze provést najednou v rámci jednoho prùchodu zdrojovým textem. Syntaxi jazykù lze popsat bezkontextovými gramatikami.
+				\begin{itemize}
+					\pojem{Lexikální analýza}{je nutné rozeznávat více kategorií lexikálních symbolù, nejzatí¾enej¹í èást pøekladaèe}
+					\pojem{Syntaktická analýza}{pou¾ívají prediktivní analyzátor jazykù tøídy LL(1), pracuje zdola nahoru}
+					\pojem{Sémantická analýza}{potøebuje víceúrovòové tabulky symbolù, èasto provádìna typová kontrola, ovìøení, zda existuje entita protøebného typu a jména, detekce cíle skokù}
+				\end{itemize}
+				\paragraph{Interpret} rozsah definic v rámci bloku má dlouhý dosah \tedy je nutné si pamatovat, kde se nacházíme. Skoky komplikují situaci pokud \tedy skok mimo blok, skok dopøedný
+				
+				Analýza provádìná v¾dy na úrovni bloku, typický pøeklad do vnitøní reprezentace.
+
+				Výhody a nevýhody jsou:
+				\begin{itemize}
+					\item Detekce chyb je mo¾ná mnohem døíve ne¾ u èisté interpretace
+					\item Spotøeba pamìti roste
+					\item Vykonání programu je rychlej¹í
+					\item Pou¾ití v re¾imu inkrementálních zmìn programu a jejich okam¾itého promítnutí do vyhodnocení \tedy zastavení, modifikace a spu¹tìní programu od místa zastavení je obtí¾né
+				\end{itemize}
+
+			\subsection{Modulární jazyky}
+				\paragraph{Formální báze} primárnì ji nemají, a¾ na výjimky
+				\paragraph{Syntaxe} podávána formální, èi semiformální cestou jako u strukturovaných jazykù.
+				Typicky u¾ívané popisy:
+				\begin{itemize}
+					\item (E)BNF -- roz¹íøená Backus-Naurova forma
+					\item Syntaktické grafy
+					\item Formální gramatiky -- zejména bezkontextové
+				\end{itemize}
+				\paragraph{Sémantika} neformální, díky modulùm je umo¾nìn vznik i knihoven funkcí. Vznikají standardy knihoven k jednotlivým jazykùm.
+				\paragraph{Softwarové in¾enýrství} z tohoto pohledu se modulární jazyky dostávají na vrchol a koncept modularizace je úspì¹nì vyu¾íván dodnes. Týmová spolupráce a dekompozice problémù, vy¾aduje pochopení a aplikaci øady postupù u¾ v dobì návrhu.
+				Modularizace pøiná¹í i nový typ chyb:
+				\begin{itemize}
+					\item Nemo¾nost spojit moduly do výsledného celku díky ¹patné specifikaci modulù, èi nevhodné dekompozici
+					\item Program lze sestavit, ale díky ¹patné logice øízení toku programu celek nepracuje správnì, èi ''zamrzává''
+					\item Nevhodné u¾ití návrhových metodologií pro modularizaci, èi vazby mezi moduly jak na úrovni dat, tak na úrovni toku øízení -- grafy toku øízení, koneèné automaty, událostí apod.
+				\end{itemize}
+				\paragraph{Role knihoven} poskytují sadu funkcí pro manipulaci s urèitým abstraktním typem, pøípadnì poskytují zázemí pro danou výpoèetní tématiku.
+				\paragraph{Skrývání dat} modul se stará, jak o data definovaná a nabízená modulem, tak o data skrytá v modulu. Mohou vznikat chyby v pøípadì, ¾e neznáme zdrojové kódy modulù.
+				\paragraph{Rozhraní modulu} o vyvá¾ených datech, datových typech a funkcích z modulu rozhoduje rozhraní (interface). Obsahuje i deklarace pro jednotlivé konstrukce. 
+				\paragraph{Závislosti mezi moduly} primárnì se pou¾ívá stromová hierarchie, nìkdy se jedná o acyklický orientovaný graf (DAG). U nestromových struktur vzniká problém s násobným u¾itím modulu, který ale podobné zacházení nepodporuje.
+				\paragraph{Deklarace typù} vìt¹ina jazykù nepodporuje skrývání definic typù na vhodné úrovni, èasto vùbec.
+				\paragraph{Skrývání implementace} výhodou je umo¾nìní skrývání implementace v implementaèní èásti modulu. Nevýhodou mù¾e být nemo¾nost sdílení jednoho modulu více dal¹ími, pokud na to není pøipraven a zdrojové texty jsou nedostupné.
+
+				\paragraph{Tok øízení programu} pøibývá mo¾nost pøedávat øízení z jednoho modulu do druhého. V dobì pøekladu je obecnì znám pouze jeden modul, pøípadnì jejich omezené mno¾ství, nastávají problémy:
+				\begin{itemize}
+					\item jak pøedat parametry
+					\item jak vrátit/pøijmout výsledek funkce
+					\item jak vyu¾ít registry pro optimalizaci
+				\end{itemize}	
+				Dùsledky jsou potom:
+				\begin{itemize}
+					\pojem{Pøiøazování registrù}{dìje se pouze v rámci funkce -- pokud nejsou vyu¾ity specializované registry v nìjakém modulu, mo¾nost je pøiøadit globálnì na závìr}
+					\pojem{Standardizace pøedávání parametrù}{volající i volaný dodr¾ují urèité konvence}
+					\pojem{Standardizace pøedávání výsledku}{volající i volaný dodr¾ují urèité konvence}
+				\end{itemize}
+				Zpùsoby pøedávání parametrù:
+				\begin{itemize}
+					\pojem{Hodnotou, výsledkem, hodnotou a výsledkem}{vytváøí se kopie, které hodnota se pøípadnì kopíruje zpìt}
+					\pojem{Odkazem}{pøedává se ukazatel na danou promìnnou}
+					\pojem{Jménem}{pøedává se dvojice pøístupových metod k dané entitì: pro zápis a ètení hodnoty}
+				\end{itemize}
+
+				\paragraph{Pøekladaè} kopírují se vlastnosti, které jsou dány charakterem jazyka z hlediska typù a øídících struktur. Nìkteré operace nejsou mo¾né:
+				\begin{itemize}
+					\item Nìkteré druhy globálních optimalizací nelze provádìt díky neznalosti kompletního programu
+					\item Volání a návrat z volání funkcí musí probíhat pøes standardní rámec
+					\item Objevuje se spojovací program, který pøebírá nìkteré role pøekladaèe
+
+					\pojem{Lexikální analýza}{vlastní textový preprocesor, zprvu implementován jako separátní program spou¹tìný je¹tì pøed vlastním pøekladaèem, souèasnì souèástí lexikálního analyzátoru}
+					\pojem{Syntaktická analýza}{modulární jazyky jsou zalo¾eny na bezkontextových gramatikách \tedy zpracování standardním zpùsobem}
+					\pojem{Sémantická analýza}{generování cílového kódu probíhá do jeho relativní formy s tím, ¾e je nutný je¹tì prùchod spojovacího programu}
+				\end{itemize}
+				\paragraph{Spojovací program (linker)}spojuje v¹echny moduly a èásti knihoven do jediného bloku, proveditelného souboru -- sestavuje cílový kód.
+				Vznikají chyby:
+				\begin{itemize}
+					\pojem{Chybìjící symbol}{nìkterý z modulù po¾aduje symbol, který ale ¾ádný jiný modul nedefinuje, nebo tuto definici nevyvá¾í}
+					\pojem{Vícenásobná definice}{nìkterý ze symbolù je definován a exportován více moduly}
+					\pojem{Rozdílné typy symbolù}{ne v¹echny linkery tuto chybu detekují, konflikt mezi typem souboru, který je vyvá¾en jedním a dová¾en jiným modulem}
+				\end{itemize}
+				Popis linkeru:
+				\begin{itemize}
+					\pojem{Vstup linkeru}{je relativní kód, který je výstupem pøekladu, má vazby na promìnné, funkce uskuteènìny pøes tabulku. Èasto obsa¾ena i tabuka pro lokální symboly v modulu.}
+					\pojem{Úloha linkeru}{spojování a vzájemné provazování symbolù, které nìco po¾adují, se symboly, které jiný modul vyvá¾í. Bìhem provazování se provádí kontrola na existenci, násobné nebo chybìjící definice. Výstupem je relokatibilní kód nebo absolutní kód.}
+					\pojem{Absolutní kód}{linker musí kromì vzájemného propojení symbolù urèit i adresu v¹ech entit programu a zmodifikovat kód, který na nì odkazuje.}
+				\end{itemize}
+
+				\paragraph{Interpret} nejsou typické, pouze pro ¹kolní nebo výzkumné projekty.
+				\begin{itemize}
+					\item Interprety virtuálního kódu -- vylep¹uje vlastnosti interpretù, proto¾e eliminuje nutnost opakované analýzy zdrojového textu, pøitom umo¾òuje rychlou modifikaci kódu jednotlivých funkcí, mo¾nosti ladìní programu jsou teoreticky také na vysoké urovni
+				\end{itemize}
+				
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+		\section{Opora 2\,--\,objektovì orientované programování}
+			\subsection{Objektovì orientované programování}
+			Jedná se o zpùsob abstrakce, kdy algoritmus implementujeme pomocí mno¾iny zapouzøených vzájemnì komunikujících entit, z nich¾ ka¾dá má plnou výpoèetní mocnost celého poèítaèe.
+			\paragraph{Objektovì orientovaný systém (program, aplikace)} se skládá z jednoho èi více objektù, které spolu komunikují a interagují pøi spolupráci na øe¹ení daného problému.
+			Hlavní výhody OOP:
+			\begin{itemize}
+				\item Analogie mezi softwarovým modelem a reálným modelem
+				\item Flexibilita takovýchto softwarových modelù
+				\item Jejich znovupou¾itelnost
+			\end{itemize}
+			Základní pojmy:
+			\begin{itemize}
+				\pojem{Objekt}{jednoznaènì identifikovatelný reálný objekt nebo abstrakce, která zahrnuje data a jejich chování. V tøídním jazyce se jedná o instanci tøídy obsahující data a operace. \\ Pøípadnì: objekt je entita zapouzdøující stavové informace a poskytující sadu operací nad tímto objektem nebo jeho èástmi}
+				\pojem{Zpráva}{Zpráva je komunikaèní jednotka mezi dvìma libovolnými objekty. Ka¾dá zpráva má svého odesílatele a pøíjemce. Sémantika zprávy}
+				\begin{itemize}
+					\item[1.] Pøíjemce obdr¾í zprávu od odesílatele
+					\item[2.] Vyhledá patøiènou implementaci reakce na tuto zprávu
+					\item[3.] Vìt¹inou se jedná o zapouzdøenou funkci (metoda)
+					\item Metody implementují ve¹keré chování objektù (reakce na obdr¾ené zprávy)
+					\item Zprávy a metody mívají shodné jméno i seznam parametrù
+					\pojem{Protokol objektu}{mno¾ina zpráv, kterým objekt rozumí}
+				\end{itemize}
+			\end{itemize}
+
+			\paragraph{Základní koncepty OOP} OOP sluèuje nové programovací koncepty a vylep¹uje staré, aby tak dosáhlo pøiblí¾ení popisu reálného svìta k lidskému zpùsobu uva¾ování.
+			\begin{itemize}
+				\pojem{Objekty}{spojují data a funkcionalitu spoleènì do jednotek zvaných objekty, ze kterých se potom skládá výsledný objektovì orientovaný program na rozdíl od strukturovaného slo¾eného z procedur a funkcí}
+				\pojem{Abstrakce}{neboli schopnost programu ignorovat/zjednodu¹it/zanedbat nìkteré aspekty informací èi vlastností objektù, se kterými program pracuje.}
+				\pojem{Zapouzdøení}{zaji¹»uje ji¾ na úrovni definice sémantiky jazyka, ¾e u¾ivatel nemù¾e mìnit interní stav objektù libovolným zpùsobem, ale musí k tomu vyu¾ívat poskytované rozhraní. Ka¾dý objekt tedy nabízí protokol, který urèuje, jak s ním mohou ostatní objekty interagovat}
+				\pojem{Polymorfismus}{mnohotvárnost, vyu¾ívá mechanismus zasílání zpráv. Konkrétné pou¾itá metoda reagující na zaslání zprávy závisí na konkrétním objektu, jemu¾ je tato zpráva zaslána. Ka¾dý objekt mù¾e mít rùznou implementaci jedné procedury/funkce}
+				\pojem{Dìdiènost}{zpùsob, jak implementovat sdílené chování. Nové objekty tak mohou sdílet a roz¹iøovat chování tìch ji¾ existujících bez nutnosti v¹e znovu reimplementovat.}
+			\end{itemize}
+
+			\paragraph{Pøiøazení} pojmenování objektu neboli pøiøazení objektu do promìnné. Místo objektu se mù¾e pracovat s referencí nebo ukazatelem na daný objekt.
+			\paragraph{Zasílání zprávy} Zpráva kromì identifikátoru mù¾e obsahovat i parametry. Reakce objektu na zprávu je individuální v závislosti na konceptu zapouzdøení a polymorfismu. Pøi obdr¾ení zprávy pøíjemcem mohou nastat situace:
+			\begin{itemize}
+				\item Objekt ve své implementaci reagování na zprávu nalezne a zavolá pøíslu¹nou metodu
+				\item Objekt hledanou metodu pøímo neobsahuje, ale obsahuje ji jiný objekt v rodièovském vztahu s tímto objektem. Je závislý na konceptu dìdiènosti a tzv. smìrování zpráv.
+				\item Objekt neobsahuje implementaci odpovídající metody a ani nebyla nalezena v objektech pøedkù. Nastává chyba, ¾e pøedané zprávì nebylo rozumìno \tedy neexistuje odpovídající metoda. Nìkteré jazyky tento pøípad doká¾ou rozpoznat ji¾ pøi pøekladu.
+			\end{itemize}
+
+			\paragraph{Výhody/nevýhody OOP}
+			\begin{itemize}
+				\item[$+$] Vy¹¹í míra abstrakce 
+				\item[$+$] Pøirozenìjí práce se zapouzdøením a moduly \tedy SW objekt analogií/abstrakcí reálného objektu a lze jej pova¾ovat za samostatný modul 
+				\item[$+$] Jednodu¹¹í dekompozice problémù \tedy rozdìlení mezi abstrakci a zapouzdøení
+				\item[$+$] Udr¾ovatelnost a roz¹iøitelnost \tedy robustnost, zmìny mají lokální charakter ve vztahu k objektùm a tøídám
+				\item[$+$] Znovupou¾itelnost \tedy mo¾nost vyu¾ívat cizích obejktù pøi znalosti jejich rozhraní respektive protokolu pro komunikaci s nimi
+				\item[$-$] V nìkterých pøípadech neexistuje analogie s reálnými objekty a pak je obtí¾né urèit a definovat intuitivnì ty softwarové
+				\item[$-$] Slo¾itìj¹í sémantika ne¾ u modulárních a strukturovaných jazykù \tedy vy¾aduje více èasu k nauèení
+				\item[$-$] Nemo¾nost poru¹ovat koncepci zapouzdøení
+				\item[$-$] Výsledný kód je pomalej¹í \tedy vyu¾ívání dodateèných kontrol, odli¹ných modelù výpoètu
+				\item[$-$] Re¾ie na ulo¾ení objektù v pamìti
+			\end{itemize}
+
+			\paragraph{Tøída} je ¹ablona (otisk), podle ní¾ mohou být vytváøeny objekty (instance této tøídy). Tøída se také stará o správu protokolu objektu, smìrování zpráv a obsahuje implementace nìkterých metod.
+
+			\paragraph{Instanciace objektù} je proces vytváøení objektu pomocí pøedpisu daného konkrétní tøídou. Instance tøídy je objekt, který obsahuje naplnìny instanèní promìnné a odkaz na tøídu, ze které vznikl. Bezprostøednì po vytvoøení objektu dostáváme prázdný objekt, jeho¾ datové polo¾ky musejí být teprve naplnìny (inicializovány) \tedy k tomu slou¾í konstruktor. Pro operaci vytvoøení objektu se pou¾ívá klíèové slovo \texttt{new}, které obsahuje jako parametr jméno tøídy, která pro nìj bude slou¾it jako konstrukèní ¹ablona, a pøípadný seznam parametrù
+			\paragraph{Kopírování objektù} je dal¹í zpùsob vytváøení objektù, hovoøíme o klonování objektù:
+			\begin{itemize}
+				\pojem{Hluboká kopie}{kromì objektu jsou kopírovány i objekty, které referencují instanèní promìnné kopírovaného objektu}
+				\pojem{Mìlká kopie}{je vytvoøen nový objekt, ale v¹echny instanèní promìnné obsahují odkazy na toto¾né objekty jako kopírovaná pøedloha}
+			\end{itemize}
+
+			\paragraph{Manipulace s objekty v kódu a v pamìti} v pøípadì pøiøazení objektu do promìnné:
+			\begin{itemize}
+				\item[a)] Nìkteré jazyky rozli¹ují, zda je objekt alokovaný na zásobníku a nebo na haldì \tedy rozli¹ují mezi datovým záznamem objektu a pouhou referencí na objekt
+				\item[b)] Naopak nìkteré jazyky tento rozdíl skrývají a pracují s objekty pouze pøes reference \tedy lze tak u¹etøit pamì» nejen pøi provádìní pøíkazù pøiøazení, ale také pøi pøedávání parametrù
+			\end{itemize}
+
+			\paragraph{Ru¹ení objektù v pamìti}
+			\begin{itemize}
+				\pojem{Automaticky}{je mo¾né pouze v pøípadì bìhu objektového prostøedí ve virtuálním stroji, provádí jej Garbage Collector, který vyhledává objekty, na které ji¾ neexistuje ¾ádný odkaz a ty zru¹í. Je mo¾né tìsnì pøed zru¹ením zavolat metodu pro úklid a uvolnìní alokovaných zdrojù mimo objekt $=$ finalizace}
+				\pojem{Manuálnì}{v pøípadì, ¾e nemáme Garbage Collector, musíme objekty ru¹it manuálnì. Pro likvidaci objektù slou¾í destruktor, metoda která je volaná programátorem.}
+			\end{itemize}
+
+			\paragraph{Úèely dìdiènosti}
+			\begin{itemize}
+				\item[1.] Znovupou¾ití definované tøídy pro specifiètìj¹í verzi tøídy
+				\item[2.] Zaji¹tìní zpìtné kompatibility z pohledu rozhraní instancí zdìdìných tøíd
+			\end{itemize}
+
+			\paragraph{Klasifikace dìdiènosti} A ''Kolik rodièù mù¾e mít potomek'' a B ''Co se dìdí''
+			\begin{itemize}
+				\item[A$_\textrm{1}$)] \textbf{Jednoduchá dìdiènost} øíká, ¾e ka¾dý potomek má nejvý¹e jednoho pøímého pøedka (rodièe)
+				\item[A$_\textrm{2}$)] \textbf{Vícenásobná dìdiènost} je pøípad, kdy mù¾e tøída dìdit od více pøímých pøedkù (více jak jednoho). Vznikají konflikty v jménech èlenù nadtøíd, pøípadnì vy¾adování uvádìní klasifikace pøedka, ze kterého konfliktní metody invokovat. Je vhodné vytvoøení optimálního a nejpou¾itelnìj¹ího algoritmu pro vyhledávání metod, kdy je nutno procházet orientovaný graf nejen jednoduchý strom.
+				\item[B$_\textrm{1}$)] \textbf{Dìdiènost implementace} do dìdiènosti jsou zahrnuty atributy i celé metody vèetnì jejich implementace. Zde vzniká problém se dvìmi stejnì pojmenovanými metodami ale s rùznou implementací nebo se stejnì pojmenovanými instanèními promìnnými.
+				\item[B$_\textrm{2}$)] \textbf{Dìdiènost rozhraní} pro vyu¾ívání vícenásobné dìdiènosti, ale odstranìní problémù s konfliktními jmény, vzniká pøístup dìdìní na úrovni roz¹iøování protokolu objektu. 
+			\end{itemize}
+
+			\paragraph{Statické metody a promìnné} jsou zapsány pøímo v definici tøídy a jsou oznaèeny pøedepsaným klíèovým slovem \verb|static|. Dá se k nim pøistupovat mimo instance tøídy\footnote{Napøíklad pøi poèítání absolutní hodnoty ze tøídy \texttt{Math} není nutné vytváøet instanci tøídy \texttt{Math} a a¾ pak volat funkci \texttt{abs()}, staèí tedy zavolat \texttt{Math.abs()}, ale \texttt{abs()} musí být statická metoda}
+
+			\paragraph{Typy, podtypy a nadtypy} jedná se o vztahy mezi objekty, tøídami a potomky
+			\begin{itemize}
+				\pojem{Typ}{v pøípadì tøídy, podobnì jako abstraktní datový typ má i tøída operace a vnitøní ulo¾ení dat}
+				\pojem{Nadtyp}{pøedek, superclass}
+				\pojem{Podtyp}{potomek, subclass}
+			\end{itemize}
+			
+			\paragraph{Vy¾adovaná dìdiènost} v pøípadì, ¾e je instance tøídy nebo z ní zdìdìné tøídy vy¾adována na místì parametru metody. Dìdièný vztah zaji¹»uje existenci potøebného protokolu.
+
+			\paragraph{Skuteèný podtyp} Pokud potøebujeme více volnosti s dosazováním za parametry metod, tak musíme vyu¾ít jiný zpùsob zaji¹tìní existence metod. Kontrola existence po¾adovaných metod v konkrétním dosazovaném typu se nazývá kontrola skuteèného podtypu.
+
+			\paragraph{Pøístupy k typùm v tøídních jazycích:}
+			\begin{itemize}
+				\pojem{Èistì objektový}{v¹e je objekt a existuje tøída nebo pøípadnì objekt, od kterého jsou v¹echny ostatní odvozeny}
+				\pojem{Hybridnì objektový}{k dispozici sada základních neboli primitivních typù, které lze pøípadnì skládat do homogenních nebo heterogenních struktur. Tøída je heterogenní struktura, která mù¾e obsahovat atributy i metody:}
+				\begin{itemize}
+					\item[a)] Existuje koøenová tøída, která je pøedkem ka¾dé existující nebo nové tøídy
+					\item[b)] Jazyky, které nemají v hierarchii dìdiènosti ¾ádnou koøenovou tøídu
+				\end{itemize}
+			\end{itemize}
+
+			\paragraph{Staticky a dynamicky typované jazyky}
+			\begin{itemize}
+				\pojem{Staticky typovaný jazyk}{urèuje mno¾inu operací, které objekt podporuje, ji¾ v dobì pøekladu programu. V pøípadì po¾adované nepodporované operace skonèí pøeklad neúspì¹nì.}
+				\pojem{Dynamicky typovaný jazyk}{kontrolu provádí a¾ v dobì bìhu programu. V pøípadì, ¾e objekt operaci nepodporuje, je proveden pokus o konverzi objektu na jiný typ a pøípadnì vygenerována chyba.}
+			\end{itemize}
+
+			\paragraph{Redefinice metod (overriding)} je mo¾nost jazyka definovat metodu podtøídy s novou, specifiètìj¹í implementacím, ne¾ je obsa¾ena v její nadtøídì. Obì metody pøitom mají stejnou sigaturu jak v nadtøídì.
+			Redefinice metod je dùle¾itý mechanismus OOJ, který obohacuje mo¾nosti polymorfismu a dìdiènosti, nìkteré OOJ umo¾òují tuto mo¾nost pomocí klíèového slova\footnote{V Javì, PHP je to klíèové slovo \texttt{final}, zaká¾e jakoukoliv modifikaci metody/promìnné/tøídy} zakázat.
+
+			\paragraph{\texttt{Self / this}} V ka¾dém OOJ je implicitnì nebo explicitnì oznaèen objekt pøíjemce zprávy. Slou¾í k referencování pøíjemce v kontextu právì vykonávané metody. Implicitní pøedávání pøíjemce zprávy metodì se vìt¹inou realizuje nultým skrytým parametrem této metody\footnote{U Pythonu se metody tøídy definují s prvním parametrem \texttt{self}, v C\# se jedná právì o skrytý nultý parametr}.
+			\paragraph{\texttt{Super / base}} V pøípadì, kdy potøebujeme vyu¾ít kód ji¾ definované metody, odká¾eme se na metodu definovanou v rodièovské tøídì pøes klíèová slova \texttt{base} nebo \texttt{super} s pøedáním potøebných parametrù\footnote{V pøípadì, ¾e rodiè obsahuje \texttt{metoda(int par, String par2)}, tak v metodì potomka voláme \texttt{super(par, par2)}, kde za hodnoty parametrù dosadíme ty, které chceme vyu¾ít}. Pøi vícenásobné dìdiènosti musíme specifikovat konkrétní tøídu\footnote{V C++ \texttt{A::metoda()}, kde A je tøída, ze které bude metoda volaná}, tzv. klasifikace jména.
+
+			\paragraph{Èasná vazba} Pøi pøekladu programu nemusí být mo¾né správnì odhadnout s jakým typem objektu budeme pracovat.
+			\paragraph{Pozdní vazba} K identifikaci potøebné metody se pøistupuje a¾ v dobì bìhu programu, kdy by mìlo dojít k její invokaci. Provádí se pøes tabulky virtuálních metod (VMT), ka¾dá instance tøídy obsahující virtuální metody se odkazuje na VMT.
+			U dynamicky typovaných OOJ jsou v¹echny metody virtuální, v¹echny objekty toti¾ obsahují reference na tøídu, které je objekt instancí, nikoliv pouze data.
+
+		\subsection{Prototypovì orientované jazyky}
+			Tyto jazyky unifikují svùj návrh tím, ¾e znají pouze jediný typ objektù a nevyèleòují samostatnì objekty reprezentující tøídy. Ka¾dý objekt mù¾e obsahovat jak èlenské promìnné tak metody. Tyto slo¾ky objektu se oznaèují jako sloty.
+
+			\paragraph{Sdílené chování} Pokud je objektu zaslaná zpráva, prozkoumá mno¾inu svých slotù a pokusí se najít ten, který poslané zprávì odpovídá.
+
+			\paragraph{Klonování} Nové objekty se vytváøejí kopírováním existujících objektù, tzv. klonováním. Implicitnì se provádí technikou mìlkého kopírování. Teoreticky v¹ak mù¾e ka¾dý objekt pøesnì definovat v¹echny své operace, tzn. v¹echny pøíbuzné objekty by pou¾ívaly své nezávislé kopie metod \tedy pøi zmìnì kódu metody jednoho objektu by nedo¹lo ke zmìnì korespondujících metod v objektech dal¹ích.
+
+			\paragraph{Delegace} je proces velmi podobný obyèejnému zaslání zprávy, narozdíl od nìj ale pøi invokaci metody v delegovaném objektu nemìní kontext. Pokud je zpráva delegována na jiný objekt, je v tomto objektu nalezen odpovídající slot a pokud je tímto slotem metoda, je spu¹tìn její kód s tím, ¾e ukazatel na pøíjemce zprávy neodkazuje na delegovaný objekt, ale na objekt, který delegaci provedl.
+
+			\paragraph{Rodièovský slot} Pokud je objektu poslána zpráva a ten ve svých slotech nenalezne ¾ádný vhodný, provede delegaci zprávy na objekty, které jsou odkazovány speciálním typem slotù \tedy rodièovské sloty. Pokud ani rodièovský slot neobsahuje vhodný slot, deleguje zprávu dále na rodièovské sloty. Reference na pøíjemce zprávy zùstává na pùvodním pøíjemci.
+
+			\paragraph{Dìdiènost\,--\,rysy} Objekty, které obsahují sdílené chování a tím nahrazují nebo doplòují tøídy, se oznaèují rys. Provázáním jednotlivých rysù rodièovskými sloty lze dosáhnout obdoby dìdiènosti.
+			Nìkteré jazyky umo¾òují umístit do objektù více rodièovských slotù, doká¾í tak elegantnì vytvoøit obdobu vícenásobné dìdiènosti.
+
+			Dynamická dìdiènost \tedy schopnost mìnit hodnoty v rodièovských slotech.
+
+			\paragraph{Prototypy} pro plnou náhradu tøíd pouze rysy nestaèí. Je potøeba vyøe¹it problém s instanèními promìnnými, které jsou souèástí samotných objektù a ka¾dý objekt musí mít jejich samostatnou kopii.
+			\begin{itemize}
+				\item Nìkteré jazyky instanèní promìnné pøidávají do objektu a naplòují je standardními hodnotami v konstruktoru rysu
+				\item Doplnit rys je¹tì jedním objektem, který obsahuje sloty instanèních promìnných s implicitními hodnotami a ve svém rodièovském slotu odkazuje rys. Nová instance se pak vytvoøí nakopírováním této ¹ablony \tedy ¹ablony instancí se oznaèují jako prototypy
+			\end{itemize}
+
+		\subsection{UML}
+		Jednotný grafický (vizuální) jazyk pro jednotnou specifikaci, vizualizaci, konstrukci a dokumentaci pøi objektovì orientované analýze a návrhu i pro modelování organizace.
+
+		\paragraph{Pohled} projekce systému na jeden z jeho klíèových aspektù a znazoròujeme jej jedním èi více diagramy UML. Základní pohledy jsou strukturální, datový, pohled na chování a rozhraní. Pohledy resp. diagramy lze rozdìlit:
+		\begin{itemize}
+			\item Analytické \tedy co bude systém dìlat
+			\item Návrhové \tedy jak to bude dìlat
+		\end{itemize}
+		\paragraph{Diagram UML} je struktura podobná obecnému grafu obsahujícímu mno¾inu grafických prvkù propojených vztahy.
+
+		Stavební bloky UML jsou:
+		\begin{itemize}
+			\item[1.] Prvky \tedy pøedmìty, entity, abstrakce
+			\begin{itemize}
+				\pojem{Strukturní}{tøída, pøípad pou¾ití, komponenta}
+				\pojem{Chování}{interakce, stav}
+				\pojem{Seskupování}{modul, balíèek, podsystém}
+				\pojem{Doplòkové}{komentáøe a poznámky}
+			\end{itemize}
+			\item[2.] Vztahy \tedy mezi prvky
+			\begin{itemize}
+				\pojem{Asociace}{spojení mezi prvky}
+				\pojem{Závislost}{zmìna v jednom prvku ovlivní jiný závislý prvek}
+				\pojem{Agregace, Kompozice}{vyjádøení dekompozice prvku na podèásti}
+				\pojem{Generalizace}{vztah mezi obecnìj¹ím a specifiètìj¹ím prvkem}
+				\pojem{Realizace}{vztah mezi pøedpisem a jeho uskuteènìním}
+			\end{itemize}
+		\end{itemize}
+		Modely:
+		\begin{itemize}
+			\item[a.] Model struktury (statický aspekt modelu) \tedy popisuje entity systému a jejich souvislostí
+			\begin{itemize}
+				\item Diagram tøíd
+				\item Diagram komponent
+				\item Diagram rozmístìní zdrojù
+			\end{itemize}
+			\item[b.] Model chování (dynamický aspekt modelu)\tedy popisuje ¾ivotní cyklus entit a jejich spolupráci
+			\begin{itemize}
+				\item Diagram objektù
+				\item Diagram pøípadù pou¾ití
+				\item Diagram interakce: diagram sekvence, diagram spolupráce
+				\item Stavový diagram
+				\item Diagram aktivit
+			\end{itemize}
+		\end{itemize}
+
+		\paragraph{Diagramy tøíd a objektù} Reprezentace tøíd a objektù v UML je následující:
+		
+		\textbf{Tøída} je rozdìlena na tøi bloky obsahující název, seznam atributù a seznam operací.
+		
+		\textbf{Objekt} obsahuje pouze podtr¾ený identifikátor objektu s pøípadným urèením tøídy a seznamu atributù s pøiøazenými hodnotami.
+		
+		\textbf{Atributy} jsou prvky objektu u nich¾ lze specifikovat typ, jméno, impicitní hodnotu a viditelnost.
+
+		\textbf{Operace} ve vìt¹inì pøípadù odpovídají metodám tøídy a jedná se o pojmenované chvání tøídy. Jsou popsány identifikátorem, modifikátorem viditelnosti, seznamem formálních parametrù a návratovým typem. Ka¾dý parametr mù¾e obsahovat V/V modifikátor (\texttt{in} pro vstupní, \texttt{out} pro výstupní a \texttt{inout} pro vstupnì-výstupní parametry), formální jméno a typ.
+
+		UML poskytuje i typy viditelnosti atributù nebo operátorù:
+		\begin{itemize}
+			\item[-] Soukromá viditelnost \tedy atribut/operace je k dispozici pouze uvnitø tøídy, kde je definován(a)
+			\item[\#] Chránìná viditelnost \tedy pøístup je omezen pouze na instance tøíd pøímo èi nepøímo zdìdìných od vlastníka atributu/operace
+			\item[$+$] Veøejná viditelnost \tedy k atributu/operaci lze pøistupovat bez omezení z libovolného jiného objektu
+		\end{itemize}
+
+		\textbf{Tøídní atributy a operace} jsou znaèeny podtr¾ením\footnote{POZOR! stejné jako u identifikátoru objektu, ale není to toté¾}\\
+
+		\textbf{Abstraktní operace a tøída}, u kterých není nutné mít v dané tøídì implementace ale pouze definici, jsou znaèeny kurzívou. Stejnì tak i u abstraktní tøídy. Nìkdy se pou¾ívá klíèové slovo \texttt{abstract} pøed název tøídy.
+
+		\paragraph{Stereotypy tøíd} oznaèení speciálního druhu tøídy se specifickým úèelem. Bývá zapisován nad název tøídy do francouzských uvozovek (\texttt{$\ll$stereotyp$\gg$})
+
+		Èasto se v OOP setkáváme s tøídami, které nejsou primárnì urèeny pro popis atributù a operací jejích instancí, ale pro sdru¾ení obecnì pou¾ívaných funkcí. Takovýto význam tøídy zapisujeme stereotypem \texttt{$\ll$utility$\gg$}, neboli balíèek nástrojù. \\
+		V praxi se z této tøídy nevytvoøí instance (v¹echny èleny má statické) nebo se vytváøí jediná instance (singleton).\\
+
+		\textbf{Stereotyp rozhraní} slou¾í pro popis speciální tøídy, která slou¾í pro sdru¾ení mno¾iny operací, jejich¾ rozhraní vyvá¾í ostatním tøídám, které toto chování pak povinnì implementují. 
+		
+		\paragraph{Parametrizovaná tøída (generická tøída, tøída ¹ablony)} uvnitø pracují s jedním nebo více v dobì psaní kódu neznámými datovými typy nebo tøídami.
+		Tøída mù¾e dále obsahovat textové i grafické poznámky, klíèová slova, stereotypy a dodateèné informace pro dokumentaèní úèely.
+		
+		\paragraph{Diagram tøíd} je graf symbolù tøíd, rozhraní, seskupení a dal¹ích strukturních prvkù propojených statickými vztahy (asociace, závislost, agregace, kompozice, generalizace, realizace)\\
+
+		\textbf{Násobnosti vztahu} se udávají pro upøesnìní obecného vztahu a bývají znaèeny na obou koncích úseèky, která znázoròuje vztah mezi tøídami A a B. Násobnost b v pøípadì diagramu tøíd odpovídá na otázku "S kolika objekty tøídy B je v relaci jeden objekt tøídy A?" a analogicky pøesnì naopak se dotazujeme na násobnost a.
+		\begin{enumerate}
+			\item Konstanta $k$
+			\item Libovolné neomezenì velké nezáporné celé èíslo
+			\item Interval slo¾ený z konstanty urèující dolní hranici $D$ a horní hranici $H$, kdy platí $D < H$ nebo $H$ mù¾e být $*$ (napø. $0..*$ pro libovolnou násobnost a $0..1$ pro volitelnost, apod.).
+		\end{enumerate}
+
+		\textbf{Asociace} je obecná relace mezi dvìma èi více tøídami zakreslená úseèkou spojující tyto tøídy. Asociace mù¾e být pojmenována pro upøesnìní svého významu. Oba konce mohou obsahovat popis role pøipojené tøídy.
+
+		\textbf{Realizace} je vztah mezi rozhraním a implementaèní tøídou, který znaèíme èárkovanou ¹ipkou smìøující k rozhraní.
+
+		\textbf{Generalizace} je statický vztah mezi obecnìj¹í a specifiètìj¹í entitou, v pøípadì tøíd mezi rodièovskou tøídou a tøídou potomka.
+
+		\textbf{Agregace} vyjadøuje slo¾ení entity ze skupiny komponentních entit. Vztah kreslíme jako úseèku na stranì celku zakonèenou prázdným kosoètvercem a na druhém konci ¹ipkou s pøípadnou násobností.
+
+		\textbf{Kompozice} je speciální pøípad agregace, kdy ka¾dá komponentní tøída smí nále¾et pouze jednomu celku. Na rozdíl od agregace zakreslujeme na stranì kompozitní tøídy vyplnìný kosoètverec.
+
+		\textbf{Závislost} je vztah mezi prvky, v ní¾ zmìna jednoho elementu má vliv na závislý element. Vyu¾ívá se pøedev¹ím pro vyjádøení závislostí, je¾ nejsou asociací a znaèí se pøeru¹ovanou ¹ipkou od klienta k dodavateli.
+
+		\paragraph{Diagram objektù} ukazuje objekty a jejich propojení, vèetnì identifikace vyznaèených objektù v urèitém èase. Pou¾ívá se i pro ovìøení korektnosti diagramu tøíd, za její¾ instanci lze diagram objektù pova¾ovat.
+
+		\paragraph{Diagramy seskupení, komponent a zdrojù} jsou novì zavedeny èi upraveny v UMLv2:
+		
+		\textbf{Diagram seskupení} je vhodný pøedev¹ím pro modelování rozsáhlých systémù a prezentací vazeb mezi jeho podsystémy a dal¹ími moduly. Seskupení je prvek diagramu, který doká¾e obalit a zapouzdøit libovolnou mno¾inu entit, pro kterou to dává významový smysl, za úèelem zpøehlednìní vazeb mezi tìmito mno¾inami.\\
+
+		\textbf{Diagram komponent} ukazuje strukturu komponent systému a závislosti mezi nimi. Komponenta je pøístupná pouze prostøednictvím svého rozhraní a je dána svými klasifikátory a artefakty. Je velmi blízký samotné implementaci a bývá èasto vyu¾íván pro dokumentaci nebo odhalení správného poøadí kompilace komponent systému a zároveò tøíd, které tuto komponentu implementují.\\
+
+		\textbf{Diagram rozmístìní zdrojù} poskytuje pohled na fyzické rozmístìní systému, který je v tomto diagramu reprezentován pomocí uzlù propojených komunikaèními cestami. Uzel je v tomto grafu výpoèetním zdrojem rozdìleným na procesor a zaøízení.
+		
+		\paragraph{Diagram pøípadù pou¾ití} graficky znázoròuje úèastníky, pøípady pou¾ití, interakce a hranice systémù. \\
+		Pomocí stereotypù \texttt{$\ll$use$\gg$}(implicitní), \texttt{$\ll$include$\gg$} a \texttt{$\ll$extend$\gg$} lze upøesnit vztahy mezi samotnými pøípady u¾ití.
+
+		\paragraph{Diagram datových tokù} je hierarchický model pou¾ívaný pøi strukturované analýze a návrhu pro specifikaci chování systému. Oproti objektovì orientovanému diagramu pøípadù pou¾ití je blí¾e návrhu, proto¾e obsahuje i informace o datech.
+
+		\paragraph{Diagramy interakce} popisují komunikaèní strukturu v dobì bìhu modelovaného systému a jsou reprezentovány diagramem spolupráce a diagramem sekvence.\\
+
+		\textbf{Diagram spolupráce} popisuje objekty propojené pomocí posílání zpráv mezi tìmito objekty.\\
+
+		\textbf{Diagram sekvence} zdùrazòuje èasovou posloupnost vztahù mezi objekty. V nìkterých pøípadech jej lze vyu¾ít pro detailnìj¹í popis vybraného pøípadu pou¾ití.
+		
+
+		\paragraph{Stavový diagram} se vá¾e v¾dy na konkrétní tøídu a ukazuje stavy, do kterých mohou její instance vstupovat, a pøechody mezi nimi. Pøi pokroèilej¹ím modelování tyto diagramy umo¾òují popisovat vnoøené stavy, pou¾ívané zprávy i s argumenty, soubì¾nost a synchronizaci.
+
+
+		\subsection{Vlastnosti OOJ}
+		\paragraph{Ortogonalita} Konkrétnì v textu o programovacích jazycích chápeme ortogonalitu jako nezávislost vlastnosti jazyka na programovacím paradigmatu. \\
+		Napøíklad ¹ablony a výjimky jako technologie jsou ortogonální vùèi objektovì orientovanému paradigmatu, z èeho¾ plyne, ¾e je lze uplatnit i v jazycích, je¾ nejsou objektovì orientované.
+
+		\paragraph{Klasifikace jazykù} podle nìkolika významných kritérií:
+		\begin{enumerate}
+			\item Podle urèování typù pøi zápisu programu
+			\item Podle doby vytvoøení vazby promìnné na typ
+			\item Podle zpùsobu typové kontroly
+			\item Podle dùkladnosti typové kontroly
+		\end{enumerate}
+
+		\paragraph{Pojmy}
+		\begin{itemize}
+			\pojem{Datový typ}{popisuje reprezentaci, interpretaci a pøedev¹ím strukturu hodnot pou¾ívaných algoritmy nebo objekty v pamìti poèítaèe}
+			\pojem{Typový systém}{vyu¾ívá typové informace k ovìøení korektnosti poèítaèových programù pøi jejich práci s daty}
+			\pojem{Typová chyba}{ohlá¹ení chyby, která oznaèuje pou¾ití nepovolených/nekompatibilních/nevhodných typù operandù pøi libovolné operaci}
+			\pojem{Silná kontrola}{typ kontroly, kdy jsou v¾dy detekovány v¹echny typové chyby, co¾ vy¾aduje schopnost urèit typy v¹ech operandù, a» ji¾ pøi kompilaci nebo pøi bìhu programu}
+		\end{itemize}
+
+		\paragraph{Klasifikace jazykù}
+		\begin{itemize}
+			\item \textbf{Podle urèování typù pøi zápisu programu}
+			\begin{itemize}
+				\pojem{Beztypové}{bez typù, v podstatì se jedná pouze o teoretické a formální jazyky nebo jazyky s jediným univerzálním typem (napø. $\varsigma$-kalkul a $\lambda$-kalkul)}
+				\pojem{Netypové}{ve zdrojovém kódu nemá promìnná urèený typ a tuto informaci nemá programátor k dispozici, interpret/kompilátor zaji¹»uje implicitní typové konverze automaticky}
+				\pojem{Typované}{typ je urèen ve zdrojovém programu u ka¾dé entity. Promìnná mù¾e mít typ urèen explicitnì nebo odvozením (typová inference), kdy je výsledný typ výrazu odvozen z typù jeho operandù a samotných operací}
+			\end{itemize}
+			\item \textbf{Podle doby vytvoøení vazby promìnné na typ}
+			\begin{itemize}
+				\pojem{Staticky typované}{pøed bìhem programu, tj. v dobì návrhu kompilátoru, kompilace programu èi zavádìní programu}
+				\pojem{Dynamicky typované}{typ promìnné je urèen a¾ za bìhu programu, v¹echny promìnné obsahují objekty, ale konkrétní typ zále¾í a¾ na konkrétních pøiøazených instancích}
+			\end{itemize}
+			\item \textbf{Podle zpùsobu typové kontroly}
+			\begin{itemize}
+				\pojem{Statická typová kontrola}{vìt¹ina typových kontrol je provádìna bìhem pøekladu}
+				\pojem{Dynamická typová kontrola}{ve¹keré typové kontroly mohou být provádìny a¾ za bìhu programu, co¾ v¹ak ovlivòuje i výkon programù v tìchto jazycích a èasto vy¾adují bìh na vituálním stroji}
+			\end{itemize}
+			\item \textbf{Podle dùkladnosti typové kontroly}
+			\begin{itemize}
+				\item Silnì typované jazyky
+				\begin{itemize}
+					\item \textbf{Témìø silnì typované jazyky}\footnote{Napø. Java nebo Ada} u nich¾ existuje mo¾nost jak implicitnì zpùsobit typovou chybu/nekonzistenci s výjimkou explicitní typové konverze s vypnutou typovou kontrolou
+					\item \textbf{Støednì silnì typované jazyky}\footnote{Napø. ML}
+					\item \textbf{Absolutnì silnì typované jazyky} jsou silnì typované a neobsahují naprosto ¾ádné implicitní konverze\footnote{Napø. Smalltalk nebo SELF}
+				\end{itemize}
+				\item \textbf{Slabì typované jazyky} jsou jazyky, kde je mo¾né i po úspì¹né kompilaci dojít k typové chybì, dokonce velmi slabì typované jazyky\footnote{C/C++} umo¾òují kromì volnìj¹í práce s variantním typem (union) i mo¾nost nekotrolovat typy parametrù funkcí/metod a dal¹í typové prohøe¹ky
+			\end{itemize}			
+		\end{itemize}
+
+		\subsection{Vlastnosti tøídních jazykù}
+		\paragraph{Øízení toku programu} Je nutné zachování starých konstrukcí ze strukturovaných a modulárních jazykù a pøidat k nim mechanismus zasílání zpráv. Výhodou je pozvolnìj¹í pøechod z modulárních jazykù na objektové orientované, ov¹em je rizikem, ¾e se u¾ivatel mù¾e nauèit ¹patnému objektovému my¹lení \tedy lep¹í je si vyzkou¹et èistì objektový jazyk.
+
+		\paragraph{Jmenný prostor (namespace)} je z programátorského hlediska kontejner pro identifikátory (èi jiné entity jazyka). Uvnitø se nevyskytují ¾ádné dva stejné identifikátory. V UML modelováno jako seskupení. \\
+		Dùvodem zavedení je zabránìní kolizím jmen v rozsáhlých zdrojových textech.
+
+		\paragraph{Modifikátor viditelnosti} je mechanismus pøítomný v mnoha dne¹ních OOJ, který má za úkol mìnit mo¾nost pøístupu k rùzným entitám jazyka, a tak podrobnìji konfigurovat koncept zapouzdøení.
+		\begin{itemize}
+			\pojem{Soukromý -- \texttt{private}}{atributy èi metody jsou pøístupné pouze z metod stejné tøídy}
+			\pojem{Chránìný -- \texttt{protected}}{atributy èi metody jsou dostupné pouze z metod stejné tøídy a tøíd tuto tøídu dìdících}
+			\pojem{Veøejný -- \texttt{public}}{atributy èi metody jsou dostupné odkudkoliv}
+
+			\item \texttt{internal}: veøejná viditelnost pouze uvnitø domovského jmenného prostoru
+			\item \texttt{friend}: mo¾nost pøistupovat k soukromým entitám v pøípadì tzv. spøátelených tøíd, které jsou v blízkém závislostním vztahu
+		\end{itemize}
+		Nìkteré jazyky urèují viditelnost napevno \tedy soukromá viditelnost atributù a veøejná viditelnost v¹ech metod v jazyce Smalltalk
+		
+		\paragraph{Pøetì¾ování metod (Overloading)} je vlastnost umo¾òující definovat ve tøídì více metod se stejným jménem. Jediným po¾adavkem bývá, aby se metody odli¹ovaly v typech nebo poètu parametrù. Kromì pøetì¾ování metod se nìkdy umo¾òuje pøetì¾ovat i operátory (unární i binární)\footnote{Napø. operátor \texttt{+} mù¾e znamenat operátor sèítání nebo taky konkatenaci Stringù}, co¾ ov¹em nemusí být za v¹ech okolností vhodné.
+
+		\paragraph{Vícenásobná dìdiènost} v definici pøedkù dané tøídy mù¾e být uvedená i více jak jedna tøída. Tento typ dìdiènosti má více nevýhod ne¾ výhod:
+		\begin{itemize}
+			\item Opravdu oprávnìné a správné pou¾ití je velmi ojedinìlé (èasto svádí k chybám v návrhu)
+			\item Efektivní implementace patøí mezi pokroèilej¹í problémy návrhu OOJ
+		\end{itemize}
+		Pøekladaè OOJ musí øe¹it tyto problémy:
+		\begin{enumerate}
+			\item Rodièovské tøídy mohou obsahovat èleny stejného jména i typu
+			\item Nebo jen stejného jména rùzného typu
+			\item Poøadí volání konstruktorù, pøípadnì destruktorù
+			\item Ulo¾ení objektu tøídy C v pamìti tak, aby jej bylo mo¾no vyu¾ít kdekoli je oèekáván objekt tøídy A, B nebo C\footnote{Byly definovány tøídy A, B a tøída C, která obì pøedchozí dìdila}
+		\end{enumerate}
+
+		\paragraph{Návrhy øe¹ení nìkterých problémù vícenásobné dìdiènosti}
+		\begin{itemize}
+			\item[1)] Kolize metod stejného jména i typu v nové tøídì lze øe¹it:
+			\begin{itemize}
+				\item[a)] Sémantickými kontrolami zakázat tuto mo¾nost ji¾ pøi kompilaci zdrojového kódu
+				\item[b)] Do¾adovat se v pøípadì kolize upøesnìní, ve které tøídì volanou metodu hledat
+				\item[c)] Vy¾adovat povinnou reimplementaci, co¾ má ov¹em svá úskalí
+			\end{itemize}
+			\item[2)] Kolize metod se stejným jménem, ale rùzným návratovým typem u nové tøídy, kde:
+			\begin{itemize}
+				\item[a)] Tento pøípad se zaká¾e podobnì jako v pøedchozím pøípadì
+				\item[b)] Povolí se existence obou metod ov¹em pouze v pøípadì, ¾e daný jazyk umo¾òuje pøetì¾ování, co¾ kromì pøekladu zvy¹uje i re¾ii u pomocných rutin za bìhu programu
+			\end{itemize}
+			\item[1 a 2)] Atributy stejného jména i typu jsou øe¹eny analogicky k problému s metodami. Pouze v pøípadì stejnì pojmenovaných atributù jiných typù se zatím nepodaøilo úspì¹nì implementovat pøetì¾ování, tak¾e se tato kombinace zpravidla zakazuje.
+			\item[3)] Problém s inicializací se týká poøadí volání konstruktorù (metody slou¾ící pro inicializaci objektù pøi jeho vytváøení), je¾ jsou automaticky spou¹tìny nejen z tøídy daného objektu, ale vìt¹inou i z rodièovských tøíd
+			\begin{itemize}
+				\item[1.] Vyu¾ít poøadí zápisu tøíd ve zdrojovém textu, v jakém byly v seznamu rodièovských tøíd instanciované tøídy uvedeny
+				\item[2.] Ignorování zápisu ve zdrojovém textu, ale vyu¾ití u¾ivatelem definovaného poøadí inicializace, které ov¹em není dodateènì kontrolováno na pøípadné uváznutí èi nesprávné poøadí.
+			\end{itemize}
+			\item[4)] Ani pro zpùsob ukládání objektù v OOJ s vícenásobnou dìdièností neexistuje jedno univerzální a obecné øe¹ení, které navíc vìt¹inou silnì závisí na vlastnostech daného jazyka. Typicky lze ukládat èleny jednotlivých tøíd v objektu do bloku podle tøíd a v pøípadì kolize jmen vytvoøit duplikát daného èlena v obou pøíslu¹ných blocích. Pøi oèekávání rodièovské struktury u takovéhoto objektu je v¹ak tøeba zajistit synchronizaci obsahù duplikovaných atributù.
+		\end{itemize}
+
+		\paragraph{Rozhraní} Výhodou vícenásobné dìdiènosti oproti jednoduché je mo¾nost sdílení protokolu napøíè hierarchií dìdiènosti, tj. i u tøíd z rùzných vìtví stromu dìdiènosti lze syntakticky zaruèit existenci patøièného podprotokolu. Nevýhodou je problém s kolizí rùzných implementací pro stejnì pojmenované metody. Zachováním popsané výhody a vylouèením nevýhod dostáváme mechanismus rozhraní (interface), který je schopen s jistými omezeními zcela nahradit vícenásobnou dìdiènost.
+
+		Rozhraní je schéma, které deklaruje seznam metod. Pou¾ití rozhraní na jistou tøídu pak vynucuje implementaci v¹ech metod uvedených v rozhraní. I v pøípadì jednoduché dìdiènosti lze ka¾dé tøídì uvést nìkolik rozhraní.
+
+		Implementace rozhraní je jednodu¹¹í ne¾ v pøípadì vícenásobné dìdiènosti, pøesto je v pøípadì kombinace s jednoduchou dìdièností nutno zvolit nejvhodnìj¹í implementaci:
+		\begin{itemize}
+			\item[a)] Vázání pøes jméno rozhraní \tedy nikoliv pøes adresu, nutno provádìt za bìhu a èasto s podporou virtuálního stroje
+			\item[b)] Nìkolik tabulek virtuálních metod \tedy poøadí je dáno zápisem rozhraní ve zdrojovém textu
+			\item[c)] Metody \texttt{get/set} \tedy slou¾í k získání adres kódu metody zadaného jména
+		\end{itemize}
+
+		\paragraph{Výjimky} Moderní zpùsob o¹etøování chybových a neoèekávaných stavù vykonávaného programu je vyu¾ití výjimek, co¾ je mechanismus, který popisuje zpùsob ¹íøení informace o chybì, zpùsob zastavení/pøeskoèení výpoètu a umo¾òuje provést o¹etøení chyby a¾ za samotným algoritmem a tím zlep¹it èitelnost kódu i samotného algoritmu.
+
+		Umo¾òuje finalizaèní sekce, její¾ provedení je garantováno i v pøípadì vyvolání výjimky.
+
+		Pøi vyvolání výjimky uvnitø try-bloku (pøíkazem èi zprávou \texttt{rise} nebo \texttt{throw}) je proveden skok na zaèátek catch-bloku a na jeho formální parametr je navázán vzniklý objekt výjimky. V o¹etøovacím kódu je pak vìt¹inou potøeba zjistit, jaké tøídy výjimka je, abychom vìdìli, jak s ní nalo¾it.
+
+		\paragraph{©ablony} Mohou být implementovány:
+		\begin{itemize}
+			\item Staticky -- ¹ablona je zpracována a vyu¾ívána pouze pøi kompilaci zdrojového kódu, v podstatì se jedná o velmi sofistikované roz¹íøení preprocesoru jazyka
+			\item Dynamicky -- nejèastìj¹i pomocí virtuálních funkcí resp. metod, co¾ vy¾aduje dodateènou re¾ii za bìhu programu
+			\item Ad hoc -- pøedem a napevno definované pøetì¾ování operátorù pro omezený poèet typù (+ pro sèítání i pro konkatenaci)
+		\end{itemize}
+
+		©ablona je mechanismus, který umo¾òuje parametrizaci definic datových typù. V definici nového ¹ablonového typu potom daný parametr vyu¾íváme jako promìnnou, která obsahuje identifikaci jiného typu. ©ablony mohou obsahovat i více parametrù.
+
+
+		\paragraph{Systémy s rolemi} V pøípadì objektu, který pøetrvává v systému dlouhou dobu a postupnì se vyvíjí a je potøeba tomu pøizpùsobovat i schopnosti (protokol) tohoto objektu. Objekt tedy mù¾e pøebírat konkrétní roli, mù¾e bìhem svého ¾ivota v systému s rolemi vystupovat pod rùznými rolemi, které mù¾e postupnì nabývat nebo pozbývat.
+
+		Objekt s více typy je objekt, který mù¾e mít v jeden okam¾ik více typù. Pùvod tohoto pojmu je v objektovì orientovaných databázích, kde pak hovoøíme o rolích objektu.
+
+		Vícenásobná dìdiènost by nestaèila proto¾e:
+		\begin{enumerate}
+			\item Je mo¾né velké mno¾ství kombinací, které by se velmi tì¾ko udr¾ovalo
+			\item Nelze pøedpovídat jaké dal¹í role bude nutné dotvoøit v prùbìhu provozování samotného systému
+		\end{enumerate}
+
+		Systémy s rolemi pou¾ívají vìt¹inou perzistentní objekty. Jsou vìt¹inou interpretované systémy, kde je potøeba provádìt asociaci objektu a role za bìhu. 
+
+		\paragraph{Perzistentní objekty} Objekt, který pøe¾ívá rámec aplikace a pøi dal¹ím spu¹tìní aplikace je tentý¾ objekt opìt k dispozici v pøesnì stejném stavu jako mìl pøi posledním ukonèení aplikace.
+
+		Perzistence ale není jenom snímek objektové pamìti, explicitní ukládání a naèítání dat pro rekonstrukci objektù také nepova¾ujeme za perzistenci.
+
+		Implementace perzistentních objektù:
+		\begin{itemize}
+			\item[a)] Ukládat pouze stav objektu -- metody objektu musí být dosa¾itelné jiným zpùsobem, z teoretického pohledu se v¹ak nejedná o plnohodnotnou perzistenci, jeliko¾ lze pohodlnì zajistit knihovnami pro ukládání a naèítání stavù objektù
+			\item[b)] Ukládat stav objektu i jeho metody -- proto¾e na kompilovaných systémech je tøeba v tomto pøípadì øe¹it mnoho problémù, provádí se pouze pøeklad do mezikódu, jen¾ je následnì interpretován virtuálním strojem
+		\end{itemize}
+
+		\subsection{Poznámky k implementaci OOJ}
+		Pøi pou¾ívání von Neumannovy architektury poèítaèù, kdy nemáme k dispozici nic jako èistì objektovou pamì» nebo mechanismus zasílání a smìrování zpráv. Znaèné mno¾ství moderních OOJ øe¹í tyto nevýhody vytvoøením tzv. virtuálního stroje, který vytváøí pro jazyk interpretaèní nebo pseudopøekladové prostøedí obsahující objektovou pamì» i snadnìj¹í práci se zprávami.
+
+		\paragraph{Manipulace se tøídami} V pøípadì hybridního objektového pøístupu se pro ukládání atributu nabízí vyu¾ití datových struktur, jak je známe ze strukturovaných jazykù. Problémem je nedostateèná variabilita takovéto struktury, která je pro ukládání nìkterých objektù nezbytná.
+		Problémy, které je nutno vyøe¹it:
+		\begin{itemize}
+			\item Ukládání metod
+			\item Dìdiènost
+			\item Pøístup k atributùm v metodách
+			\item Instanèní a tøídní promìnné, instanèní a tøídní metody
+		\end{itemize}
+		
+		Øe¹ení:
+		\begin{itemize}
+			\item Statické metody a promìnné nejsou ulo¾eny v objektu ani VMT (u nich neexistuje v takovéto implementaci ¾ádný polymorfismus)
+			\item Instance tøídy B má dostupné jak svoje metody, tak metody v¹ech pøedkù. VMT je implementována jako dynamická struktura a tedy obsahuje pouze reference na skuteèný kód daných metod.
+		\end{itemize}
+
+		\paragraph{Virtuální stroj} je speciální softwarová vrstva, její¾ primárním úèelem je odstínit pro bì¾ící aplikaci hardwarová specifika poèítaèe, na nìm¾ je vykonávána. Do toho zahrnujeme i proces samotného vykonávání kódu, díky èemu¾ je dosa¾eno naprosté nezávislosti na konkrétní platformì.
+
+		Virtuální stroje volí jeden z následujících pøístupù k vykonávání kódu:
+		\begin{itemize}
+			\item Pøímá interpretace kódu ze syntaktického stromu zdrojového kódu
+			\item Kompilace do mezikódu a jeho následná pøímá interpretace
+			\item Kompilace do mezikódu, jeho následný pøeklad do nativního strojového kódu a vykonání (SELF, Java)
+		\end{itemize}
+
+		Jako mezikód se pou¾ívá tzv. bytekód, co¾ je binární forma mezikódu s èlenìním po bytech. Je nezávislý na platformì, je rychlej¹í ne¾ pøímá interpretace a nevy¾aduje pøekladaè jako souèást virtuálního stroje.\\
+
+		\textbf{Práce s pamìtí} hraje zásadní roli u virtuálního stroje, u OOJ nechápeme pamì» jako sekvenèní prostor pro ukládání dat, ale pøímo jako mno¾inu objektù.\\
+
+		\textbf{Garbage Collector} zaji¹»uje odmazávání nepotøebných ji¾ neodkazovaných objektù. Implementace kvalitního GC není triviální zále¾itost a vìt¹inou se v nìm kombinuje nìkolik implementaèních strategií.
+
+		Nìkteré jazyky umo¾òují pou¾ívat tzv. obrazy objektové pamìti, pøi spu¹tìní programu pak nedochází k postupné inicializaci objektù podle pokynù programu, ale je obnoven naposledy ulo¾ený stav. \\
+
+		\textbf{Nevýhoda virtuálního stroje} je podstatnì vy¹¹í re¾ie, ne¾ u nativních programù, stejnì tak i odstup od hostitelského systému.
+
+
+
+		\paragraph{Návrhové vzory} jsou obecná znovupou¾itelná øe¹ení èasto se vyskytujících problémù v programovém návrhu. Jedná se o popis postupu nebo ¹ablonu, pomocí které pohodlnì daný problém správnì a efektivnì vyøe¹íme.
+
+		Návrhnový vzor systematicky nazývá, vysvìtluje a vyhodnocuje dùle¾itý a v objektovì orientovaných systémech se opakující návrh.
+
+		Lze je zevrubnì rozdìlit následovnì:
+		\begin{enumerate}
+			\item Vytváøecí vzory -- nepøímou cestou pro nás vytváøí objekty, ani¾ bychom je museli vytváøet pøímo a poskytuje nám tak vìt¹í flexibilitu programu
+			\item Strukturální vzory -- napomáhají pøi shlukování objektù do vìt¹ích celkù, jako napøíklad komplexní u¾ivatelské rozhraní apod.
+			\item Vzory chování -- pomáhají pøi definici komunikace mezi objekty v systému a toku øízení ve slo¾itìj¹ích programech
+		\end{enumerate}
+
+		\textbf{Jedináèek (singleton)} je návrhový vzor, který omezuje mo¾nosti vytváøet z tøídy více jak jednu instanci. Bývá nejèastìji implementován pomocí veøejnì statické metody, soukromé statické promìnné a zakázáním volání konstruktoru z ostatních tøíd.\\
+		
+		\textbf{Abstraktní továrna} máme nìkolik sad objektù s podobnou funkèností a chceme v¾dy vybrat jednu sadu a tu pou¾ívat bìhem celého bìhu a mít mo¾nost rychle a efektivnì mìnit pou¾ívanou sadu, ani¾ bychom mìnili samotný kód (pø. Sada grafických prvkù urèitého okenního systému, ka¾dý systém má své)\\
+		
+		\textbf{Adaptér} potøebujeme-li, aby spolupracovaly dvì tøídy s nekompatibilním rozhraním. Konvertuje rozhraní, aby bylo kompatibilní k pou¾ití s druhou tøídou. (pøi vytváøení podtøíd)\\
+		
+		\textbf{Dekorátor} Dynamické pøidìlování nových vlastností a funkènosti objektu za bìhu.Pøíklad: V kavárnì máme spoustu mo¾ností, co pøidat do kafe jako cukr, mlíko atd. (dekorátory) a chceme vypoèítat výslednou cenu. Nechceme ale, aby ve tøídì kafe byly ceny mlíka atd. a nechceme modifikovat tøídu kafe kvùli nové mo¾nosti, tøeba zmrzlinì. Vezmeme tedy konkrétní komponentu (kafe nebo èaj), pøidáme dekorátor (zmrzlina) a máme výsledný objekt. Dekorátory mù¾eme obalovat dal¹ími dekorátory, ale ne komponentami\\
+		
+		\textbf{Jedináèek(singleton)} umo¾òuje vytváøet z tøídy maximálnì jednu instanci. Typicky kdy¾ pøistupuji k nìjakému zdroji (filesystem, tiskárna, sí»ové rozhraní), kdy vy¾adujeme výluèný pøístup. K roz¹íøení chování mù¾eme vyu¾ít dìdiènost. Doba instanciace: Bìhem startu programu/Za bìhu programu\\
+		
+		\textbf{Observer} umo¾òuje ¹íøení události, která nastala v jednom objektu, ke v¹em závislým objektùm\\
+		
+		\textbf{Skladba} pomáhá skládat objekty do stromových hierarchií(není tam cyklus, jednotné rozhraní pro pøístup k uzlùm a listùm) Tam kde objekty vytvaøí hierarchii, kde dohromady tvoøí celek, a kde i celky mohou být podcelky jiných vy¹¹ích celkù.\\
+		
+		\textbf{Strategie} zapouzdøuje algoritmy (objekty) a umo¾òuje jejich zamìnitelnost. Umo¾òuje zmìnu algoritmu nezávisle na klientovi, který ho vyu¾ívá\\
+		
+		\textbf{©ablonová metoda} definuje kostru, jak nìjaký algoritmus funguje, s tím, ¾e nìkteré kroky nechává na potomcích \tedy umo¾òuje tak potomkùm upravit urèité kroky algoritmu bez toho, aby mohli mìnit strukturu algoritmu.\\
+		
+		\textbf{Tovární metoda} pozdr¾í rozhodnutí dokud nevíme jakou tøídu bude potøeba instanciovat (jakou pizzu si zákazník objedná, tak takovou udìláme)\\
+		
+
+
+		\subsection{Zpracování\,--\,analýza, vyhodnocení, interpretace a pøeklad}
+		Pøi zpracování objektovì orientovaného jazyka máme tøi mo¾nosti:
+		\begin{enumerate}
+			\item Provést pøeklad zdrojového textu do samostatného modulu, který obsahuje pøímo instrukce daného procesoru \tedy výsledkem je nativní aplikace, podobná tìm co dostáváme jako výsledek pøekladu vìt¹iny strukturovaných a modulárních jazykù
+			\item V pøípadì èistých objektovì orientovaných jazykù potøebujeme mít pro objektový program k dispozici pamì», která se chová jako objektová a také instrukce pro zasílání zpráv. Je nutné vytvoøit vrstvu mezi procesorem a na¹ím objektovì orientovaným programem \tedy vzniká virtuální stroj, pøekladaè pak provádí transformaci zdrojového textu na kód, kterému rozumí onen virtuální stroj
+			\item Poslední mo¾ností je èistá implementace zdrojového kódu bez pøekladu, která je v¹ak neefektivní a vyu¾ívá se spí¹e výjimeènì	
+		\end{enumerate}
+
+		\paragraph{Pøekladaè} U tøídnì zalo¾ených OOJ se ka¾dá tøída ukládá do zvlá¹tního souboru, kvùli tomuto pøístupu je pøekladaè OOJ minimálnì tak slo¾itý jako pøekladaè modulárních jazykù, kdy musel být schopen vytvoøit graf závislosti pro pøeklad jednotlivých tøíd a poté je je¹tì lineárnì uspoøádat.
+		Dal¹í nezbytností je vyu¾ívání lokálních tabulek symbolù bìhem syntaktické analýzy, napøíklad pro atributy tøídy.
+		Nároèným úkolem je i práce se jmennými prostory a rùznými modifikátory.\\
+
+		\textbf{Lexikální analýza a sémantická analýza} OOJ nevy¾adují ¾ádné speciální pøístupy nebo nároènìj¹í algoritmy. Je ale nutné zároveò provádìt analýzu sémantickou spolu syntaktickou.\\
+
+		\textbf{Sémantická analýza} stì¾ejní u OOJ, ka¾dý jazyk má jiný pøístup k sémantickým kontrolám a analýzám. Rozdíly jsou hlavnì u staticky a dynamicky typovaných jazycích:
+		\begin{itemize}
+			\item Kontrola implicitního pøetypování (èasná / statická vazba)
+			\item Kontrola explicitního pøetypování objektu -- kontrola typu lze provádìt a¾ pøi samotném bìhu programu, proto¾e pøi pøekladu nejsme schopni s jistotou urèit typ objektu, který se budeme pokou¹et explicitnì pøetypovat
+			\item Modifikátory viditelnosti
+		\end{itemize}
+
+
+		\paragraph{Interpret} U interpretace zdrojového kódu OOJ je situace odli¹ná od klasických interpretù ve strukturovaných nebo modulárních jazycích. Vìt¹inou potøebujeme pro práci prostor (workspace), do tohoto prostoru jsou ukládány v¹echny doèasné a potøebné objekty, aby se s nimi dalo pohodlnì manipulovat.
+
+		V interpretech OOJ se uplatòuje pravidlo, ¾e v¹e je objekt, vèetnì pravdivostních i èíselných hodnot. Interpretace probíhá prùbì¾nì, co¾ zpùsobuje rychlou odezvu v pøípadì testování a uèení, Inkrementální programování (Exploratory programming).
+
+		V pøípadì výkonostnì nároèných výpoètu je interpretace nevhodná i pøes mo¾nosti interní optimalizace, která se navenek nesmí projevovat zmìnou chování, ale jedinì vylep¹ením rychlosti èi spotøeby zdrojù.
+		
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\section{Opora 3}
+			\subsection{Deklarativní jazyky}
+			Rozdíl mezi imperativními a deklarativními jazyky je tom, ¾e imperativní krom toho co se má zpracovat je¹tì øe¹í jak se to má zpracovat. \\
+
+			\textbf{Rekurze} v tìchto jazycích nahrazuje cykly. Jedná se o opakování nìjakého výpoètu.
+
+			Mezi deklarativní jazyky øadíme tyto typy:
+			\begin{itemize}
+				\item (Èistì) funkcionální jazyky
+				\item Logické jazyky
+				\item Jazyky pro definici a manipulaci s daty \tedy DDL a DML
+				\item Nìkteré jazyky s grafickým u¾ivatelským rozhraním
+				\item Nìkteré jazyky, èi jejich èásti, pro popis hardware
+			\end{itemize}
+
+			\paragraph{Èistì funkcionální jazyky}\footnote{Napø. Haskell} jejich formální báze je $\lambda$-kalkul, na který lze ka¾dý funkcionální jazyk pøelo¾it. \\
+			Základní stavební jednotkou je funkce, v co nejpøesnìj¹ím vyjádøení.
+			Mají velkou vyjadøovací schopnost.
+
+			\paragraph{Logické jazyky}\footnote{Napø. Prolog} Formální bází tìchto jazykù je podmno¾ina predikátové logiky, proto¾e v¹echny konstrukce z predikátové logiky nejsou zachyceny. Výpoèetní síla je pøesto stejná jako u ostatních jazykù.\\
+			Základní stavební bloky jsou entity jako klauzule, predikáty, termy apod. Na základì vyhodnocovací strategie dochází k vyhodnocení programu -- logické odvození, kdy musejí být splnìna stejná pravidla, jako by se odvození dìlo ruènì na základì pravidel predikátové logiky.	Logické jazyky nejsou urèeny pro poèetní operace.
+
+			\paragraph{Jazyky pro definici a manipulaci dat}\footnote{Napø. SQL, QUEL, QBE} Formální základ mù¾e chybìt, ale mù¾e to být relaèní algebra nebo kalkul nebo jiný tyto jazyky doplòující prvek. \\
+			Mají vazbu na pøirozený jazyk (èasto angliètina). Dotaz v tìchto jazycích èasto pasivnì dekódujeme pomìrnì dobøe. \\
+			Nejsou výpoèetnì úplné \tedy nelze v nich popsat libovolný algoritmus
+
+			\paragraph{Jazyky s grafickým rozhraním} zdrojový tvar programu je v grafické formì a textová reprezentace se buï nepou¾ívá nebo vùbec neexistuje. Patøí sem jazyky pro popis toku dat nebo signálù. Tyto jazyky nemusejí mít jméno, nebo pøejímají jméno podle vývojového prostøedí.
+
+
+			\subsection{Funkcionální programovací jazyky}
+			Paradigma funkcionálních programovacích jazykù: Funkce je základním a jediným výrazovým prostøedkem pro popis a definici algoritmù i dat.\\
+			Formální báze je $\lambda$-kalkul, který je v základním pojetí beztypový. Nicménì je mo¾né zavést typovou teorii, v jednoduchém nebo i slo¾itìj¹ím tvaru \tedy promìnné 2. i vy¹¹ích øádù.\\
+
+			\textbf{Typová inference} je automatické typové odvození u jazykù, které typ neuvádìjí.
+
+			Syntaxe je velmi jednoduchá, ve srovnání s imperativními jazyky, nìkdy ale mù¾e trpìt velkým výskytem oddìlovaèù. Sémantika je èasto neformální, s odkazem na formální bázi jazyka. Formalismy a mechanismy, které definují sémantiku:
+			\begin{itemize}
+				\item Formální systém automatické typové inference
+				\item Formální dùkaz toho, ¾e celý jazyk a jeho zpracování a vyhodnocení je vnitønì bezesporné a správné
+				\item Denotaèní sémantika
+			\end{itemize}
+			
+			\paragraph{Data a jejich zpracování} Datové typy ve funkcionálních jazycích jsou zastoupeny od jednoduchých a¾ po rekurzivní. To, co chybí, doplní knihovnami nebo abstraktními datovými typy.
+
+			Mezi bázové typy patøí klasické skalární nebo z nich pøímo odvozené. Jsou zastoupené ale i strukturované:
+			\begin{itemize}
+				\item Seznamy \tedy nad libovolným typem, kvùli silné typovosti homogenní struktura
+				\item N-tice \tedy heterogenní datové struktury, nemají explicitní pojmenování
+				\item U¾ivatelské typy
+				\begin{itemize}
+					\item Výètové typy
+					\item Záznamy, i pojmenované
+					\item Variantní záznamy (jméno u ka¾dé varianty)
+					\item Rekurzivní datové typy (mohou kombinovat pøedchozí vlastnosti)
+				\end{itemize}
+			\end{itemize}
+
+			\textbf{Vstupy a výstupy} jsou ovládány speciálními typy, které jsou zastoupeny v knihovnách, ale èasto implementovány v jiném jazyce.
+			Jsou 2 hlavní principy pro realizaci operací:
+			\begin{itemize}
+				\pojem{Kontinuace}{èasto se pojí s proudovými vstupy a výstupy, idea spoèívá ve vytvoøení dvou funkcí, které pokraèují v závislosti na výsledku vykonání operace}
+				\pojem{Monády}{aby bylo zachováno základní paradigma funkce, kdy její výsledek je dán kombinací parametrù, nikoliv historií, akce je potom nìco co nám to zaruèí}
+			\end{itemize}
+
+			\textbf{Pole} se díky své imperativní povaze typicky nevyskytují. U ne èistì funkcionálních jazykù se setkáváme s tzv. mutovatelnými polo¾kami, naopak u èistì funkcionálních implementace zcela chybí a nebo se k nim pøistupuje jako k monádùm.\\
+
+			\textbf{Typové promìnné} zastupují konkrétní typ, ten se doplní za promìnnou a¾ podle parametrù v místì aplikace.
+
+			\paragraph{Øídící struktury} Základními strukturami jsou funkce, které se mohou vyskytovat ve zdrojovém textu libovolnì. Rekurzí se dá na funkce odvolávat pouze pokud ji¾ byly definovány. Funkce lze staticky vnoøovat a vytváøet tak lokální funkce, které pomáhají v práci globálnì dosa¾itelným funkcím. Deklarace se spí¹e nevyskytují, nebo vùbec neexistují.
+
+			I ve funkcionálních jazycích se vyu¾ívá modulù, kde je jejich rozhraní odvozeno z nich samých a není tedy nutné explicitnì nìjaké vytváøet.
+
+			Vìtvení programu musí být úplné\footnote{Napø. vìtvení \texttt{if-then-else} musí mít v¾dy èást \texttt{else}} proto, aby pro v¹echny kombinace vstupù bylo mo¾no dospìt k výsledku. \\
+			
+			\paragraph{Návrh programu} Pøi návrhu programu se prakticky nedají uplatnit techniky z imperativního programování:
+			\begin{itemize}
+				\item Promìnná je pojmenovaná adresa v pamìti
+				\item Operace jsou provádìny v poøadí uvedeném ve zdrojovém textu
+				\item Je mo¾né vyu¾ít ukazatelù
+				\item Známe stav výpoètu a ten manipulujeme
+			\end{itemize}
+			
+			Naopak by návrh programu mìl sledovat strategii vyhodnocení, proto¾e tak lze vytì¾it z jazyka v¹echny jeho výhody, co¾ se projeví na efektivitì zpracování.
+
+
+			\paragraph{Pøeklad, interpretace} pøeklad je velmi nároèný, pøední èást je velmi zesílená, syntaktická a sémantická analýza probíhá v podstatì nìkolikrát, na rùzných úrovních jazyka. Nejslo¾itìj¹í úlohou pøekladaèe je pøevést deklarativní popis na serializovaný výpoèet realizovaný na von Neumannovské architektuøe dne¹ních poèítaèù.
+
+			Proè mù¾e syntaktická analýza probìhnout nìkolikrát? Postup zpracování funkcionálního jazyka:
+			\begin{enumerate}
+				\item Expanze syntaktických zkratek
+				\item Redukce výrazových schopností jazyka, probíhá v nìkolika krocích \tedy pøevedení výrazovì bohatých konstrukcí na jednodu¹¹í konstrukce, a¾ zbyde malá mno¾ina základních
+				\item Automatické odvození typù, typová kontrola
+				\item Serializace operací -- závislá na strategii vyhodnocení
+				\item Kompletace vìtvení na úrovní rozpoznávání vzorù
+				\item Pøevod rozpoznávání vzorù na testování znaèek a kaskádu pøíkazù if-then-else
+				\item Závìreèná fáze, pøíprava pro optimalizace a generování kódu
+			\end{enumerate}
+
+			\paragraph{Vyhodnocování strategie} jsou podstatné pøi generování kódu, jeliko¾ urèují klíèové vlastnosti jazyka. Ovlivòují tok øízení, pøedávání toku øízení a tvorbu programu. \\
+			
+			\textbf{Volání hodnotou} \\	Známá strategie z imperativních jazykù, kde jsou parametry vyèísleny pøed voláním funkce, poèet vyhodnocení výrazu je minimálnì jeden, horní mez není urèená.
+
+			Striktní evaluace znamená, ¾e k vyhodnocení dojde právì jednou a hodnoty jsou sdíleny. \\
+
+			\textbf{Volání v pøípadì potøeby} \\ Strategie, kdy dochází k zavolání funkce bez toho, aby se vyhodnotily parametry \tedy jsou pro nì vytvoøeny kontextové obálky. Parametry se tedy vyhodnotí a¾ v pøípadì, kdy ho funkce potøebuje. Poèet vyhodnocení je tedy minimálnì ¾ádný a horní mez opìt není urèena.
+
+			Z této strategie se vyvinula tzv. lazy evaluation, která výrazy vyhodnocuje nejvíce jedenkrát. \\
+
+			\textbf{Dal¹í strategie} jsou významovì nìkde mezi pøedchozími dvìmi. Vyu¾ívají èasto analýzy striktnosti parametrù k tomu, aby dopøedu pøedepsaly strategii vyhodnocení pro jednotlivé pøípady volání funkcí. \\
+			
+			\pagebreak
+			\textbf{Generování kódu:}
+			\begin{itemize}
+				\item Pøímá vazba na cílovou platformu -- velmi obtí¾né, nutné dal¹í sni¾ování síly jazyka, úzce spjato s knihovnami pro bìh programu, nìkteré vlastnosti jazyka mohou tak vymizet
+				\item Speciální cílový kód urèený pro funkcionální jazyky -- pøeklad je jednoduchý, interpretace takového kódu, pøípadnì jeho semi-interpretace
+			\end{itemize}
+
+			\paragraph{Interprety} funkcionálních jazykù v èisté podobì neexistují, v praxi se jedná o pøeklad do specializovaného virtuálního kódu urèeného pro funkcionální jazyky.
+
+			Takový virtuální kód mù¾e být tøeba graf, reprezentace funkcionálních programù takovouto formou je pøirozená a jednoduchá. Zpracování programu je potom redukce takového grafu, ale kvùli rychlosti zpracování se pou¾ívá virtuální kód, který je lineárním zápisem grafu. Dva pøíklady virtuálního kódu:
+			\begin{itemize}
+				\item Three instruction code
+				\item Spineless tag-less G-machine
+			\end{itemize}
+
+			\paragraph{Zpracování typù} je ve funkcionálních jazycích zcela speciální kategorie. Jedná-li se o netypovaný jazyk, kontrola se prování a¾ za bìhu, jako u imperativních jazykù. Èasto jsou ale jazyky typované, vyu¾ívá se tedy typového odvození a striktní typové kontroly. \\
+
+			\textbf{Typové tøídy} sou¾í k øe¹ení problému se specializovanými operátory ohlednì rùzných typù operandù. Sdru¾ují funkce a operátory do skupin, kde jsou svázány jistým spoleèným jmenovatelem. \\
+
+			
+			\textbf{Formální verifikace} Díky vztahu k $\lambda$-kalkulu je mo¾nost formálnì verifikovat programy na výraznì vy¹¹í úrovni.\\
+
+			\textbf{Mo¾nosti a vhodnosti vyu¾ití} \\
+			Nabízejí øadu standardních vlastností, které jsou vhodné pro týmovou spolupráci a tvorbu rozsáhlých programù \tedy modularita, strukturované datové typy, apod.
+			
+
+		\subsection{Logické programovací jazyky}
+			Paradigma logický jazykù: Program v logických programovacích jazycích sestáva z predikátù pøípadnì kombinovaných s omezeními, které pracují nad atomy, termy, èi predikáty.
+
+			Nejznámìj¹í a nejroz¹íøenìj¹í reprezentant je Prolog. Pracuje s predikáty, které mají specifický tvar zvaný Hornovy klauzule.\\
+
+			\textbf{Predikátová logika} je formální báze logických programovacích jazykù. Pøítomnost formální báze je nezbytná u logických jazykù \tedy pùvodní urèení tìchto jazykù bylo automatizovat formální dùkaz v predikátové logice.\\
+
+			\textbf{Jazyk predikátové logiky} se syntakticky skládá z termù, predikátù a formulí. Termy jsou konstanty, promìnné, funkèní symboly.
+
+			\textbf{Term} v predikátové logice je:
+			\begin{itemize}
+				\item Ka¾dá promìnná
+				\item Výraz $f(t_1,\ldots,t_n)$, je-li $f$ n-ární funkèní symbol a $t_1,\ldots,t_n$ jsou termy
+				\item Ka¾dý výraz získaný koneèným poètem aplikací pøechozích dvou pravidel, nic jiného term není
+			\end{itemize}
+			Jeliko¾ jsou termy definovány koneèným poètem pravidel, øíkáme, ¾e to jsou koneèná slova.
+
+			Základní predikáty jsou potom pravda ($T$, \texttt{true}) a nepravda ($F$, \texttt{false}). Formule potom definujeme z predikátù pomocí logických spojek a kvantifikátorù. 
+
+			\textbf{Formule} v predikátové logice je:
+			\begin{itemize}
+				\item výraz $p(t_1,\ldots,t_n)$, je-li $p$ n-ární predikátový symbol a $t_1,\ldots,t_n$ jsou termy, tento výraz je zván takté¾ atomická formule
+				\item výraz: $\neg A$, $(A \land B)$, $(A \lor B)$, $(A \Rightarrow B)$, $(A \Longleftrightarrow B)$, pokud $A$ a $B$ jsou formule
+				\item výraz: $\forall x: A, \exists x: A$, pokud $x$ je promìnná a $A$ je formule.	
+			\end{itemize}
+			
+			Sémantika predikátové logiky není dána hned, ale nejdøíve je tøeba definovat interpretaci. Interpretace pøiøazuje význam konstantám, funkcím a predikátùm.\\
+
+			\textbf{Èásteèná rozhodnutelnost} znamená, ¾e nejde v¾dy zcela rozhodnout, zda-li je formule splnitelná èi platná.\\
+
+			\textbf{Splnitelnost} formule je za tìch podmínek, ¾e existuje taková interpretace, která je modelem. Formule je modelem tehdy, kdy¾ je pravdivá pro ka¾dé ohodnocení volných promìnných.\\
+
+			\textbf{Platnost} formule znamená, ¾e je formule pravdivá pøi ka¾dé interpretaci. 
+
+			
+			\paragraph{Syntaxe a sémantika} Díky snaze prezentovat jednoduchost syntaxe jazyka se setkáváme i s formálními definicemi. Formálnì se jedná o bezkontextové gramatiky -- zápis termù a predikátù a zejména o notaci pro logické operátory a spojky.
+
+			Sémantika není formálnì prezentována vùbec, neznamená to v¹ak ¾e neexistuje. Velmi èasto se jedná o vysvìtlení na pøíkladech v textu a nebo rovnou, aby si je mohl u¾ivatel vyzkou¹et.
+
+
+			\paragraph{Data a jejich zpracování} Logické jazyky obsahují klasicky rozsah datových typù od jednoduchých a¾ po slo¾ité slo¾ené struktury. Pomocí knihoven lze tento rozsah roz¹íøit o dal¹í typy.
+
+			Jako prvotní datovou abstrakci mù¾eme brát termy. Lze je pomocí implementaèních trikù konvertovat na predikáty a vyhodnotit. Díky této vlastnosti mohou logické jazyky provádìt sestavování èásti programu a¾ za jeho bìhu. Termy mohou být brány jako pojmenované n-tice, napø:\\ \texttt{osoba('Jan', 'Kadlec', 1969).} \\
+
+
+			Termy lze vnoøovat, uzavírají se nad atomy. Atomy hrají velkou roli \tedy mohou nést jakoukoliv hodnotu.\\
+
+			\textbf{Seznamy} i literály se zapisují podobnì a práce s nimi je prakticky shodná. V logických jazycích jsou ale seznamy vìt¹inou heterogenní datová struktura.
+
+			Jsou rùzné techniky práce se seznamy, èi termy nebo obecnì daty:
+			\begin{itemize}
+				\item Rozpoznávání a unifikace vzorù\footnote{Pattern matching} v hlavièce klauzule -- práce s parametry predikátu
+				\item Pøevodem na jiný typ -- napø. pøevod mezi termem a sezamem
+				\item Pøímý pøístup k termùm
+			\end{itemize} 
+
+
+			\paragraph{Øídící struktury} Základní struktury jsou predikáty/klauzuje, které mají libovolné rozmístìní po zdrojovém textu. Deklarace nejsou povoleny -- nejsou potøeba. Zjednodu¹ený typ deklarace mù¾eme najít pro deklaraci dynamických klauzují, pro deklaraci predikátù exportovaných z modulu. \\
+
+
+			\textbf{Øízení výpoètu} je dáno cílem výpoètu, kterého chceme dosáhnout, ten pak sestává z dílèích podcílù. Pokud dospìjeme k výsledku, cíl uspìl, podobnì u podcílù. V opaèném pøípadì cíle selhávají.
+
+			
+			Vlastní tok øízení/vyhodnocení programu je ovlivnìn výbìrem predikátu/klauzulí na základì unifikace vzorù a na základì uspívání/selhávání tìla dané klauzule. Tìlo klauzuje je specifikováno øadou predikátù. Strategie vyhodnocení rozhodne v jakém poøadí budou predikáty zpracovány, typicky je to zleva doprava. Typ operátoru, pøípadnì podmínìných vyhodnocení\footnote{if-then-else} mù¾e øídit lokální smìr vyhodnocení. \\
+
+			Uva¾ujeme-li Hornovy klauzule, pak zápis v Prologu je tento:
+			
+			\texttt{a($\ldots$) :- b1($\ldots$), $\ldots$, bm($\ldots$).}
+	
+			Co¾ znamená, v jazyce predikátové logiky:
+
+			\texttt{$\forall (a(\ldots) \leftarrow b_1(\ldots) \land \ldots \land b_m(\ldots))$}
+
+			Dále mù¾eme upravit:
+
+			\texttt{$\forall (a(\ldots) \lor \neg (b_1(\ldots) \land \ldots \land b_m(\ldots)))$}
+
+			\texttt{$\forall (a(\ldots) \lor \neg b_1(\ldots) \lor \ldots \lor \neg b_m(\ldots))$}
+
+			Výsledný tvar je mo¾né jednodu¹eji programovì vyhodnotit, proto¾e vyhodnocením ka¾dého podcíle ubude z výrazù\footnote{Nepravda nebo výraz \tedy výraz: $\neg T \lor V \rightarrow V$, kde $T$ je pravda a $V$ je výraz} jeden èlen. \\
+
+			\textbf{Backtracking} nastává v pøípadì, ¾e pøi vyhodnocování dojde k selhání. Vrací se ve výpoètu zpìt a hledá jiné mo¾nosti uspìní ji¾ døívì úspì¹ných podcílù. \\
+
+
+			\textbf{Návrh programu} a implementace mù¾e probíhat jak shora dolù, tak zdola nahoru, nebo kombinací. Díky absenci deklarací je mo¾né kdykoliv a jakkoliv modifikovat program.
+
+			Prolog umí mìnit obsah programu za bìhu, má vestavìné predikáty pro odstranìní i pro pøidání nových.\\
+
+			Logické programovací jazyky jsou jedinou mo¾ností automatizované podpory dùkazù. Nabízejí, oproti jiným jazykùm, zpìtné navracení, které je jinak nutno øe¹it jinak. Vyu¾ívají Garbage Collector pro správu pamìti.
+
+			Neexistuje pro nì, ale èistá kompilace. Rychlost vyhodnocení tak klesá a klesá je¹tì víc s délkou programu. Modularita tìchto jazykù je, a¾ na výjimky, na úrovni zdrojových kódù.
+
+			Tyto negativa spolu s výjimeènými vlastnostmi tyto jazyky odsunuly spí¹e do speciálních oblastí -- simulace, verifikace, apod.
+
+			\paragraph{Pøeklad, interpretace} Pøeklad tìchto jazykù je prakticky nemo¾ný z dùvodu mo¾nosti modifikace programu za bìhu, tudí¾ bìhem pøekladu neznáme pøesný poèet klauzulí apod. Pokud je ale pøeklad uskuteènitelný, výsledkem je kód, kdy jeho èásti jsou pøímo vyhodnocovány, ale souèástí je také plný interpret, který èásti interpretuje a pøípadnì supluje vyhodnocovací strategii pro klauzule utvoøené za bìhu programu.
+
+			Pøeklad se vìt¹inou dìje do vy¹¹ích programovacích jazykù nebo do speciálního mezikódu, pøímo reflektující stavbu klauzulí, který je potom interpretován.\footnote{Napøíklad jazyk G\"odel byl pøekládán do Prologu}\\
+
+			Interpretace je mnohem èastìj¹í, pøímá interpretace není mo¾ná. Dochází k transformaci do interní podoby (stromová struktura) a ulo¾ení do databáze (u¾itím rozptylovaících funkcí -- hash function). Databáze má praktické limity jak pro celkový obsah, tak pro efektivní vyhodnocení.
+
+			Interpret potom pracuje nad takovou interní reprezentací a pøistupuje pøímo do databáze. Opìt platí vyu¾ití Garbage Collectoru a zpìtného navracení. Zpùsob vnitøního ulo¾ení je optimalizován pro zrychlení vyhodnocení.
+
+
+			\paragraph{SLD rezoluce} je vyhodnocovací strategie pro jazyk Prolog. Vstupem jsou Hornovy klauzule. Vyhodnocení probíhá:
+			\begin{enumerate}
+				\item Klauzule jsou z databáze vybírány shora dolù, dle umístìní ve vstupním textu.
+				\item Tìla predikátù jsou zpracovávána zleva doprava
+			\end{enumerate}
+			
+			Jedná se tedy o prohledávání do hloubky -- dokud neuspìje první podcíl, ostatní zùstávají nedotèené.
+
+			Pøíklad:
+			\begin{quote}
+			\begin{verbatim}
+			1: a(...) :- b(...), c(...), d(...).
+			2: a(...) :- d(...), e(...).
+
+			3: b(...) :- c(...), d(...), c(...).
+			4: b(...) :- e(...).
+
+			5: c(...) :- d(...).
+			6: c(...) :- e(...), d(...), c(...).
+
+			7: d(...).
+			8: d(...) :- e(...), d(...).
+
+			9: e(...).
+			\end{verbatim}
+			\end{quote}
+			Øe¹ení:
+			Chceme vyhodnotit predikát a, vyhodnocení tedy zaène bodem 1.
+
+			\texttt{a(...) -->> b(...), c(...), d(...).}
+
+			Dále je nutné vyhodnocení prvního podcíle b(...).
+
+			\texttt{b(...) -->> c(...), d(...), c(...).}
+
+			Stejný nech» je postup s podcílem c, tedy:
+
+			\texttt{c(...) -->> d(...).}
+
+			Tady se dostáváme do stavu, kdy je potøeba ovìøit klauzuli d, která je ale bez tìla (øíká se jí fakt). Která ale sel¾e:
+
+			\texttt{d(...).}
+
+			Musíme tedy uplatnit druhou klauzuli predíkátu d, tedy:
+
+			\texttt{d(...) -->> e(...), d(...).}
+
+			Prùbìhem tohoto postupu dochází k unifikaci mezi promìnnými a hodnotami, které se objevují na pøíslu¹ných pozicích parametrù. Pokud dojde k uspìní cíle, tak kromì oznámení úspìchu je vypsána substituce pro nejvy¹¹í úroveò promìnných.\\
+
+			\textbf{Unifikace} je v logických jazycích velmi dùle¾itý postup. Probíhá pøi hledání hlavièky podcíle v databázi klauzulí, kdy klauzule oèekává parametry jistého tvaru nebo je pøijímá, pøípadnì v dobì explicitního vynucení unifikace, kdy jsou proti sobì postaveny termy/promìnné.
+
+			Dochází tak k vzájemnému provázání mezi promìnnými a dal¹ími entitami v celém programu. Unifikace probíhá v¾dy na úrovni termù a hledá se nejobecnìj¹í unifikátor\footnote{Most general unifier, MGU}.\\
+
+			\textbf{Nejobecnìj¹í unifikátor} je takový, ¾e neexistuje ¾ádný jiný unifikátor, který by pro nìjakou èást unifikace nabízel obecnìj¹í øe¹ení, pøitom dva unifikátory jsou nejobecnìj¹í, pokud se li¹í pouze pøejmenováním volných promìnných.\\
+
+			Typické vlastnosti unifikace v logických jazycích:
+			\begin{itemize}
+				\pojem{Kontrola výskytu}{ovìøuje se, zda proti sobì stojí dvì identické promìnné, nebo» to mù¾e v øadì pøípadù vést k nekoneèným termùm, apod.}
+				\pojem{Hloubka unifikace}{unifikace neprobíhá na libovolnì rozsáhlých termech}
+				\pojem{Zpracování cyklických a nekoneèných struktur}{èasto zakázáno a úzce souvisí s kontrolou výskytu}
+			\end{itemize}
+
+			\textbf{Robinsonùv algoritmus}
+			\begin{quote}
+			\begin{alltt}
+			Vstup: \(\Delta\), mno¾ina literálù
+			Výstup: \(\mu\), mgu nebo selhání/neúspìch
+
+			\(\mu\) = []                                              (prázdná substituce)
+			dokud v \(\mu\)(\(\Delta\)) existuje nesouhlasný pár
+			    najdi první nesouhlasný pár \(p\) v \(\mu\)(\(\Delta\))
+			    pokud v \(p\) není ¾ádný volná promìnná
+			        skonèi selháním unifikace
+			    jinak
+			        nech» \(p\) = (\(x\),\(t\)), kde \(x\) je promìnná
+			        pokud se \(x\) vyskytuje v \(t\)                    (kontrola výskytu)
+			            skonèi selháním unifikace
+			        jinak
+			            nastav \(\mu\) = \(\mu\) \(\circ\) [\(t\)/\(x\)]
+			vra» \(\mu\)
+			\end{alltt}
+			\end{quote}
+
+			\textbf{Zpracování typù} se provádí a¾ ve chvíli kdy to nìjaká operace vy¾aduje. Poèet základních typù je nízký a jen ojedinìle je mù¾e programátor obohatit o svoje. Síla termù a struktur je v tomto pøípadì dostaèující. \\
+
+			\textbf{Formální verifikace} programù v logických jazycích neprovádíme, jedná se o formule v predikátové logice, tudí¾ jsme omezeni samotnou predikátovou logikou. U strukturálních algoritmù je mo¾né pou¾ít strukturální indukci.
+
+			\paragraph{Mo¾nosti a vhodnosti vyu¾ití} Pro vìt¹í projekty se tyto jazyky mohou hodit, ale nemusí. Pomìrnì rozsáhlé programy mohou být vytvoøeny jedním programátorem.
+
+			Pøi tvorbì programu je potøeba pøemý¹let, jakým zpùsobem se vybírá klauzule pro dal¹í vyhodnocení, stejnì tak to, ¾e systém má vestavìnou strategii zpìtného navracení.
+
+			Je potøeba si dávat pozor na efektivitu a optimálnost programu, proto¾e vyhodnocovací mechanismus uplatòuje slepou strategii výpoètu, kterou øídí program, ¾ádné zefektivnìní není.
+
+
+
+		\subsection{Ostatní deklarativní jazyky}
+			\subsubsection{Jazyky pro definici a manipulaci dat} se rozdìlují do dvou druhù:
+			\begin{itemize}
+				\item DDL -- Data Definition Language
+				\item DML -- Data Manipulation Language
+			\end{itemize}
+
+			Mají ni¾¹í vyjadøovací sílu ne¾ Turingovy stroje (není mo¾né jimi popsat libovolný algoritmus). I kdy¾ existuje formální základ jejich syntaxe, tak jsou èasto blízké pøirozeným jazykùm, resp. angliètinì. Je tedy snadné pøeèíst a pochopit co popisují.
+
+			Vytváøené akce typicky nemají pojmenování a není mo¾né se tedy na nì odvolávat a takto strukturovat. Èasto se to obchází integrací do skriptovacího jazyka, který to umo¾òuje.
+
+			Èasto jazyky obsahují velké mno¾ství klíèových slov, funkcí èi operátorù. Rùzné databázové systémy jsou rùznì roz¹iøovány a upravovány, aby poskytly vlastnosti vycházející z implementace SØBD a nabídly tak nìjakou výhodu oproti ostatním implementacím.
+
+			Existuje gramatika, která rozhoduje u zpracování tìchto jazykù. Syntaktická analýza se pak dá zpracovat bì¾nými prostøedky. Sémantická analýza je závislá na okam¾itém stavu SØBD, pokud se jedná o dotaz, který ète z báze dat, tak výsledkem sémantické analýzy a pøípravy vykonání dotazu je i postup v jakém se jednotlivé kroky mají vykonat.
+
+			Po¾adavky jsou vyhodnocovány okam¾itì s tím, ¾e po¾adavek je interpretován, po kompletní analýze a pøevodu na postup vykonání základních operací. \\
+
+			\textbf{Distribuované databáze} vy¾adují perfektní pøípravu dotazu, nebo» pøesun velkého mno¾ství dat po síti by byl pochopitelnì né¾adoucí, zvlá¹tì pokud by to bylo zbyteèné.
+
+			Kromì klasických optimalizaèních postupù se nasazují postupy pro paralelní vyhodnocení.\\
+
+			\textbf{Databáze pro speciální typ dat} jsou napøíklad prostorové, temporální, multimediální, které disponují vestavìnými operacemi pro manipulaci se specifickým typem dat. \\
+
+
+			\subsubsection{Jazyky s grafickým rozhraním} pøedstavují diagramy datových èi signálových tokù:
+			\begin{itemize}
+				\item DFD -- Data Flow Diagram
+				\item SFD -- Signal Flow Diagram
+			\end{itemize}
+
+			Nìkdy jde do tého tøídy zaøadit i stavové diagramy, èi koneèné automaty.
+
+			Tvorba programu v tìchto systémech se hodnì podobá kreslení v programu pro vektorovou grafiku (CAD systémy, apod.). Èasto jsou manipulovány i podobné objekty, dají se otáèet, propojovat, apod.
+
+			Program mù¾e být ulo¾en v textové formì (napø. XML), ale není to vhodné pro pøímý zápis.
+
+			Pro odladìní programù je typickou souèástí vývojového prostøedí simulátor. Cílová platforma je èasto odli¹ná od té na které je program vyvíjen.
+
+			Analýza takovýchto jazykù probíhá bìhem tvorby diagramu. Pøed simulací, èi generováním cílového kódu v¹ak probìhne kompletní analýza, která zkontroluje korektnosti diagramu. \\
+
+
+
+			\subsubsection{Srovnání deklarativních jazykù} Je mo¾né vypozorovat nìkteré spoleèné a typické vlastnosti, které nalezneme u v¹ech, jsou to zejména:
+			\begin{itemize}
+				\item Pøed vyhodnocením, èi generováním kódu dochází k serializaci kódu, která je øe¹ena kompilátorem, èi interpretem
+				\item Pokud je porovnáváme s jazyky imperativními, tak nám v¾dy nabízejí ''nìco navíc''
+				\item Úroveò abstrakce je èasto mnohem vy¹¹í (hardware je èasto úplnì schován a není mo¾né na nìj nijak pøistoupit)
+				\item Naprostá vìt¹ina tìchto jazykù má jasnou a èasto i pøímou vazbu na nìjakou formální bázi na které je postavena
+			\end{itemize}
+
+			\noindent Mezi jednotlivými typy deklarativních jazykù v¹ak mù¾eme najít i øadu odli¹nosti:
+			\begin{itemize}
+				\item Slo¾itost analýzy je rùzná (Prolog vs. Haskell vs. SQL)
+				\item Práce s typy a jejich zpracování je rùzné (Prolog vs. Haskell)
+				\item Implicitní mo¾nosti paralelizace èi serializace se rùzní (Prolog vs. SQL)
+				\item Výpoèetní síla (SQL vs. Haskell)
+				\item Úroveò deklarativy (Haskell vs. Prolog)
+				\item Typická aplikaèní doména
+			\end{itemize}
+\end{document}

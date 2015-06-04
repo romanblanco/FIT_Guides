@@ -1,0 +1,418 @@
+\documentclass[12pt,a4paper,titlepage,final]{article}
+% cestina a fonty
+\usepackage[czech]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[top=2cm, left=1.5cm, text={18cm, 26cm}, ignorefoot]{geometry}
+\usepackage{indentfirst}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{ISA 2014/15}
+\rhead{\textbf{Nejedná se o oficiální materiál!}}
+\cfoot{\thepage}
+
+\begin{document}
+{ \huge Příprava na ISA semestrálku }
+
+\begin{enumerate}
+	\item NetFlow - vysvětlit 3 pojmy: agregace, filtrování, vzorkování
+	\begin{itemize}
+		\item agregace - podle klíčových položek, ukládání záznamů do Aggregation Cache
+		\item filtrování - klasifikace provozu na základě hodnot v hlavičce paketů
+		\item vzorkování - pro snížení nároků na hardware	
+	\end{itemize}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+	\item Diferenciované služby - podle čeho klasifikují toky, vyjmenovat třídy
+	\begin{itemize}
+		\item Přednostní přeposílání -- \textbf{EF} (Expedited Forwarding)
+		\item Garantované přeposílání -- \textbf{AF} (Assured Forwarding)
+		\item Největší úsilí -- \textbf{BE} (Best Effort)
+	\end{itemize}
+	
+	
+	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+	\item H.323 - nakresleno schéma komunikace, popsat - doplnit příkazy, protokoly, ...
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+	\item DNSSEC - řetězec důvěry, vysvětlit, jak to funguje, co je k tomu potřeba, ukázat na příkladu
+	\begin{itemize}
+		\item zabezpečení dat DNS pomocí asymetrické kryptografie
+		\item pár veřejný-tajný klíč pro každou zónu
+		\item ZSK (zone signing key) a KSK (key signing key)
+		\item zabezpečení zvyšuje velikost paketu DNS
+	\end{itemize}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+	\item 4 zkratky - vysvětlit, co znamenají, jaké použití; RTSP, MPEG TS, SDP, MCU
+	\begin{itemize}
+		\item Real-Time Streaming Protocol
+		\begin{itemize}
+			\item signalizační protokol
+			\item k navázání a ukončení spojení
+			\item k řízení jednoho či více časově synchronizovaných médií
+			\item textový protokol, podobný HTML
+		\end{itemize}
+
+		\item MPEG Transport Stream 
+		\begin{itemize}
+			\item způsob kombinování (multiplexing) dat do jednoho datového toku
+		\end{itemize}
+		
+		\item Session Description Protocol
+		\begin{itemize}
+			\item určený k popisu vlastností relace multimediálního přenosu dat
+		\end{itemize}
+		\item Multipoint Control Unit
+		\begin{itemize}
+			\item umožňuje pořádat vícebodové streamy	
+			\item přijímá příchozí streamy a dekóduje je na příslušný výstupní stream
+		\end{itemize}
+	\end{itemize}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+	\item Příklad: zadána pravidla firewallu, zapsat je pomocí bitových vektorů a poté určit, které se použije na konkrétní zadanou komunikaci; jak implementovat?
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+	\item Porovnejte \textbf{SNMP} a \textbf{RMON} ze všech hledisek (architektura, konfigurace atp.)
+	\begin{itemize}
+		\item \textbf{SNMP} -- Simple Network Management Protocol
+		\begin{itemize}
+			\item řídící stanice NMS, agent, databáze MIB, protokol SNMP
+			\item Jazyk SMI $\rightarrow$ OID -- object ID
+			\item 
+		\end{itemize}	
+		
+		\item \textbf{RMON} -- Remote Monitoring
+		\begin{itemize}
+			\item sonda RMON, řídící stanice NMS, protokol SNMP	
+			\item definuje speciální MIB
+			\item statistiky o celém segmentu sítě
+		\end{itemize}
+
+	\end{itemize}
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Popsat princip \textbf{WRED}
+	\begin{itemize}
+		\item jako u RED
+		\item pro každý paket ve fronte vypočte aktuální délku fronty
+		\item pro nový paket dojde ke klasifikaci podle hodnoty IP precedence nebo DSCP
+		\item podle třídy a aktuální délky fronty se určí pravděpodobnost zahození
+	\end{itemize}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Byl zadán nějaký konfigurák LDAPu a bylo třeba určit, co udělá. Něco společného s case sensitivitou.
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Definuj datovou strukturu trie, využití a následně příklad. Použij trie s krokem 3 a 5.
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Význam zkratek: multihoming, end-to-end, řízení zahlcení, segmentace
+	\begin{itemize}
+		\item Multihoming -- technika pro zvýšení spolehlivosti připojení k internetu, připojení více linkami najednou
+		\item End-to-end -- ???
+		\item Řízení zahlcení -- zpomaluje spojení, pokud je některá linka zahlcena.
+		\item Segmentace -- ? rozdělení paketu na segmenty ?
+	\end{itemize}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Doplnit tabulku s typy záznamů DNS: SOA, RRSIG, DNSKEY, NAPTR
+	\begin{itemize}
+		\item \texttt{SOA} -- start of authority, obsahuje název primárního serveru a emailovou adresu správce
+		\item \texttt{RRSIG} -- podpis daného záznamu
+		\item \texttt{DNSKEY} -- obsahuje veřejný klíč pro ověření podpisů
+		\item \texttt{NAPTR} -- mapování řetězců na data, použití REGEX na dynamické záznamy
+	\end{itemize}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Které operace jsou blokující a jak se tomu můžeme vyhnout?
+	\begin{itemize}
+		\item \texttt{accept()} a \texttt{recvfrom()}
+		\item použití neblokujících schránek
+		\item souběžné čtení více požadavků jedním procesem (\texttt{select} a \texttt{pool})
+		\item řízení I/O operací pomocí signálů SIGIO 	
+	\end{itemize}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item K čemu je struktura FES u simulací
+	\begin{itemize}
+		\item Future Event Set
+		\item obsahuje množinu událostí, které se budou v simulaci zpracovávat
+		\item události jsou zpracovávány na základě jejich časových razítek	
+	\end{itemize}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item SIP, popsat co se děje s IP telefonem, když se připojí do sítě až k navázání komunikace a popsat protokoly
+	\begin{itemize}
+		\item Volající pošle \texttt{INVITE}
+		\item pokud je Volaný připravený, odpovídá zprávou \texttt{OK}  	
+		\item Volající potvrdí příjetí a začne komunikace
+	\end{itemize}		
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Vysvětlení 5 pojmů (bitový vektor, dimenze, rozšíření prefixu, lulea) a uvést příklady použití
+	\begin{itemize}
+		\item \textbf{Bitový vektor} -- binárně reprezentuje určitý prefix pro lineární vyhledávání ve stromu \emph{trie}. Příklad: firewall
+		\item \textbf{Dimenze} -- položky pravidla (asi)
+		\item \textbf{Rozšíření prefixů} -- technika na převod prefixů určité délky na ekvivalentní prefixy větší délky. Příklad: krok 3 a 5
+		\item \textbf{Lulea} -- metoda komprese vícebitového stromu \emph{trie}, odstraňuje redundantní informace vzniklé rozšiřováním prefixů.
+	\end{itemize}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Popis protokolu H.323 (225, RAS, Q.931, 245)
+	\begin{itemize}
+		\item zahrnuje více protokolů
+		\item skládá se z: terminál, brána, ústředna, MCU
+		\item \textbf{H.225} -- signalizace volání, přes ústřednu nebo přímo
+		\item \textbf{RAS} -- správa, registrace, administrace volajících
+		\item \textbf{Q.931} -- kanál H.225 CS pro signalizaci
+		\item \textbf{H.245} -- řídící kanál 
+	\end{itemize}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Popis autentizace 802.1x s LDAP
+	\begin{enumerate}
+		\item Uživatel se po připojení k LAN autentizuje přes EAP
+		\item Přepínač pošle autentizační požadavek serveru Radius
+		\item Server Radius využije databázi LDAP pro vyhledání uživatele
+		\item Po úspěšné autentizaci se klient připojí do sítě LAN
+	\end{enumerate}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Rozdělení IPv4 na třídy + privátní adresy
+	\begin{itemize}
+		\item třídy: A, B, C, D, E
+		\item \textbf{A} -- \texttt{0-127.0.0.0 (255.0.0.0)}
+		\item \textbf{B} -- \texttt{128-191.0.0.0 (255.255.0.0)}
+		\item \textbf{C} -- \texttt{192-223.0.0.0 (255.255.255.0)}
+		\item \textbf{D} -- \texttt{224-239.0.0.0 (255.255.255.255)}
+		\item \textbf{E} -- \texttt{240-255.0.0.0 (...)}   	
+	\end{itemize}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Multicast pomocí socketů (jak, příkazy, atd..)
+	\begin{itemize}
+		\item přenáší IP datagramy na skupinu počítačů s jedinou IP adresou
+		\item cílová adresa třídy D
+		\item posílá UDP pakety
+		\item podporované schránky: \texttt{AF\_INET}, \texttt{SOCK\_DGRAM}, \texttt{SOCK\_RAW}
+		\item implicitně TTL = 1
+		\item nastavení multicastu pomocí \texttt{setsockopt()}  
+	\end{itemize}		
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Adresování a směrování VoIP, VoD - co to je, příkazy..
+	\begin{itemize}
+		\item \textbf{SIP -- Session Initiation Protocol}
+		\begin{itemize}
+			\item adresování prováděno pomocí SIP URI: \texttt{sip:user@domain}
+			\item směrovací informace uloženy v SIP hlavičce paketu
+			\item směrování je prováděno SIP servery po cestě
+		\end{itemize}
+		\item \textbf{VoD -- Video on Demand} 
+		\begin{itemize}	
+			\item klientovi je zasílán předem vytvořený multimediální obsah
+			\item přehrávání lze řídit
+		\end{itemize}
+	\end{itemize}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item 2-dimenzionální trie
+	\begin{itemize}
+		\item pro každou dimenzi strom trie
+		\item exponenciální nárůst prostorové složitosti
+		\item ???	
+	\end{itemize}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Teorie (OSI, subnetting, PDU, SLAAC - vše stručně popsat)
+	\begin{itemize}
+		\item \textbf{OSI} -- 7 vrstev, každá vrstva definuje funkci protokolu, atp.
+		\item \textbf{Subnetting} -- rozdělování sítě na podsítě, pomocí prefixu
+		\item \textbf{PDU} -- datová jednotka modelu OSI
+		\item \textbf{SLAAC} -- bezstavová autokonfigurace adres
+	\end{itemize}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Záznam v LDAP, co obsahuje, čím je identifikován, uvést příklad
+	\begin{itemize}
+		\item alternativa k X.500
+		\item stejný koncept uspořádání dat jako X.500
+		\item jednodušší implementace, jeden přenosový protokol
+	    \item skládá se ze záznamů (entry):
+	    \begin{itemize}
+	        \item LDAP je jednoznačně identifikován identifikátorem \textbf{DN} 	
+		    \item obsahuje seznam atributů ve tvaru (typ, hodnota)
+		\end{itemize}
+		\item atributy:
+		\begin{itemize}
+			\item popisuje vlastnost objektu ve tvaru (typ, hodnota)
+			\item definuje jak se hodnoty porovnávají
+			\item hodnota atributu musí splňovat syntax danou typem	
+		\end{itemize}
+	\end{itemize}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Čtyři problémy u IP telefonie (jitter, zpoždění, echo, ztrátovost) v tabulce, napsat popis o co jde a jak to snížit
+	\begin{figure}[h!]
+	\centering
+	\begin{tabular}{| l | p{5cm} | p{5cm} |}
+		\hline
+		\textbf{Problém} & \textbf{Popis} & \textbf{Řešení} \\ \hline \hline
+		Jitter & Rozptyl paketů & použití vyrovnávacích bufferů \\ \hline
+		Zpoždění & ... & musí být zajištěna prioritizace hlasových paketů \\ \hline
+		Echo & Ozvěna & eliminována aktivním potlačením DSP (echo suppression) \\ \hline
+		Ztrátovost & destruktivní účinky u kodeků s prediktivními metodami & \\ \hline
+	\end{tabular}
+	\end{figure}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Pojmy z teorie - FCAPS, MIB, SMI, + Pasivní monitoring sítě
+	\begin{itemize}
+		\item \textbf{FCAPS} - model nad ISO Telecommunications Management Network
+		\begin{itemize}
+			\item \textbf{F} -- Fault -- detekce, izolace a oprava chyb, testy
+			\item \textbf{C} - Configuration -- sledování připojených zařízení, DB kofigurací monitorovaných objektů, kontroly stavu
+			\item \textbf{A} - Accounting -- správa uživatelských účtů a poplatků, logování, řízení přístupu, kvóty, statistiky a identifikace přenosů
+			\item \textbf{P} - Performance -- monitorování objektů, řízení výkonosti, plánování zdrojů
+			\item \textbf{S} - Security -- definice bezpečnostní politiky, řízení přístupu ke zdrojům, klíče, certifikáty
+		\end{itemize} 	
+		\item \textbf{MIB} -- Management Information Base, používáno jako zdroj dat pro NMS
+		\item \textbf{SMI} - Structure Management Information -- hazyk pro definici pravidel na vytváření objektů SNMP popsané notací ASN.1.
+		
+		\item Pasivní monitoring sítě:
+		\begin{itemize}
+			\item využívá především logovací informace aplikací a služeb sbírané u administrátora
+			\item např. \texttt{syslog} 	
+		\end{itemize}
+	\end{itemize}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item SNMP jaký věci se dají zjišťovat pro tyhle skupiny objektů - system, interface, ip, tcp. Pro každý aspoň tři příklady
+	\begin{itemize}
+		\item \textbf{System:} jméno OS, systémový čas, kontakt
+		\item \textbf{Interface:} stav síťového rozhraní
+		\item \textbf{IP:} IP adresa, směrovací informace
+		\item \textbf{TCP:} stav spojení TCP (closed, listen, synSent) 
+	\end{itemize}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Popsat základní části videokonferenčího terminálu	
+	\begin{itemize}
+		\item koncové zařízení
+		\item zajišťuje obousměrnou komunikaci s jiným koncovým zařízením
+		\item složky:
+		\begin{itemize}
+			\item \textbf{Videokamera} -- snímání scény, PAL, NTSC, HDV
+			\item \textbf{Zobrazovací plocha} -- monitor, LCD, projektor
+			\item \textbf{Mikrofon} -- zvuk je důležitější než obraz, vhodný mix.pult
+			\item \textbf{Reproduktory} -- součástí zobrazovacího zařízení, sluchátka, vlastní audio systém
+			\item \textbf{Kodek} -- SW/HW, komunikace s ostatními zařízeními
+			\item \textbf{UI} -- řízení konference na straně uživatele, dálkový ovladač+menu, webové rozhraní	
+		\end{itemize}	
+	\end{itemize}
+
+\end{enumerate}
+
+\newpage
+{\LARGE Příklady: pokusy o výpočet}
+\begin{enumerate}
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+	\item Příklad RED - zadáno Qmin a Qmax, výpočet pravděpodobnosti, že dorazivší paket bude zahozen.
+	\[ 
+		P_a = P_{max} * \frac{Q_{avg} - Q_{min}}{Q_{max} - Q_{min}}
+	\]
+	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Spočítat potřebnou kapacitu pro NetFlow záznam na lince za 1 hodinu. \\
+	\emph{Linka má rychlost 4Gbps, velikost jednoho tou je 20000B, spočítat NetFlow za hodinu}
+	
+	$$ 4Gb = 512 MB = 512 000 000 B  $$
+	$$ \frac{512 000 000}{20 000} = 25 000 toku $$	
+	$$ 25 000 * 3600s * 50B = 4.5 GB za hodinu $$ 
+	
+
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Frekvence 4kHz před vzorkováním, na 4b vzorek, režie 58B, posílá se každých 20ms, jaké potřebujeme přenosové pásmo?
+	
+	Vzorkovací teorém: $4kHz -> 8kHz$ \\
+	Šířka pásma kodeku: $8k * 4b = 32kbps$ \\
+	$32kb * 0.02 = 640b = 80B$ \\
+	$80B + 58B = 138B$, $f = \frac{1}{T} = \frac{1}{0.02} = 50 pps$ \\
+	$50*138 = 6900 B/s = 55.2 kbps$
+	
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Příklad na výpočet přenosovýho pásma + jaké protokoly obsahuje odchozí paket
+	\begin{itemize}
+		\item RTP, UDP, IP, Ethernet	
+	\end{itemize}
+
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Příklad na DNS, mám firmu s mailovým serverem, name serverem, WWW serverem a 10 stanicema. Mám nějakej rozsah IP adres a napsat všecky záznamy(i pro reverzní mapování) počtače n1-n10, adresní prostor 81.94.23.64/28, doména www.nejakadomena.cz, DNS server ns.nejakadomena.cz, Mail mail.nejakadomena.cz
+
+	\item Bitový vektor: Implementujte níže uvedená pravidla firewallu (a) pomocí bitového vektoru, (b) pomocí kartézského součinu rekurzivní klasifikace RFC s třídami ekvivalence (srcIP-dstIP) a (SrcPort-DstPort).
+	\begin{verbatim}
+	R1: permit TCP from 147.229.0.0 to any dst-port 80
+	R2: permit UDP from 147.229.0.0 to any dst-port 53
+	R3: permit UDP from any to 147.229.0.0 src-port 53
+	R4: permit ICMP from 147.229.0.0 to any
+	R5: deny ICMP from 147.229.1.15 to any
+	R6: deny IP from any to any
+	\end{verbatim}
+\begin{table}[h!]
+	\centering	
+	\begin{tabular}{| c | c || c | c || c | c || c | c |}
+		\hline
+		\textbf{SRC} & \textbf{BitV} & \textbf{DST} & \textbf{BitV} & \textbf{SRC Port} & \textbf{BitV} & \textbf{DST Port} & \textbf{BitV} \\ \hline \hline
+		147.229.0.0 & 111101 & 147.229.0.0 & 111101 & 53 & 111111 & 80 & 101111 \\ \hline
+		149.229.1.15 & 000011 & 147.229.1.15 & 110011 & * & 110111 & 53 & 011111 \\ \hline
+		* & 001001 & * & 110001 & & & * & 001111 \\ \hline 	
+	\end{tabular}
+	
+	\begin{tabular}{| c | c |}
+		\hline
+		\textbf{Protocol} & \textbf{BitV} \\ \hline \hline
+		TCP & 100001 \\ \hline
+		UDP & 011001 \\ \hline
+		ICMP & 000111 \\ \hline
+		IP & 000001 \\ \hline
+	\end{tabular}
+	\caption{Řešení a - bitové vektory}
+
+
+
+	\begin{tabular}{| c | c | c |}
+		\hline
+		\textbf{SrcIP - DstIP} & \textbf{bitV} & \textbf{class} \\ \hline \hline
+		(147.229.0.0, 147.229.0.0) & 111101 & C1 \\ \hline
+		(147.229.0.0, 147.229.1.15) & 110001 & C2 \\ \hline
+		(147.229.0.0, *) & 110001 & C2 \\ \hline
+		(147.229.1.15, 147.229.0.0) & 000001 & C3 \\ \hline
+		(147.229.1.15, 147.229.1.15) & 000011 & C4 \\ \hline
+		(147.229.1.15, *) & 000001 & C3 \\ \hline
+		(*, 147.229.0.0) & 000001 & C3 \\ \hline
+		(*, 147.229.1.15) & 000001 & C3 \\ \hline
+		(*, *) & 000001 & C3 \\ \hline \hline
+		\textbf{SrcPort - DestPort} & \textbf{bitV} & \textbf{class} \\ \hline \hline
+		(53, 80) & 101111 & D1 \\ \hline
+		(53, 53) & 011111 & D2 \\ \hline
+		(53, *) & 001111 & D3 \\ \hline
+		(*, 80) & 100111 & D4 \\ \hline
+		(*, 53) & 010111 & D5 \\ \hline
+		(*, *) & 000111 & D6 \\ \hline
+	\end{tabular}
+	\caption{Řešení b - karétzský součin}
+\end{table}
+
+
+
+
+\end{enumerate}
+\end{document}

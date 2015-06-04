@@ -1,0 +1,1937 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[IL2]{fontenc}
+\usepackage[latin2]{inputenc}
+\usepackage[top=2cm, left=1.5cm, text={18cm, 26cm}]{geometry}
+\usepackage{graphics}
+\usepackage[czech]{babel}
+
+
+\newcommand{\pojem}[2]{\item \textbf{#1:}\quad #2}
+\newcommand{\tedy}{$\Rightarrow$ }
+
+\begin{document}
+
+	{\Huge Brutal hard core IPK guide}
+	\vfill
+	\tableofcontents
+	\newpage
+	
+	\section{Obecné principy}
+		\subsection{Zkratky}
+			\begin{itemize}
+				\pojem{ISP}{Internet Service Provider, lokální poskytovatel pøipojení}
+				\pojem{RFC}{Request For Comments, dokumentace}
+				\pojem{IETF}{Internet Engeneering Task Force}
+				\pojem{IEEE}{Institute for Electrical and Electronics Engeneers (802.x standard)}
+				\pojem{TCP}{Transmission Control Protocol}
+				\pojem{UDP}{User Diagram Protocol}
+				\pojem{ISO/OSI}{Open System Interconnection, referenèní model}
+				\pojem{HTTP}{Hypertext Transfer Protocol}
+				\pojem{FTP}{File Transfer Protocol}
+				\pojem{DNS}{Domain Name System}
+				\pojem{MIME}{Multipurpose Internet Mail Extension}
+				\pojem{POP3}{ Post Office Protocol}
+				\pojem{IMAPv4}{Internet Message Access Protocol}
+			\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsection{Pojmy}
+			\begin{itemize}
+				\pojem{Protokol}{definuje formát zaslané zprávy, její poøadí a její pøíjem mezi dvìma èi více entitami sí»ového prostøedí a také akce na pøijaté nebo odeslané zprávy}
+				\pojem{Klient/Server}{zalo¾eno na komunikaèním protokolu dotaz/odpovìï, klient ¾ádá server odpovídá (vykonává) slu¾bu}
+				\pojem{Peer-to-peer}{komunikaèní protokol klient-klient, napøíklad pøi sdílení (torrent)}
+				\pojem{Koncové systémy}{nachází se na konci (hranì) sítì, spou¹tí aplikaèní programy (Web, Email, IM)}
+				\pojem{Handshaking}{pøíprava spojení pøed pøenosem dat (potøesení rukou a pøedstavení se)}
+
+				\pojem{TCP}{spolehlivý pøenos, zachovává poøadí bytù, potvrzuje pøijetí pøípadnì znovu odesílá proud bytù, øízení toku a øízení pøetí¾ení (HTTP, FTP, TELNET, SMTP)}
+				\pojem{UDP}{nespolehlivý pøenos dat, nespojitá slu¾ba, bez øízení toku a bez mo¾nosti øídit pøetí¾ení, bez handshakingu (Stream, Telekonference, DNS)}
+				\pojem{HFC}{Hybrid Fibre Coax (30Mbps/2Mbps)}
+				\pojem{Optika}{vyu¾ívá zdroj svìtla k~pøenosu dat, nízká chybovost $=$ opakovaèe ve vzdálenosti nìkolik kilometrù od sebe  (1Gbps/100Gbps), imuní vùèi ru¹ení}
+				\pojem{UTP}{kroucený pár kabelù, po kterých se posílají elektrické impulzy (100Mbps/1Gbps)}
+				
+				\pojem{LAN}{Lokální poèítaèová sí», spojuje koncové systémy se smìrovaèem (Ethernet)}
+				\pojem{WLAN}{Sdílená bezdrátová sí», spojuje koncové systémy se smìrovaèem (WiFi)}
+
+				\pojem{Pøepínání okruhù}{vyhrazený okruh pro hovor, typické pro telefoní sítì}
+				\pojem{Pøepínání paketù}{data se posílají skrz sí» ve shlucích (chunks)}
+			\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsection{Typy pøenosu}
+			\begin{itemize}
+				\item Z~pohledu pøenosového media
+				\begin{itemize}
+					\pojem{Simplex}{pøenos jedním smìrem}
+					\pojem{Half-duplex}{pøenos obìma smìry, ale v~jednom èase pouze jedním smìrem}
+					\pojem{Full-duplex}{obìma smìry, souèasnì}
+				\end{itemize}
+				\item Z~pohledu komunikujících entit
+				\begin{itemize}
+					\pojem{Unicast}{pøímá komunikace mezi dvìma uzly}
+					\pojem{Broadcast}{zpráva pro v¹echny uzly v~síti}
+					\pojem{Multicast}{zpráva pro vybranou skupinu uzlù v~síti}
+				\end{itemize}
+			\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsection{Zpo¾dìní}
+			\begin{itemize}
+				\pojem{Propustnost}{maximální objem dat za jednotku èasu mezi koncovými stanicemi}
+				\pojem{Zpo¾dìní linek}{dochází k~nìmu pøi pøehlcení linky (pøíli¾ mnoho dat na vstupu)}
+				\pojem{Zpo¾dìní ve frontì}{data, která nejsou odbavena se ukládají do fronty (buffer), kde èekají na odbavení}
+				\pojem{Zahození pøíchozího paketu}{dochází k~nìmu pokud je i fronta plná, prachsprosté zahození}
+				\pojem{Zdroje zpo¾dìní}
+				\begin{itemize}
+					\pojem{Zpracování na smìrovaèi}{kontrola chyb a zji¹tìní odchozí linky (v~øádech $\mu$s) }
+					\pojem{Ve frontì}{èas strávený ve frontì, ne¾ dojde k~zahlcení (v~øádech $\mu$s--ms)}
+					\pojem{Pøi vysílání}{èas potøebný k~vyslání bitù na linku = L (délka paketu) / R (¹íøka pásma)}
+					\pojem{Pøi pøenosu}{zpo¾dìní pøenosu = d(délka fyzické linky) / s(rychlost pøenosu na médiu)}
+				\end{itemize}
+			\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsection{Protokolové vrstvy}
+			\subsubsection{ISO/OSI model (vrstvy)}
+			\begin{figure}[h!]
+				\center
+				\includegraphics{isoosi}
+			\end{figure}
+			\pagebreak
+			\begin{figure}[h!]
+				\center
+				\includegraphics{isoosi2}
+			\end{figure}
+			\subsubsection{Vrstvy protokolù a data}
+			\begin{itemize}
+				\item Pøidá ''hlavièku'' a vytvoøí nová data (protokolová datová jednotka\,--\,PDU) a zapou¾døení
+				\item Pøedá data ni¾¹í vrstvì a pro ka¾dé PDU dané vrstvy pou¾íváme jiný název
+			\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsection{BSD schránky (socket)}
+			\begin{itemize}
+				\item Mechanismus pro pøístupu slu¾bám protokolù transportní vrstvy
+				\item Pracuje se s~ním podobnì jako se souborem, pøes file-descriptor, socket není pøímo pøístupný
+				\item Operace:
+				\begin{itemize}
+					\item Vytvoøení socketu\,--\,\texttt{socket()}
+					\item Vazba socketu na lokální port\,--\,\texttt{bind()}
+					\item Vazba socketu na vzdálený port\,--\,\texttt{connect()}
+					\item Spojení/èekání na spojení\,--\,\texttt{accept()}
+					\item Uzavøení spojení\,--\,\texttt{close()}
+				\end{itemize}
+
+				\item Funkce:
+				\begin{itemize}
+					\item U~tìchto funkcí platí návratové hodnoty:
+					\begin{itemize}
+						\item $<0$: chyba
+						\item $=0$: ukonèeno spojení
+						\item $>0$: pøijatá data
+					\end{itemize}
+					\item \texttt{Read / write} \tedy TCP
+					\item \texttt{Send / sendto} \tedy UDP
+					\item \texttt{Recv / recvfrom} \tedy UDP
+				\end{itemize}
+
+				\item Identifikace spojení:
+				\begin{itemize}
+					\item Ka¾dý proces je identifikován èíslem portu
+					\pojem{Z~pohledu adres\,--\,ètveøice (4 tuple)}{IP\_zdroje, PORT\_zdroje, IP\_cile, PORT\_cile}
+					\pojem{Z~pohledu adres a protokolu\,--\,pìtice (5 tuple)}{IP\_zdroje, PORT\_zdroje, IP\_cile, PORT\_cile, PROTOKOL\_trasportni\_vrstvy}
+				\end{itemize}
+
+				\item Paradigma spojovì orientované komunikace\,--\,TCP
+				\begin{figure}[h!]
+					\center
+					\includegraphics{soc_tcp}
+				\end{figure}
+				\pagebreak
+				\item Paradigma nespojovì orientované komunikace\,--\,UDP
+				\begin{figure}[h!]
+					\center
+					\includegraphics{soc_udp}
+				\end{figure}
+
+				\item Resolver
+				\begin{itemize}
+					 \item Provádí pøeklad doménových jmen na IP adresy a obrácenì, slu¾ba dostupná aplikacím
+					 \pojem{\texttt{gethostbyname}}{pøeklad doménového jména na IPv4 adresu}
+					 \pojem{\texttt{gethostbyaddr}}{pøeklad IPv4 adresy na doménové jméno}
+					 \pojem{\texttt{getaddrinfo}}{slou¾í pro pøeklad IPv6 doménového jména a adresy}
+					 \pojem{\texttt{getservbyname}}{pro pøeklad názvu slu¾by na èíslo portu}
+					 \pojem{\texttt{getservbyport}}{pro pøeklad èísla portu na slu¾bu}
+				\end{itemize}
+
+				\item Blokující/neblokující operace
+				\begin{itemize}
+					\pojem{Blokující operace}{read, write, accept}
+					\begin{itemize}
+						\pojem{Accept}{èeká na po¾adavek od klienta, vrací øízení a nový popisovaè, jestli¾e TCP handshaking byl úspì¹ný, pokud ne vrací chybu}
+						\pojem{Write}{je blokující, pouze pokud není dostatek místa v~bufferu pro odeslání dat}
+					\end{itemize}
+					\pojem{Neblokující operace}{select}
+					\begin{itemize}
+						\pojem{Select}{èeká a testuje pøipravenost definovaných popisovaèù, vrací øízení jestli¾e je I/O pøipraveno (umo¾òuje pou¾ít èasovaè)}
+					\end{itemize}
+				\end{itemize}
+
+				\pojem{Konkurentní server}{komunikuje se v¹emi klienty souèasnì (samostatný proces/vlákno pro ka¾dého klienta, zpracování paralelnì), je zde ale problém se sirotky (po dokonèení jsou z~nich zombí)}
+				\pojem{Iterativní server}{obsluha klientù postupnì (po jednom, v~sérii) a to v~poøadí pøíchodu po¾adavku na spojení. Vhodný v~pøípadì, ¾e èas obsluhy ¾ádosti je známý, krátký èasový úsek. (získání datumu/èasu ze serveru)}
+			\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsection{IPv4}
+			\begin{figure}[h!]
+				\center
+				\scalebox{0.8}{\includegraphics{ipv4_frame}}
+			\end{figure}
+			\begin{itemize}			
+				\item Datagram IPv4 obsahuje hlavièku se slu¾ebními údaji nutnými pro pøepravu a za ní následují data. Konec hlavièky je zarovnán na násobek ètveøice bajtù pomocí výplnì (anglicky padding). Strukturu IP datagramu vystihuje tabulka uvedená nahoøe.
+
+				\item Následuje popis jednotlivých polí:
+				\begin{itemize}
+					\pojem{Verze}{verze protokolu (0x4)}
+					\pojem{IHL}{délka hlavièky v~pùl bajtu; Skuteèná délka je pak vynásobená 4, tzn. typická a minimální dálka = 20 bajtù, a maximální = 60 bajtù.}
+					\pojem{Typ slu¾by (TOS, Type of Service)}{podle pùvodních pøedstav mìla tato polo¾ka umo¾nit odesílateli, aby zvolil charakter pøepravní slu¾by ideální pro dotyèný datagram. Jednotlivé bity znamenaly napø. po¾adavek na nejmen¹í zpo¾dìní, nejvìt¹í ¹íøku pásma èi nejlevnìj¹í dopravu. Smìrování pak mìlo brát ohled na hodnotu TOS a volit z~alternativních tras. V~praxi v¹ak k~realizaci nedo¹lo. V~souèasnosti se polo¾ka pou¾ívá k~tomu, aby nesla znaèku pro mechanismy zaji¹»ující slu¾by s~definovanou kvalitou (QoS).}
+					\pojem{Celková délka}{délka datagramu v~bajtech.}
+					\pojem{Identifikace}{odesilatel pøidìlí ka¾dému odeslanému paketu jednoznaèný identifikátor. Pokud byl datagram pøi pøepravì fragmentován, pozná se podle této polo¾ky, které fragmenty patøí k~sobì (mají stejný identifikátor).}
+					\pojem{Pøíznaky}{slou¾í pro øízení fragmentace. První je v¾dy nulový, druhý je Don't fragment zakazující tento datagram fragmentovat, a tøetí More fragments nastavuje, zdali není fragmentem posledním.}
+					\pojem{Offset fragmentu}{udává, na jaké pozici v~pùvodním datagramu zaèíná tento fragment. Jednotkou je osm bajtù.}
+					\pojem{TTL (Time To Live)}{pøedstavuje ochranu proti zacyklení. Ka¾dý smìrovaè zmen¹í tuto hodnotu o~jednièku (pøípadnì o~poèet sekund, které datagram ve smìrovaèi strávil, pokud zde èeká déle). Pokud tím TTL nabude hodnotu nula, datagram zahodí, proto¾e vypr¹ela jeho ¾ivotnost.}
+					\pojem{Protokol}{urèuje, kterému protokolu vy¹¹í vrstvy se mají data pøedat pøi doruèení. Èísla protokolù definována jako TCP: 6, UDP: 17, ICMP: 1, EGP: 8}
+					\pojem{Kontrolní souèet hlavièky}{slou¾í k~ovìøení, zda nedo¹lo k~po¹kození. Poèítá se pouze z~hlavièky a pokud nesouhlasí, datagram bude zahozen.}
+					\pojem{Adresa odesílatele}{IPv4 adresa sí»ového rozhraní, které datagram vyslalo.}
+					\pojem{Adresa cíle}{IP adresa sí»ového rozhraní, kterému je datagram urèen.}
+					\pojem{Volby}{rùzné roz¹iøující informace èi po¾adavky. Napøíklad lze pøedepsat sérii adres, kterými má datagram projít. Volby obvykle nejsou v~datagramu pou¾ity (v~tabulce jsou barevnì odli¹eny).}
+					\pojem{Data}{obsahuje dal¹í zapouzdøené protokoly.}
+				\end{itemize}
+			\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsubsection{Adresování IPv4}
+			\begin{itemize}
+				\item Adresa má pevnou délku 32b, 4 oktety
+				\item Adresa se skládá ze dvou èástí
+				\begin{itemize}
+					\pojem{147.229.0.0}{identifikace sítì (adresa sítì)}
+					\pojem{0.0.176.14}{identifikace hosta (adresa hosta)}
+				\end{itemize}
+				\pojem{Tøídní adresování}{Pùvodní koncept je slo¾en z~tøíd A-E, pøièem¾ je jasné co je adresa sítì a co adresa hosta}
+				\pojem{Beztøídní adresování}{Adresu tvoøí adresa sítì, podsítì a hosta, hranice mezi podsítí je urèena maskou}
+				\pojem{Veøejná adresa}{Adresa, která zaji¹»uje smìrování v~rámci celého internetu}
+				\pojem{Privátní adresa}{Jakákoliv adresa v~lokální síti, pro pøístup k~internetu je potøeba pøelo¾ení NATem}
+				\pojem{Loopback}{Localhost, nejpou¾ívanìj¹í IP 127.0.0.1, je mo¾no pou¾ít jakou koliv adresu z~rozsahu 127.0.0.0/8}
+				\pojem{Autokonfigurace APIPA}{Rozsah pou¾ívaný ve Windows pokud nemáme pøidìlenou statickou IP adresu a není dostupný DHCP server, 169.254.0.0/16}
+				\pojem{Subnetting}{Dìlení velkých sítí do men¹ích sítí}
+				\pojem{Supernetting}{Skládání malých sítí do velkých celkù}
+				\pojem{Adresa sítì}{Nejni¾¹í mo¾ná adresa z~daného rozsahu}
+				\pojem{Broadcast}{Nejvy¹¹í mo¾ná adresa z~daného rozsahu}
+				\pojem{Brána (gateway)}{Druhá nejvy¹¹í/nejni¾¹í adresa z~daného rozsahu}
+				\pojem{Rozsah sítì (pool)}{Urèuje v¹echny dostupné adresy pro poèítaèe v~síti (po odpoèítání adresy sítì, broadcastu a brány)}
+				\pojem{Prefix sítì}{Udává kolik reálných adres mù¾eme pøidìlit (8 -- 255.0.0.0, 24 -- 255.255.255.0)}
+			\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+		\subsubsection{Fragmentace}
+			\begin{itemize}
+				\item Dìlení paketù na men¹í kousky
+				\item Nestaèí rámec
+				\item Závisí na MTU (Maximum Transmision Unit) $=$ maximální poèet dat pøenesených na lince
+				\item Pokud je velikost paketu vìt¹í ne¾ MTU a zároveò se DF $=$ 0 (Dont'fragment), tak se datagram fragmentuje, v~opaèném pøípadì se paket zahodí (ICMP zpráva o~zahození paketu)
+				\item Výpoèet:
+				\begin{itemize}
+					\item Poèet paketù $=$ velikost paketu / MTU \hfill \emph{Urèí nový poèet paketù}
+					\item Data + re¾ie \tedy data + 20B hlavièka \hfill \emph{Hlavièka TCP (UDP má 8B)}
+					\item Nastavuje se pøíznak MF (more fragment, 0 $=$ nenásleduje fragment, 1 $=$ následuje fragment)
+					\item Nastavuje se pøíznak DF (kdy¾ u¾ je jednou rozdìleno, nelze dál dìlit, pokud ji¾ bylo 1, zùstává)
+					\item Offset: odeslaná data / 8 (zarovnání na 1B)
+				\end{itemize}
+			\end{itemize}
+		
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+		\subsection{Protokol ICMP}
+			\begin{itemize}
+				\item Internet Control Message Protokol
+				\item Pou¾íván hosty, smìrovaèi pro oznámení chyby, èi diagnostiku sítì (po¾adovaná slu¾ba není dostupná -- cíl/host není dosa¾itelný)
+				\item Obecnì pou¾ívá 2 typy zpráv -- oznámení chyby a dotaz na slu¾bu
+				\item Obsah IMCP je pøená¹en v~IP datagramu
+			\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+		\subsection{DHCP}
+			\begin{itemize}
+				\item Dynamic Host Configuration Protokol
+				\item Mechanismus pøidìlování IP adresy a TCP/IP parametrù
+				\item Pøenos specifických informací pro hosta
+				\item Aplikaèní protokol!!
+				\item Vyu¾ívá porty 67/68
+				\item Pøíklad komunikace:
+			\end{itemize}
+			\begin{figure}[h!]
+				\center
+				\scalebox{0.5}{\includegraphics{dhcp}}
+			\end{figure}
+			
+			
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+		\subsection{NAT}
+			\begin{itemize}
+				\item Pøeklad privátní adresy na veøejnou adresu
+				\item Identifikace veøejné adresy na privátní probíhá pomocí dodaného portu (díky tomu jsou v¹echny adresy viditelné z~internetu)
+				\item Typy pøekladù adres:
+				\begin{itemize}
+					\pojem{Static NAT}{mapuje privátní adresy na veøejné, 1:1}
+					\pojem{Dynamic NAT}{mapuje privátní adresy na skupinku veøejných adres, 1:1 závisí na poolu veøejných adres}
+					\pojem{Overloading NAT}{dynamický NAT, který mapuje privátní adresy na jednu veøejnou adresu a mìní adresy portù v~transportní vrstvì}
+					\pojem{Overlapping}{pou¾ívá se pøípadì, ¾e je nutné urèit zda-li danou adresu pøelo¾í (datagram smìøuje do internetu) nebo nepøelo¾í (datagram smìøuje do jiné sítì s~privátními adresami)}
+				\end{itemize}
+			\end{itemize}
+		
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsection{IPv6}
+			\begin{itemize}
+				\item Nedostatek IPv4 adres zpùsobil zájem o~nový standard, který by umo¾òoval:
+				\begin{itemize}
+					\item Zvìt¹ení adresového prostoru
+					\item Hierarchické smìrování a adresace
+					\item Podpora slu¾eb kvality (QoS)
+					\item Zvý¹ení bezpeènosti
+					\item Sní¾ení zátì¾e smìrovaèe
+					\item Mo¾nost automatické konfigurace adresy
+				\end{itemize}
+				
+				\item Nové vlastnosti:
+				\begin{itemize}
+					\item Fragmentace a znovusestavení IP datagramu probíhá pouze na koncových systémech
+					\item Zvý¹ení minimálního MTU
+					\item Hlavièka nevy¾aduje kontrolní pøepoèet souètu
+					\item Pevná velikost hlavièky 40B
+					\item \textbf{Byl odstranìn broadcast}
+				\end{itemize}
+
+				\item Je dlouhá 128b, tedy 16B
+				\item Zápis probíhá v~hexadecimální soustavì, jednotlivé ètveøice èíslic oddìlené dvojteèkou
+				\pojem{Plný tvar zápisu}{\texttt{2001:0:7:0:8:800:200c:41a7}}
+				\pojem{Komprimovaný tvar zápisu}{\texttt{0:0:0:0:0:0:0:01} \tedy \texttt{::1}}
+				\item \texttt{2001:0:0:0:8:800:200c:41a7} \tedy \texttt{2001::8:800:200c:41a7}
+			\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsubsection{Adresový prostor}
+			\begin{itemize}
+				\pojem{Individuální unicast adresy}{\texttt{::1/128} $=$ loopback}				
+				\pojem{Skupinové multicast adresy}{\texttt{FF00::/8}}
+				\pojem{Výbìrové anycast adresy}{\texttt{2000::/3} $=$ Globální slu¾ba, \texttt{FE80::/10} $=$ Link-local}
+			\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsubsection{Pøidìlování adres}
+			\begin{itemize}
+				\item 48b $=$ standardní délka prefixu, pøidìlován vìt¹inì pøipojených sítí (malé i velké sítì)
+				\item 64b prefix $=$ v~pøípadì ¾e je jisté, ¾e dotyèná instance nebude vy¾adovat podsítì (jinak 16b pro podsítì)
+				\item Pokud se pøipojí jediné zaøízení, pøidìlí 128b, tedy jedinou adresu
+				\begin{figure}[ht!]
+					\center
+					\scalebox{0.8}{\includegraphics{ipv6_addr}}
+				\end{figure}
+			\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsection{IPv4 vs. IPv6}
+			\begin{figure}[ht!]
+				\center
+				\scalebox{0.5}{\includegraphics{ipv4_ipv6}}
+			\end{figure}
+			\begin{itemize}
+				\pojem{Verze}{4 bity, obsahuje hodnotu 6}
+				\pojem{Tøída provozu}{8 bitù, pro potøeby slu¾eb se zaji¹tìnou kvalitou}
+				\pojem{Znaèka toku}{20 bitù, identifikuje tok (proud souvisejících datagramù), umo¾òuje nestandardní prioritizaci pøenosu, vysokorychlostní smìrování}
+				\pojem{Délka dat}{16 bitù, velikost dat následující hlavièku}
+				\pojem{Dal¹í hlavièka}{16 bitù, urèuje typ pøípadné dal¹í volitelné/roz¹iøující hlavièky (øetìzení hlavièek) nebo identifiuje protokol vy¹¹í vrstvy}
+				\pojem{Limit skokù}{poèet mo¾ných pøeposlání smìrovaèi, sni¾ována o~1 na ka¾dém smìrovaèi, pøi vypr¹ení, zru¹ení datagramu, stejnì jako TTL u~IPv4}
+				\pojem{Zdrojová a cílová adresa}{adresa odesílatele a zdroje IP datagramu, dostateènì velká}
+			\end{itemize}
+			
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Principy TCP/IP}
+		\subsection{TCP\,--\,Transimission Control Protocol}
+		Pùvodnì navr¾en pro pøenos dat WAN sítìmi (LAN sítì mají nìkteré vlastnosti jiné, co¾ se projevilo v~rùzných implementacích, které se sna¾í pøizpùsobit aktuálním pou¾ivaným technologiím v~Internetu)
+		\begin{itemize}
+			\pojem{Spojení point-to-point}{Jeden odesílatel, jeden pøíjemce}
+			\pojem{Spolehlivý pøenos dat}{Zachování poøadí bytù, bez omezení velikosti pøená¹ených dat}
+			\pojem{Zøetìzený pøenos (pipelined)}{Øízení toku a zahlcení okénkem}
+			\item Vyrovnávácí pamìt pro odesíláná i pøijímaná data
+			\item Plnì duplexní pøenos
+			\item Spojitì orientovaná slu¾ba
+			\item Identifikace
+			\begin{itemize}
+				\item Polovièní asociace
+				\item Plná asociace
+			\end{itemize}
+		\end{itemize}
+		
+		\subsubsection{Vytvoøení spojení}
+			\begin{itemize}
+				\item Operace OPEN otevøe spojení:
+				\begin{itemize}latex logic sympøijimatbols
+					\pojem{Aktivní}{iniciuje spojení (klient)}
+					\pojem{Pasivní}{èeká na vytvoøení spojení (server)}
+					\item Je mo¾né vytvoøit spojení [Aktivní -- Aktivní]
+				\end{itemize}
+				\item 3 way hanshake:
+				\begin{itemize}
+					\pojem{SYN = 1 ACK = 0 }{Paket pro otevøení spojení}
+					\pojem{SYN = 1 ACK = 1 }{Potvrzení otevøení spojení (piggybacking)}
+					\pojem{SYN = 0 ACK = 1 }{Segment s~daty nebo potvrzení}
+				\end{itemize}
+			\end{itemize}
+		\subsubsection{Ukonèení spojení}
+			\begin{itemize}
+				\item FIN pøíznak nastaven (na hodnotu 1), následné potvrzení
+				\item Aktivní a pasivní spojení se uzavøe
+				\pojem{Polovièní uzavøení(half close)}{data jsou posíláná pouze jezdním smìrem}
+			\end{itemize}
+		\subsubsection{TCP odesílatel}
+			\begin{itemize}
+				\item TCP realizuje spolehlivý pøenos dat s~vyu¾itím slu¾by nespolehlivého pøenosu protokolu sí»ového protokolu IP
+				\item Zøetìzené segmenty
+				\pojem{Kumulativní potvrzování}{V ACK oèekává poøadové èíslo oèekáváného segmentu. Pokud dostane jiné vyhodnotí to jako chybu}
+				\item TCP vyu¾ívá jeden èasovaè pro opakování pøenosu segmentù v~okénku
+			\end{itemize}
+		\subsubsection{TCP retransmission}
+			\begin{itemize}
+				\item Øe¹í ztrátu paketù
+				\item Dal¹í mo¾né pøípady:
+				\begin{itemize}
+					\item Ztráta ACK
+					\item Zpo¾dìní ACK
+					\item Kumulativní ACK
+				\end{itemize}
+				\pojem{Ztráta vs. zpo¾dìní}{odesílatel èeká na potvrzení. Jak dlouho má èekat?}
+			\end{itemize}
+		\subsubsection{Vypr¹ení èasovaèe pro potvrzení}
+			\begin{itemize}
+				\item Navstavit timeout na hodnotu vy¹¹í ne¾ je RTT (Ale RTT se mìní!)
+				\pojem{Hodnota $<$ RTT}{pøedèasný timeout, Zbyteèný opakovaný pøenos segmentu}
+				\pojem{Hodnota $>$ RTT}{pomalá reakce na ztrátu segmentu nebo potvrzení}
+			\end{itemize}
+		\subsubsection{(Smoothed) Round Trip Time}
+			\begin{itemize}
+				\pojem{RTT lze zmìøit}{èas potøebný pro pøenos segmentu a pøijetí potvrzení}
+				\item ignoruje mìøení pro opakované zasílán
+				\item RTT se mìní pøíli¹ rychle pro výpoèet hodnoty èasovaèe pou¾ijeme prùmìrnou hodnotu nìkolika posledních RTT paketù:
+				 $SRTT' = (1-\alpha)*SRTT+\alpha*RTT$
+			\end{itemize}
+		\subsubsection{Karnùv algoritmus}
+			\begin{itemize}
+				\item Navrhuje optimalizaci výpoètu SRTT
+				\item Nedostal se do samostaného RFC
+				\item Pravidla:
+				\begin{itemize}
+					\pojem{Pravidlo 1}{Ignoruj mìøení RTT pro znovu vyslané pakety. Odstraní nejednoznaènì namìøené RTT.}
+					\pojem{Pravidlo 2}{RTO by mìlo být zdvojnásobeno po opakovaném vyslání paketu (Exponential Back-of)}
+				\end{itemize}
+			\end{itemize}
+		\subsubsection{Øízení toku}
+			\begin{itemize}		
+				\item Klouzající okénko (Sliding window)
+				\item Zmìna velikosti okénka bìhem spojení, pøizpùsobení se aplikaci
+				\item Nulová velikost identifikuje zaplnìní buferu, odesilatel by mìl pøestat vysílat
+				\item Cílem je maximálnì vyu¾ít pøenosové linky a minimalizovat zpo¾dìní zpùsobená potvrzováním
+			\end{itemize}
+		\subsubsection{Pøenos urgentních dat}
+			\begin{itemize}		
+				\item Primitivní mechanismus pro specifikaci prioritních dat
+				\item Aplikace potøebuje pøeru¹it pøenos dat a urychlenì o~tom informovat druhou stranu.
+				\item Pøíznak PSH(vyu¾it pøi operaci SEND) zabraòuje uváznutí komunikace \tedy deadlock
+			\end{itemize}
+		\subsubsection{Zahlcení sítì}
+			\begin{itemize}		
+				\item Nastane kdy¾ mno¾ství dat, která mají být pøenesena je vy¹¹í ne¾ je pøenosová kapacita
+				\item Smìrovaèe disponují vyrovnávací pamìtí, kam ukládají data pakety, které nemohou odeslat. Pokud je pamìt plná dal¹í pøíchozí paket se zahodí
+				\item Zahlcení sítì má tendenci se zvy¹ovat/zhor¹ovat
+			\end{itemize}
+		\subsubsection{Pøístupy k~øízení zahlcení}
+			\begin{itemize}
+				\item Øízení zahlcení je obtí¾né
+				\item Internet je navr¾en aby byl autonomní, bez centrální správy
+				\item Nelze kontrolovat chování u¾ivatelù a aplikací
+				\item Internet je rozsáhlý a poøád se zvy¹uje poèet stanic a u¾ivatelù Internetu
+				\item Je obtí¾né zjistit:
+				\begin{itemize}
+					\item kolik pøesnì u¾ivatelù/aplikací sdílí sí»
+					\item zdroj zahlcení
+					\item pøesnou kapacitu sítì
+					\item jak moc jsou sítì zahlcené.
+					\item proè do¹lo ke ztrátì paketù
+				\end{itemize}
+				\item 3 hlavní verze øízení zahlecí TCP:
+				\begin{itemize}
+					\pojem{Tahoe}{Slow Start a Congestion Avoidance, Fast Retransmit}
+					\pojem{Reno}{Fast Recovery \tedy Fast Retransmit}
+					\pojem{NewReno}{Bez referenèní implementace, nový Fast Recovery algoritmus}
+				\end{itemize}
+			\end{itemize}
+		\subsubsection{Základní princip øízení zahlcení}
+			\begin{itemize}
+				\item Nelze pøesnì zjistit stav sítì.
+				\item pohlí¾í na jakoukoliv ztrátu paketu jako na zahlcení
+				\item Znovu vyslání je øízeno jednoduchým zpùsobem:
+				\begin{itemize}
+					\pojem{Jestli¾e se pakety neztrácejí}{pøedpokládá ¾e sí» není zahlcena (odesilatel zvy¹uje rychlost pøenosu)}
+					\pojem{Jestli¾e se pakety ztrácejí}{pøedpokládá ¾e sí» je zahlcena (odesilatel sni¾uje rychlost pøenosu)}
+				\end{itemize}
+				\item TCP zvy¹uje rychlost pøenosu a¾ do detekce ztráty paketu
+			\end{itemize}
+		\subsubsection{Slow Start a Congestion Avoidance}
+			\begin{itemize}
+				\item udr¾uje promìnnou ''ssthresh'', aby vìdìl jaký algoritmus pou¾ít:
+				\begin{itemize}
+					\item cwnd $<$ ssthresh \tedy slow-start
+					\item cwnd $>$ ssthresh \tedy congestion avoidance
+				\end{itemize}
+				\item Detekce ztráty paketu ssthresh=cwnd/2
+			\end{itemize}
+		\subsubsection{Fast Recovery}
+			\begin{itemize}
+				\pojem{Tahoe}{citlivé na ztrátu paketu \tedy 1\% míra ztráty paketù mù¾e zpùsobit 50-75\% sní¾ení propustnosti}
+				\pojem{Reno}{Timeout \tedy vá¾né zahlcení, duplikovaný ACK \tedy zahlcení není kritické}
+			\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\subsection{Adresování}
+		\begin{itemize}
+			\item IPv4 pou¾ívá adresu pevné délky, 32bitù (4 oktety)
+			\item Adresa se skládá ze 2 èástí -- sítì a hosta
+			\begin{itemize}
+				\item Identifikace sítì: 147.229.0.0
+				\item Adresa hosta: 0.0.176.14
+			\end{itemize}
+			\pojem{Tøídní adresování}{tøídy adres A-E, jasné co je adresa sítì a co adresa hosta}
+			\pojem{Beztøídní adresování}{adresa je tvoøena adresou sítì, adresou podsítì a adresou hosta}
+		\end{itemize}
+
+	\subsection{Smìrování}
+		\begin{itemize}
+			\item Sí»ová vrstva doruèuje pakety koncovým zaøízením
+			\item Smìrování je nalezení vhodné cesty od zdroje A~k~cíli B
+			\item Smìrovaè pou¾ívá smìrovací tabulku (forwarding/routing table)
+			\item Smìrování adres dle jejich tøídy
+			\begin{itemize}
+				\item Tøída adresy definuje prefix
+				\item Tøídu lze poznat podle nejvy¹¹ích bitù
+				\item Prefect match dle délky prefixu
+			\end{itemize}
+		\end{itemize}
+		
+		\subsubsection{Pøepínání paketù (forwarding)}
+			\begin{itemize}
+				\item Smìrovaè posune paket, který pøichází na vstupní linku na odpovídající výstup
+				\item Lokální akce provádìná smìrovaèem
+				\item Smìrovaè má v~tabulce informaci pro ka¾dou IP adresu
+				\begin{itemize}
+					\item Testování shody pro cílovou adresu v~paketu
+					\item Jednoznaèné urèení výstupního rozhraní
+					\item Velikost smìrovacích tabulek
+				\end{itemize}
+				\item Smìrovaè má v~tabulce informaci pro 24-bitový prefix
+				\begin{itemize}
+					\item Testování shody pro prefix adresy v~paketu
+					\item Vy¾aduje rozdìlení IP adresy na sí»ovou èást a uzlu
+					\item Zmen¹ení velikosti tabulek, fixní délka prefixu
+				\end{itemize}
+			\end{itemize}
+		
+		\subsubsection{Smìrování (routing)}
+			\begin{itemize}
+				\item Sí»ová vrstva musí nalézt cestu pro paket
+				\item Smìrovací algoritmus
+				\item Sí»ový proces, forma distribuovaného výpoètu, na kterém participují smìrovaèe v~síti
+			\end{itemize}
+			
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsubsection{Smìrovací tabulka}
+			\begin{itemize}
+				\item Polo¾ky mohou být staticky definovány
+				\begin{itemize}
+					\item Vlo¾í administrátor (nejsou aktuální), nejsou dynamické
+				\end{itemize}
+				\item Polo¾ky jsou zji¹tìny pomocí smìrovacích protokolù
+				\begin{itemize}
+					\item Protokoly pro smìrování uvnitø organizace (sítì)
+					\item Protokol pro výmìnu informací mezi organizacemi (sítìmi) a ISP
+				\end{itemize}
+				\pojem{Smìrování z pohledu koncové stanice}{pokud má koncová stanice pouze jedno rozhraní nepotøebuje smìrování}
+				\item Pravidla:
+				\begin{itemize}
+					\item Paket na vlastní adresu je doruèen lokálnì
+					\item Paket je ostatním uzlùm v síti poslán v rámci s konkrétní adresou pøíjemce
+					\item Paket vnì sítì je poslán na lokální bránu
+				\end{itemize}
+			\end{itemize}
+			
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsubsection{Smìrování podle nejkrat¹í cesty}
+			\begin{itemize}
+				\item Dijkstrùv algoritmus
+				\begin{itemize}
+					\item Topologie sítì vèetnì ceny linek je pøedem známá ka¾dému uzlu
+					\item V¹echny uzly mají stejnou informaci o stavu sítì
+					\item Smìrovaè vypoèítá cestu s nejmen¹í cenou pro ka¾dou sí»
+					\begin{itemize}
+						\item C(i,j) cena linky z uzlu i do uzlu j
+						\item D(v) aktuální hodnota ceny cesty ze zdroje do cíle v
+						\item P(v) pøedchùdce uzlu v podél cesty
+						\item N mno¾ina uzlù
+					\end{itemize}
+				\end{itemize}
+
+				\item Bellman-Fulkerson-Fordùv algoritmus
+				\begin{itemize}
+					\item Iterativní algoritmus
+					\item Bì¾í pokud jsou nové informace vymìòovány mezi sousedy
+					\item Implicitní stop, není nutný speciální stop signál
+					\item Asynchronní algoritmus
+					\begin{itemize}
+						\item Není potøeba synchronizace mezi uzly pro zaji¹tìní správnosti výpoètu
+					\end{itemize}
+					\item Distribuovaný výpoèet
+					\begin{itemize}
+						\item Ka¾dý uzel komunikuje se svými sousedy
+						\item Ka¾dý uzel poèítá na základe dostupných informací nejkrat¹í cestu k cíli
+					\end{itemize}
+					\item Datová struktura
+					\begin{itemize}
+						\item Øádky jsou cíle
+						\item Sloupce jsou sousedé
+						\item V buòkách je uvedena cena do daného cíle, pøes uvedeného souseda
+						\item D(A, C) = 4, znamená, ¾e ke smìrovaèi A je pøes souseda C cena 4
+					\end{itemize}
+				\end{itemize}
+
+				\item Path-vector smìrování
+				\begin{itemize}
+					\item Pou¾ívá se pro smìrování mezi AS, kde je LS nevhodné
+					\begin{itemize}
+						\item LS ¹íøí kompletní topologické informace
+						\item Musí být poèítáno na v¹ech uzlech pro v¹echny cíle
+						\item Vy¾aduje uniformní politiku stanovení cen komunikaèních linek
+						\item Pou¾íva se proto pouze uvnitø ASP	
+					\end{itemize}
+					\item Pou¾ívá a roz¹iøuje my¹lenku DV smìrování
+					\begin{itemize}
+						\item Podporuje navíc flexibilní smìrovací politiky
+						\item Øe¹í count-to-infinity
+					\end{itemize}
+					\item Základní my¹lenka: oznamovat celou cestu
+					\begin{itemize}
+						\item DV: má pro ka¾dý cíl D jeho vzdálenost
+						\item PV: má pro ka¾dý cíl D jeho celou cestu
+						\item Je jednoduché detekovat a eliminovat smyèky
+					\end{itemize}
+				\end{itemize}
+			\end{itemize}
+			
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsubsection{Smìrovací protokoly podle metriky}
+			\begin{itemize}
+				\item \textbf{Distance-vector protokoly}
+				\begin{itemize}
+					\item Jako jedinou metriku pou¾ívají poèet hopù mezi aktuálním a cílovým zaøízením (poèet hopù == poèet routerù)
+					\item Znají pouze pøímo pøipojené sítì a informace od sousedù
+					\item Zástupci: RIP, RIPv2
+				\end{itemize}
+				\item \textbf{Route poisoning}
+				\begin{itemize}
+					\item Metoda, kdy se routeru zabrání v posílání paketù pøes cestu, která se stala neplatnou v rámci poèítaèové sítì.
+					\item Distance-vector smìrovací protokoly v poèítaèových sítích pou¾ívají route poisoning k upozornìní ostatních smìrovaèù, ¾e trasa je nedostupná, a tudí¾ by nemìla být uva¾ována ve smìrovacích tabulkách.
+					\item Okam¾ité zasílání aktualizací o nedosa¾itelných hopech do v¹ech uzlù v síti
+					\item Pokud protokol zjistí neplatnou cestu, v¹echny smìrovaèe v síti jsou informovány, ¾e ¹patná cesta má nekoneènou metriku.
+					\item To dìlá v¹echny uzly na neplatné trase nekoneènì vzdálené, co¾ zabraòuje tomu, aby smìrovaèe odesílaly pakety pøes neplatnou trasu.
+				\end{itemize}
+				\item \textbf{Link-state protokoly}
+				\begin{itemize}
+					\item Multiple metrika, skládající se z více èástí
+					\item Metrika se odvozuje z aktualního stavu linky \tedy zpo¾dìní, propustnost, spolehlivost, ...
+					\item Narozdíl od distance-vector protokolù znají celou topologii a jsou schopny vytvoøit graf sítì (napø. pro Dijkstra)
+					\item Zástupci: OSPF, IS-IS
+				\end{itemize}
+			\end{itemize}
+		\subsubsection{Podle umístìní}
+			\begin{itemize}
+				\pojem{Interior gateway protokoly}{smìrovací protokoly v rámci interní organizace \tedy protokoly OSPF, EIGRP, RIP, IS-IS a dal¹í}
+				\pojem{Exterior gateway protokoly}{smìrovací protokoly mezi jednotlivými providery internetu a ve veøejném internetu \tedy  BGP)}
+				\item \textbf{IGP smìrovací protokoly}
+				\begin{itemize}
+					\item RIP:
+					\begin{itemize}
+						\item Smìrovací protokol typu distance-vector,vyu¾ívá Bellman-Fordùv algoritmus
+						\item Metrikou smìrování je poèet skokù k cílové síti (hop count)
+						\item Ochrana proti smìrovacím smyèkám je implementována jako omezený poèet smìrovaèù (hopù) v cestì k cíli, max 15
+						\item RIPv1 nepodporuje vyu¾ítí subnettingu, a¾ od RIPv2, kde je mo¾né pøená¹et masky podsítí v rámci zpráv mezi smìrovaèi.
+					\end{itemize}
+					\item OSPF\,--\,Open Shortest Path First:
+					\begin{itemize}
+						\item Link state protokol, Dijkstrùv algoritmus
+						\item ©íøí informaci o zmìnì v celé oblasti
+						\item Ceny linek definuje administrátor
+						\item Informace jsou posílány okam¾itì v pøípadì zmìny, èi alespoò jednou za 30 minut.
+						\item Nesen IP protokolem (má èíslo 89)
+						\item Zaji¹tìní spolehlivého pøenosu a broadcastu, testuje stav linky pomocí HELO paketù
+					\end{itemize}
+					\item Border Gateway Protocol:
+					\begin{itemize}
+						\item Path-vector protokol
+						\item Informace jsou neseny protokolem TCP, defaultní port 179
+						\item Vymìòuje si informace o sítích spravovaných v rámci AS
+						\item BGP pracuje v rámci propojených AS
+						\item AS pøedstavují superuzel pro BGP, BGP agent komunikuje s agentem pro sousední superuzel
+						\item Cena spojení = AS-hop cost
+					\end{itemize}
+				\end{itemize}
+			
+			\item Internet je slo¾en z autonomních systémù, ka¾dý systém má své unikátní ASN
+			\item Smìrování je na dvou úrovních:
+			\begin{itemize}
+				\pojem{EGP}{mezi autonomními systémy}
+				\pojem{IGP}{uvnitø autonomních systémù}
+			\end{itemize}
+			\pojem{BGP}{protokol pro EGP, implementuje smìrovací politiky}
+		\end{itemize}
+
+		\subsubsection{Smìrování pro IPv6}
+			\begin{itemize}
+				\item Adaptace existujících protokolù pro IPv4
+				\pojem{RIPng}
+				\begin{itemize}
+					\item Funkènì shodný s RIPv2 s malými odli¹nostmi
+					\item Podporuje jen IPv6
+					\item Multicast FF02::9
+					\item UDP port 521
+					\item Do smìrovací tabulky se jako next-hop ukládá link-lokal adresa
+				\end{itemize}
+				\pojem{OSPFv3}
+				\begin{itemize}
+					\item Funkènì shodný s OSPFv2
+					\item Smìrovaèe mají poøád identifikátor 32-bitový
+					\item Jiný formát OSPF paketù
+					\item Multicast na FF02::5 a FF02::6
+					\item Podpora jen IPv6
+				\end{itemize}
+				\pojem{Multiprotocol BGP}{nové atributy}
+			\end{itemize}
+		
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Sí»ové aplikace}
+		\begin{itemize}
+			\item Klient\,/\,server
+			\begin{itemize}
+				\pojem{Server}
+				\begin{itemize}
+					\item V¾dy na koncovém systému
+					\item Pevná adresa (IP, DNS)
+					\item Farma serveru \tedy pou¾ívá se pro rozdìlení zátì¾e a zálohu
+				\end{itemize}
+				\pojem{Klient}
+				\begin{itemize}
+					\item Komunikuje se serverem
+					\item Mohou být pøeru¹ovanì spojení
+					\item Mohou mít dynamickou adresu
+					\item \underline{Nekomunikují pøímo mezi sebou}
+				\end{itemize}
+			\end{itemize}
+			
+			\item Peer-to-peer (klient komunikuje opìt s~klientem, ne se serverem)
+			\begin{itemize}
+				\item ®ádný vyhrazený server pro celou slu¾bu
+				\item Koncové systémy komunikují svévolnì a pøímo mezi sebou
+				\item Peer je èasto pøipojem doèasnì a mìní svoji adresu
+				\item Vysoce ¹kálovatelné (roz¹iøitelné) prostøedí, ale nároèné na správu
+			\end{itemize}
+			
+			\item Hybridní architektury
+			\begin{itemize}
+				\item Centralizovaný server -- zpracovávající adresu, stav nebo vyhledání klienta
+				\item Klient si za¾ádá server o~adresu klienta, se kterým se chce spojit
+				\item Server vyhledá klienta a ode¹le adresu
+				\item Následná komunikace (P2P) dvou klientù
+				\item Napø. \emph{Skype, IM}
+			\end{itemize}
+
+			\item Sí»ové aplikace:
+			\begin{itemize}
+				\pojem{Proces}{program bì¾í na hostitelském poèítaèi}
+				\pojem{U¾ivatelský agent (UserAgent)}{interface mezi u¾ivatelem a sítí, implementuje UI a aplikaèní protokol (Web: prohlí¾eè, E-mail: klient)}
+				\pojem{Klient}{zahajuje kontakt se serverem, po¾aduje nìjakou slu¾bu od serveru}
+				\pojem{Server}{poskytuje po¾adovanou slu¾bu klientovi (e-mailový server doruèuje e-mail)}
+				\pojem{Adresování procesu}{probíhá pomocí IPv4 adresy a èísla Portu (asociované èíslo procesu)}
+			\end{itemize}
+			
+			\item Aplikaèní protokol:
+			\begin{itemize}
+				\item Typy zpráv, které se vymìòují (dotaz a odpovìï)
+				\pojem{Syntaxe zpráv}{sktruktura zprávy, polo¾ky}
+				\pojem{Sémantika zpráv}{význam polo¾ek ve zprávì}
+				\item Pravidla kdy a jak procesy zasílají zprávy
+				\pojem{Public domain protokoly}{HTTP, SMPT, FTP, POP3, RIP, BGP, TCP, UDP}
+				\pojem{Proprientální (firemní) protokoly}{ICQ, KaZaA, IGRP, EIGRP}
+			\end{itemize}
+
+			\item Vy¾adované transportní slu¾by:
+			\begin{itemize}
+				\pojem{Ztráta dat}{aplikace mohou tolerovat ztrátu dat (video, audio), ostatní vy¾adují spolehlivý pøenos dat}
+				\pojem{Èas}{aplikace mohou vy¾adovat malé èasové zpo¾dìní mezi jednotlivými zprávami}
+				\pojem{Propustnost}{aplikace mohou vy¾adovat minimální velikost ¹íøky pøenosového pásma, ostatní si vystaèí s~pøidìlenou ¹íøkou}
+				\item \textbf{Bezpeènost}
+				\item \textbf{©ifrování obsahu}
+				\item \textbf{Integrita zpráv}
+			\end{itemize}
+		\end{itemize}
+		
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsection{Web a HTTP}
+			\begin{itemize}
+				\item Web je realizován pomocí HTML objektù
+				\item Objekty jsou adresovány pomocí URL, obecnì URI
+				\item Aplikaèní protokol pro web
+				\item Klient zasílá/pøijímá po¾adavky a zobrazuje/ukládá do souboru odpovìï
+				\item Server posílá po¾adované objekty jako odpovìï
+				\item Pou¾ívá TCP
+				\begin{enumerate}
+					\item Klient inicializuje spojení (port 80)
+					\item Server akceptuje TCP spojení
+					\item HTTP zprávy -- komunikace mezi klientem a serverem
+					\item Uzavøení TCP
+				\end{enumerate}
+				
+				\item Server si nepamatuje pøede¹lé informace o~po¾adavcích klienta, díky tomu musí být udr¾ovaná uplynulá komunikace
+				\item Pøi výpadku serveru/klienta se musí domluvit na novém stavu (usmíøení)
+			\end{itemize}
+		
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsubsection{HTTP Spojení}
+			\begin{itemize}
+				\pojem{Bez stálého spojení (nepersistentní)}{max 1 objekt zaslán (HTTP 1.0)}
+				\pojem{Stálé spojení (persistentní)}{více objektù zasláno, (HTTP 1.1)}
+				\pojem{RTT (Round Trip Time)}{Doba potøebná pro pøenos malého paketu k~serveru a zpìt (pouze z~neperzistentního)}
+				\pojem{Doba odezvy}{potøeba jedno RTT k~inicializaci spojení, dal¹í RTT pro HTTP po¾adavek a prvních pár bytù HTTP odpovìdi}
+				\pojem{Doba pøenosu}{2x RTT + doba pøenosu}
+			\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsubsection{HTTP Metody}
+			\begin{itemize}
+				\pojem{GET}{získání obsahu objektu}
+				\pojem{POST}{pøidání obsahu k~objektu}
+				\pojem{HEAD}{získání hlavièky objektu}
+				\pojem{PUT}{nahrání obsahu souboru na server (HTTP 1.1)}
+				\pojem{DELETE}{smazání objektu, pøípadnì obsahu, nebo i jeho èásti (blok) (HTTP 1.1)}
+			\end{itemize}
+			
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+		\subsubsection{Cookies}
+			\begin{itemize}
+				\item Uchování stavu komunikace mezi klientem a serverem
+				\item Soubor cookie uchováván na stranì klienta, ale zpracováván na serveru
+				\item Nabízí autorizaci, sezení a identifikaci
+			\end{itemize}
+		
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+		\subsubsection{Web cache}
+			\begin{itemize}
+				\item Mo¾nost získání obsahu bez nutnosti komunikace se serverem poskytujícím obsah
+				\item Prohlí¾eè posílá HTTP dotazy na server:
+				\begin{itemize}
+					\item[a.] Objekt je v~cache -- cache server vrati obsah objektu
+					\item[b.] Jinak cache server pøepo¹le dotaz serveru a odpovìï po¹le klientovi
+				\end{itemize}
+			\end{itemize}	
+			
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsection{FTP a TFTP}
+			\subsubsection{FTP}
+			\begin{itemize}
+				\item Protokol pro pøenos souborù, umo¾òuje pøístup k~vzdálenému souborovému systému
+				\pojem{Klient}{inicializuje spojení (pøenos souborù obousmìrný)}
+				\pojem{Server}{vzdálený host}
+				\item \textbf{Spojení:}
+				\begin{enumerate}
+					\item FTP klient kontaktuje server na portu 21, vyu¾ívá TCP
+					\item Autorizace klienta na tomto spojení
+					\item Komunikace se serverem
+					\item Pøíkaz pro pøenos souboru \tedy vytvoøení druhého TCP spojení \tedy odeslání souboru
+					\item Po pøenosu se datové spojení uzavøe
+					\item Mo¾né otevøít dal¹í spojení pro pøenos, server si pamatuje stav, pozici v~souborovém systému, dokud øídící spojení není ukonèeno
+				\end{enumerate}
+			
+				\item \textbf{Vyu¾ívá tyto datové definice:}
+				\begin{itemize}
+					\item Typ souborù:
+					\begin{itemize}
+						\pojem{ASCII soubor}{soubor vyu¾ívající ASCII}
+						\pojem{EBCDIC soubor}{textový soubor}
+						\pojem{Binární soubor}{soubor s~posloupností 1 a 0}
+					\end{itemize}
+				
+					\item Struktura souboru:
+					\begin{itemize}
+						\pojem{File struktura}{proud bytù}
+						\pojem{Record struktura}{záznamy -- pouze u~textových souborù}
+						\pojem{Page struktura}{posloupnost oèíslovaných stránek -- pro soubory s~náhodným pøístupem}
+					\end{itemize}
+				
+					\item Pøenosový systém:
+					\begin{itemize}
+						\pojem{Stream re¾im (výchozí)}{posloupnost bytù -- pro v¹echny datové typy}
+						\pojem{Block re¾im}{posloupnost blokù s~hlavièka}
+						\pojem{Compressed re¾im}{pøenos s~jednoduchou kompresí}
+					\end{itemize}
+				\end{itemize}
+				
+				\item \textbf{Re¾im pøenosu:}
+				\begin{itemize}
+					\pojem{Aktivní}
+						\begin{itemize}
+							\item Na portu TCP/20 jsou pøená¹ena data
+							\item V~aktivním re¾imu navazuje pøipojení pro pøenos dat server, klient naslouchá
+							\item Problém s~privátní sítí a IP adresou pøekládanou bránou NAT nebo je klient chránìn firewallem a není vytvoøena výjimka
+						\end{itemize}
+					\pojem{Pasivní}
+						\begin{itemize}
+							\item Datové spojení navazuje klient
+							\item Pøed vytvoøením spojení poslal server svou IP a TCP port, na kterém naslouchá
+						\end{itemize} 
+				\end{itemize}
+			\end{itemize}
+			
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{TFTP}
+			\begin{itemize}
+				\item Vyu¾ívá nespojované transportní slu¾by UDP
+				\item Spolehlivý pøenos je implementován tak, ¾e ka¾dý paket je samostatnì potvrzován
+				\item Neumí listovat v~adresáøové struktuøe, nemá podporu autentizace
+				\item Poskytuje slu¾bu pro ètení/zápis souboru (e-mail), proto je jeho implementace jednoduchá
+				\item 3 základní typy pøenosu:
+				\begin{itemize}
+					\pojem{NETASCII}{pro výmìnu informací, pou¾íván v~telnet protokolu}
+					\pojem{OCTET}{pøená¹í binární 8-mi bitová data}
+					\pojem{MAIL}{zasílání mailových zpráv (nepou¾ívat)}
+				\end{itemize} 
+			\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsection{TELNET}
+			\begin{itemize}
+				\item Zajistí obousmìrný osmibitový komunikaèní kanál pro procesy terminálovì orientovaný
+				\item Vytváøí TCP spojení pro pøenos øídících informací a u¾ivatelských dat -- port 23
+				\item Vyjednání podmínek komunikace (voleb) mezi stranami
+				\begin{itemize}
+					\item \texttt{WILL X/DO X nebo DONT X}
+					\item \texttt{DO X/WILL X nebo WONT X}
+					\item \texttt{DONT X/WONT X}
+					\item \texttt{WONT X/DONT X}
+				\end{itemize}
+			\end{itemize}
+			
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsection{DNS}
+			\begin{itemize}
+				\item Mapuje doménové adresy (jména a IP adresy)
+				\item Schraòuje databázi v¹ech jmen a IP adres, je ulo¾ena na speciálním serveru (DNS serveru)
+			\end{itemize}
+			
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+			\subsubsection{Architektura}
+				\begin{itemize}
+					\item Prostor doménových adres
+					\item DNS servery je distribuovaná implementovaná v~hierarchii mnoha jmenných (name) serverù
+					\item Aplikaèní protokol definuje formát zpráv pro rezoluci (usnesení)
+				\end{itemize}
+				
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%							
+			\subsubsection{Hierarchicky uspoøádané záznamy}
+				\begin{itemize}
+					\pojem{Koøen stromu}{speciální root záznam}
+					\pojem{Doména}{podstrom v~grafu doménových jmen}
+					\pojem{Doménové jméno}{cesta mezi vrcholem domény a koøenem stromu}
+					\pojem{Listy stromu}{konkrétní sí»ová zaøízení}
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+			\subsubsection{Reverzní mapování}
+				\begin{itemize}
+					\item Záznamy v~DNS jsou indexovány podle doménových adres
+					\item Pøeklad IP adresy na doménovou adresu
+				\end{itemize}
+				
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+			\subsubsection{Registrace a správa domén}
+				\begin{itemize}
+					\pojem{ICANN}{Internet Corporation of Assigned Names and Numbers}
+					\item Povìøuje registrátory top domén
+					\item Generické gTLD (.com, .org)
+					\item Národní ccTLD (.cz, .sk)
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+			\subsubsection{DNS server}
+				\begin{itemize}
+					\item Celý prostor je rozdìlen ve struktuøe stromu
+					\pojem{Server}{obsahuje informace o~stromové struktuøe a datech, DNS záznamy}
+					\item Typy DNS serveru:
+					\begin{itemize}
+						\pojem{Primární}{úplné (autoritativní) záznamy o~doménách, které spravuje, pro ka¾dou doménu pouze jeden}
+						\pojem{Sekundární}{autoritativní kopie dat z~primárního serveru, zálo¾ní (catching only), pøeposílá odkazy, pou¾ívá vyrovnávací pamì», poskytuje neautoritativní odpovìdi}
+						\pojem{Koøenové jmenné servery}{je kontaktován lokálními servery v~pøípadì neznalosti DNS adresy}
+					\end{itemize}
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+			\subsubsection{Rezoluce DNS dotazu}
+				\begin{itemize}
+					\item Resolver
+					\begin{itemize}
+						\item Klientský program, který získává informace od DNS serveru
+						\item Vyøizuje po¾adavky klienta (aplikace) v~podobì DNS protokolu
+					\end{itemize}
+					
+					\item Rezoluce
+					\begin{itemize}
+						\item Proces vyhledání odpovìdi v~DNS systému
+						\item Pou¾ívá stromovou strukturu jmen
+						\pojem{Rekurentní dotazy}{pokud server nezná odpovìï, ptá se dal¹ích}
+						\pojem{Iterativní dotazy}{server odpovídá, kde se má dále ptát}
+					\end{itemize}
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+			\subsubsection{Caching}
+				\begin{itemize}
+					\item Ka¾dý záznam má dobu platnosti
+					\item Po tuto dobu si jej jmený server uchovává a následná rezoluce na záznam je vyhodnocena cachovaným záznamem
+					\item Zmìna se projeví po vypr¹ení platnosti nebo explicitní notifikaci \texttt{DNSUPDATE}
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+			\subsubsection{DNS protokol}
+				\begin{itemize}
+					\item Dotaz èi odpovìï, oba mají stejný formát
+					\pojem{Hlavièka}{identifikace 16b, identifikující relaci stejnou pro dotaz i odpovìï}
+					\pojem{Pøíznaky}{}
+					\begin{itemize}
+						\item Dotaz nebo odpovìï
+						\item Po¾adovaná rekurze
+						\item Dostupná rekurze
+						\item Autoritativní odpovìï
+					\end{itemize}
+				\end{itemize}
+				
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%							
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+		\subsection{SMTP}
+			\begin{itemize}
+				\item Formát textových zpráv
+				\item Pøenos binárních dat je popsán standardem MIME
+			\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+				\subsubsection{Struktura}
+					\begin{itemize}
+						\item Obálka (envelope)
+						\item Adresa odesílatele
+						\item Adresa pøíjemce
+						\item Priorita
+					\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+				\subsubsection{Zpráva}
+					\begin{itemize}
+						\item Hlavièka zprávy
+						\item Tìlo zprávy
+						\item Zprávy mohou obsahovat pøílohy, je je ale nutné vhodnì reprezentovat
+						\item pro odeslání zprávy v~jiném ne¾ základním kódování se pou¾ívá MIME, pou¾íván i jinými protokoly
+					\end{itemize}
+				
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%					
+				\subsubsection{Pøenos zpráv}
+					\begin{itemize}
+						\item TCP komunikace na portu 25
+						\item Jednoduchý protokol vyu¾ívající ASCII
+						\item Odesílací aplikace se chová jako klient, pøijímací jako server
+						\item Komunikace pøes SMTP:
+						\begin{enumerate}
+							\item Navázání spojení -- klient se pøipojí na server, server po¹le uvítací zprávu
+							\item Indetifikace klienta (\texttt{EHLO, HELO})
+							\item Pøenos zprávy (\texttt{MAIL FROM, RCPT TO, DATA, HELP, NOOP})
+							\item Ukonèení komunikace (\texttt{QUIT})
+						\end{enumerate}
+						\item Pokud zpráva nemù¾e být doruèená, vygeneruje se chybová zpráva a ode¹le odesílateli
+						\item Pokud je cílový server nedostupný, zpráva se ulo¾í do fronty a pokud o~doruèení se opakuje
+						\item Pokud se nepodaøí opakovanì doruèit zprávu, po¹ta se pøepo¹le na zálo¾ní po¹tovní server
+						\item Doruèená zpráva se ukládá na cílový server do zvlá¹tního souboru
+					\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+		\subsection{MIME}
+			\begin{itemize}
+				\item Vytváøí strukturu tìla zprávy
+				\item Definuje kódování 8b znakù
+				\item Vyu¾íván textové protokoly
+				\item Umo¾òuje odesílat zprávy v~jiném ne¾ základním kódováním
+			\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+			\subsubsection{Zpùsoby kódování}
+				\begin{itemize}
+					\pojem{7-bit}{sedmibitové ASCII znaky}
+					\pojem{8-bit}{osmibitové ASCII znaky, poru¹uje definici SMTP}
+					\pojem{Binary}{binární kódování, poru¹uje definici SMTP}
+					\pojem{Based64}{pøevod 24b (tøí 8-bitových jednotek) do ètyø 6-bitových jednotek, které jsou kódovány pøevodní tabulkou}
+					\pojem{Quoted-printable}{kódování 8-bitových znakù do 7-bitových jako \texttt{$=$xx}, kde xx je hexadecimální zápis znaku}
+				\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+			\subsubsection{Typy a podtypy}
+				\begin{itemize}
+					\pojem{\texttt{text/plain}}{neformátovaný text}
+					\pojem{\texttt{text/enriched}}{text obsahující jednoduché formátovací pøíkazy}
+					\pojem{\texttt{image/jpeg}}{obrázek ve formátu JPEG}
+					\pojem{\texttt{video/mpeg}}{video ve formátu MPEG}
+					\pojem{\texttt{application/octetstream}}{neinterpretovaná posloupnost bytù}
+					\pojem{\texttt{multipath/mixed}}{nezávislé zprávy/pøílohy v~urèeném poøadí}
+				\end{itemize}
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+		\subsection{Ètení zpráv}
+			\begin{itemize}
+				\item Manipulaci se zprávami prování POP/IMAP server
+				\item Ètení zpráv a zobrazení provádí té¾ POP/IMAP server
+				\item Ulo¾ení zpráv na po¹tovním serveru (MailBox):
+				\begin{itemize}
+					\item Textový soubor èi více souborù, zprávy mohou být kódovány binárnì
+					\item Formát ulo¾ení je dán aplikací (POP/IMAP serverem)
+					\item Formát výhodný pro ètení, vyhledávání, pøesouvání a mazání zpráv
+					\item Schránky s~pøíchozí po¹tou jsou ulo¾eny v~globálním prostoru
+					\item Schránky s~ulo¾enou po¹tou jsou ulo¾eny v~lokálních adresáøích
+				\end{itemize}
+			\end{itemize}
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+		\subsection{POP3}
+			\begin{itemize}
+				\item TCP spojení, port 110
+				\item Naèítá data z~po¹tovního serveru, kopíruje na lokální poèítaè
+				\item Obsahuje pouze schránku s~pøíchozí po¹tou
+				\item Jednoduchý protokol, snadná implementace
+				\item Vy¾aduje výluèný pøístup ke schránce (zámek)
+				\item Zprávy naète ze serveru a zobrazuje Off-line
+				\item Èinnost protokolu:
+				\begin{enumerate}
+					\item Autorizace -- pøihlá¹ení u¾ivatele (\texttt{USER, PASS})
+					\item Transakce -- zpracování zpráv (\texttt{LIST, RETR, DELE})
+					\item Aktualizace schránky a ukonèení (\texttt{QUIT})
+				\end{enumerate}
+			\end{itemize}
+		
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+		\subsection{IMAPv4}
+			\begin{itemize}
+				\item TCP spojení na portu 143
+				\item Umo¾òuje práci s~více schránkami
+				\item Jména schránek jsou 7bitová
+				\item Podporuje ètení celých zpráv i èástí zpráv
+				\item Manipulace se zprávami na stranì serveru
+				\item Pro jednotlivé zprávy se udr¾uje sada atributù
+				\item Nároèná implementace \tedy velké nároky na výpoèetní zdroje
+				\item Mo¾nost práce Off-line a následná synchronizace zpráv
+				\item Ka¾dý pøíkaz klienta je identifikován pøíkazem \texttt{tag}
+				\item Server mù¾e zru¹it spojení pøi neaktivitì klienta
+			\end{itemize}
+		
+		
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Bezpeènost}
+		\begin{itemize}
+			\item ©ifrování - ssl secure socket layer, autentizace, autorizace, sledování (pøedná¹ka o~anonymitì), podvr¾ení informací
+			\item Co by mìlo byt bezpeèné - smìrovaci protokoly, konfigurace adresy, doruèení dat ?
+		\end{itemize}
+
+		\subsection{©ifrování}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{Symetrická kryptografie}
+				\begin{itemize}
+					\item Algoritmy se sdíleným klíèem, který se pou¾ívá jak pro ¹ifrování, tak pro de¹ifrování, stejný klíè znají obì strany, bezpeènost spoèívá v~ochranì klíèe
+					\pojem{Výhody}{rychlost, jednoduchost}
+					\pojem{Nevýhody}{distribuce klíèù}
+					\item Algoritmy: DES, 3DES, AES, SEAL
+				\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{Asymetrická kryptografie}
+				\begin{itemize}
+					\item Dvojice navzájem svázaných klíèù (veøejný a privátní), v¾dy jeden ¹ifruje a jeden de¹ifruje
+					\item Délka klíèù oproti symetrickým algoritmùm je výraznì vìt¹í k~zaji¹tìní stejné míry bezpeènosti
+					\item Velká nároènost na výpoèetní prostøedky (100-1000x pomalej¹í)
+					\item Algoritmy: Diffie-Hellman, Digital Signature Standard (DSS) and Digital Signature Algorithm (DSA), RSA encryption algorithms, ElGamal
+					\pojem{Privátní klíè}{zná a vlastní ho pouze majitel}
+					\pojem{Veøejný klíè}{k dispozici komukoliv}
+					\item Oba klíèe jsou rozdílné a je výpoèetnì ''nemo¾né'' odvodit z~jednoho klíèe druhý
+					\pojem{Autentifikace (nepopiratelnost)}{ovìøení pravosti zprávy, odesilatel za¹ifruje zprávu svým privátním klíèem. Pøíjemce zprávy si pro pøeètení vy¾ádá odesilatelùv veøejný klíè. Pokud je zpráva èitelná, je nepopiratelné, ¾e ji odeslal daný odesílatel}
+					\pojem{Confidentality (dùvìrnost)}{odesílatel po¾ádá pøíjemce o~veøejný klíè, tento klíè pou¾ije k~za¹ifrování zprávy a ode¹le zprávu. Pøíjemce pou¾ije k~de¹ifrování zprávy svùj privátní klíè}
+				\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{Hash}
+				\begin{itemize}
+					\item Jednocestá matematická hash funkce bere na svém vstupu binární data libovolné délky a produkuje výstup fixní délky
+					\item Pou¾ívá se k~zaji¹tìní integrity, mìla by být co nejvíce odolná kolizím
+					\pojem{Integrita}{Odesílatel spoèítá hash (otisk) zprávy, otisk je pøipojen k~pùvodní zprávì a odeslán pøíjemci. Pøíjemce spoèíta hash pøijaté zprávy a porovná s~pøilo¾eným otiskem. Pokud jsou si rovny, byla integrita zprávy zachována}
+				\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{Certifikát}
+				\begin{itemize}
+					\item Je to digitálné podepsaný veøejný ¹ifrovací klíè, který vydává certifikaèní autorita. Kromì jiného obsahuje informace o~majiteli veøejného klíèe a vydavateli certifikátu
+					\item Pou¾ivájí se pro identifikaci protistrany pøi vytváøení zabezpeèeného spojení (HTTPS, VPN,...)
+					\pojem{Certifikaèní autorita}{dùvìryhodná organizace, která vystavuje certifikáty a u~které lze vydané certifikáty oveøit}
+					\pojem{Self-signed certifikát}{pøi vytvoøení páru ¹ifrovacích klíèù je mo¾né veøejný klíè obratem podepsat odpovídajícím privátním klíèem, vznikne tak certifikát podepsaný sám sebou. U~takto vytvoøeného certifikátu není mo¾né vyu¾ít princip pøenosu dùvìry a je nutné ho ovìøit jinak. Vyu¾ití v~uzavøeném prostøedí (napø. firma) nebo pro testování}
+					\pojem{Elektronický podpis}{urèen primárnì k~identifikaci u¾ivatele, chápeme ho jako klasický podpis. Je to tzv. kvalifikovaný certifikát, který mù¾e vydat pouze akreditovaná kvalifikovaná certifikaèní autorita}
+				\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{PKI (Public Key Infrastructure)}
+				\begin{itemize}
+					\item Je v~kryptografii oznaèení infrastruktury správy a distribuce veøejných klíèù z~asymetrické kryptografie. PKI umo¾òuje pomocí pøenosu dùvìry pou¾ívat cizí veøejné klíèe a ovìøovat jimi elektronické podpisy bez nutnosti jejich individuální kontroly.
+					\item PKI zahrnuje celou øadu rùzných komponentù, napø.:
+					\begin{itemize}
+						\item Digitální certifikáty
+						\item ©ifrovací klíèe
+						\item Asymetrická kryptografie
+						\item Certifikaèní autorita
+						\item Bezpeèností architektura sítì
+						\item Zpùsob bezpeèného vydávání certifikátù
+						\item Nástroje pro správu, obnovu a ru¹ení certifikátù
+					\end{itemize}
+					\item Zpùsoby ochrany informací pomocí PKI:
+					\begin{itemize}
+						\item Autentizace pøístupu (ovìøení toto¾nosti u¾ivatele)
+						\item Provìøování integrity zpráv (zpráva nebyla ¾ádným zpùsobem zmìnìna)
+						\pojem{Nepopíratelnost}{vyu¾ití elektronického podpisu}
+						\pojem{Privátnost}{¹ifrování zpráv, symetrické a asymetrické ¹ifry}
+					\end{itemize}
+				\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{SSL (Secure Sockets Layer) / TLS (Transport Layer Security)}
+				\begin{itemize}
+					\item Sada kryptografických protokolù poskytující mo¾nost zabezpeèené komunikace na Internetu pro slu¾byjako HTTPS, IMAP, POP3, apod.
+					\item TLS je nástupcem SSL
+					\item Pou¾ití
+					\begin{itemize}
+						\item HTTPS
+						\item IMAPS, POP3S, SMTPS
+					\end{itemize}
+				\end{itemize}				
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsection{Útoky}
+			\subsubsection{DHCP Spoofing}
+				Zkrácenì lze napsat, ¾e tento útok spoèívá v~podvr¾ení IP adresy v~paketu, který se vrací jako odpovìï na ¾ádost o~pøeklad doménového jména na IP adresu. Zpùsobù, jak to provést, je mnoho. Tento útok u¾ nemusí být pouhá ''hraèka'' pro odposlech lokální sítì, ale mù¾e zpùsobit pøesmìrování provozu tisícù u¾ivatelù. Dále provoz mù¾eme pøesmìrovat i mimo lokální sí», co¾ je napøíklad pomocí ARP Cache poisoningu nemo¾né. 
+				\begin{itemize}
+					\item Lze útoèit pouze na klienty novì pøipojené do sítì
+					\begin{itemize}
+						\item Stávající klienti se ptají pøedchozího serveru DHCP
+					\end{itemize}
+					\item Dva zpùsoby útoku:
+					\begin{itemize}
+						\item Vyèerpat pøidìlovaný rozsah IPv4 adres z~validního serveru
+						\item Sna¾it se pøedbìhnout odpovìï validního serveru
+					\end{itemize}
+					\item Pokud si klient pøidìlí adresu z~útoèníkova serveru, je pod jeho ''kontrolou''
+					\begin{itemize}
+						\item Provoz proudí skrz útoèníka
+						\item Útoèník podvrhne pouze DNS a potom u~specifických webù jejich adresu
+					\end{itemize}
+
+					\pojem{Mo¾nosti zneu¾ití}
+					\begin{itemize}
+						\item Kradení IP adresy, urèené jinému zaøízení
+						\item Podvr¾ení zdrojové IP adresy
+						\item Podvr¾ení konfiguraèních údajù -- default GW, DNS
+						\begin{itemize}
+							\item Trojan.Flush.M,
+							\item Trojan:W32/DNSChanger
+						\end{itemize}
+					\end{itemize}
+
+					\item \textbf{Ochrana}
+					\begin{itemize}
+						\item Nastavení dùvìryhodných portù pro DHCP u~switche, který následnì útoènikovu zprávu nepropustí (nutnost podpory)
+					\end{itemize}
+					
+				\end{itemize}	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{CAM Overflow}
+				Content Addressable Memory (CAM) - Tabulka pro MAC adresy, po¾ívá binární hodnoty 0 a 1. Obsahuje MAC adresu, port, WLAN a èasové razítko. Tento útok zneu¾ívá koneènost CAM tabulky v~pøepínaèi a zpùsob jakým pøepínaè rámce pøeposílá. Útoèník se sna¾í zaplnit CAM tabulku vysláním velkého poètu rámcù z~rùznými MAC adresami na jeden port na pøepínaèi. Ten si v¹echny ulo¾í a jakmile je CAM tabulka plná zaène rámce s~dosud neznámými MAC adresami pøeposílat na v¹echny porty a tak se k~nim útoèník dostane. Vy¾aduje fyzický pøistup útoèníka k~19 pøepínaèi. Obrana je zavést na pøístupových pøepínaèích omezení na poèet MAC adres, které se mohou objevit na urèitém portu pro koncové stanice pc.
+				\begin{itemize}
+					\item \textbf{Vlastnosti útoku}
+					\begin{itemize}
+						\item Útok funguje jen po dobu vypr¹ení záznamu z~CAM
+						\item Síla útoku je jen na sniffing
+						\item Nástroje:
+						\begin{itemize}
+							\item Macof, Scapy
+						\end{itemize}
+					\end{itemize}
+					\item \textbf{Ochrana}
+					\begin{itemize}
+						\item Mazání nejstar¹ích záznamù (pokud je ale útoèník schopný, nemusí staèit)
+						\item Port security
+						\begin{itemize}
+							\item Povolené pouze pøedkonfigurované adresy MAC
+							\item Omezen poèet adres MAC na port
+							\begin{itemize}
+								\item[$\circ$] Chrání pøed MAC address flooding
+							\end{itemize}
+						\end{itemize}
+					\end{itemize}
+				\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{ARP Spoofing}
+				ARP spoofing je zneu¾ití Address Resolution Protocolu (ARP), umo¾òující útoèníkovi vydávat se v~místní síti za jiný poèítaè
+				\begin{itemize}
+					\item Podvrhávání Solicitious ARP Response zpráv
+					\item Dva výsledky útoku
+					\begin{itemize}
+						\item DoS na danou IP adresu
+						\item MitM pøes útoèníkovu sí»ovou kartu (Man in the Middle)
+					\end{itemize}
+					\item Nástroje:
+					\begin{itemize}
+						\item ArpSpoof, Ettercap, Cain\&Abel
+					\end{itemize}
+
+					\item \textbf{ARP MitM: Otrava Cache} \\
+					ARP Cache poisoning spadá do kategorie útokù man-in-the middle a umo¾òuje útoèníkovi odposlechnout provoz, který je urèen na jiné poèítaèe v~síti. Ka¾dý paket, který pøijde na switch obsahuje IP adresu cílové destinace, nikoli v¹ak hardwarovou adresu (MAC adresu). Tu si musí switch sám zjistit (pokud ji nezná) pomocí ARP dotazu. Ten vypadá tak, ¾e switch ode¹le na v¹echny porty dotaz, kdo má IP adresu X.X.X.X. Uzel s~danou IP adresou poté ode¹le ARP reply (odpovìï) ve tvaru ''IP adresa X.X.X.X má HW adresu Y.Y.Y...''. Switch poté na danou adresu ode¹le cílový paket. Problém spoèívá v~tom, ¾e switch pøijímá odpovìdi, i kdy¾ neodeslal ¾ádný dotaz. Tím pádem lze do jeho cache dostat v~podstatì libovolný podvr¾ený údaj.
+					
+					\item \textbf{ARP MitM: Forwarding} \\
+					The hacker turns on an operating system feature called IP forwarding. This feature enables the hacker's machine to forward any network traffic it receives from your computer to the router.
+
+					\item \textbf{Ochrana}
+					\begin{itemize}
+						\item Dynamic ARP Inspection
+						\begin{itemize}
+							\item Port security nezkoumá obsah -- filtruje pouze na základì hlavièky Ethernet 
+							\item Vyu¾ití DHCP snooping mechanismu
+							\begin{itemize}
+								\item[$\circ$] Tvorba tabulky MAC-IP-Port
+							\end{itemize}
+							\item Dynamic ARP Inspection testuje ARP pakety a povoluje pouze správné
+						\end{itemize}
+					\end{itemize}
+				\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{IP Spoofing\,--\,DDos útoky}
+				Oznaèuje v~informatice vytvoøení IP datagramu s~fale¹nou zdrojovou IP adresou, který je následnì odeslán poèítaèovou sítí k~cílovému poèítaèi, pøed kterým má být zatajena toto¾nost odesílatele. IP spoofing slou¾í k~vedení útokù (napø. DoS) a podobnì. Na vìt¹inì systémù je pro vytvoøení datagramu s~podvr¾enou IP adresou nutný raw pøístup k~internet soketu, co¾ je umo¾nìno pouze správci poèítaèe, nikoliv bì¾nému u¾ivateli.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsection{IPsec}
+			\begin{itemize}
+				\item Framework otevøených standardù v~rámci IETF zaji¹»ující vytvoøení bezpeèného tunelu
+				\item IPsec není svázaný s~jedním konkrétním ¹ifrovacím algoritmem; naopak je modulární
+				\item Pou¾ívá dva páteøní protkoly
+				\begin{itemize}
+					\item AH
+					\item ESP
+				\end{itemize}
+
+				\item \textbf{Authentication Header}
+				\begin{itemize}
+					\item AH \tedy Authentication Header
+					\item Poskytuje autenticitu a ochranu proti znovupou¾ití
+					\item Neposkytuje dùvìrnost
+					\begin{itemize}
+						\item Data putují sítí v~neza¹ifrované podobì
+					\end{itemize}
+					\item Protokolové èíslo 51
+				\end{itemize}
+
+				\item \textbf{ESP\,--\,Encapsulating Security Payload}
+				\begin{itemize}
+					\item Umí to samé co AH + poskytuje dùvìrnost
+					\begin{itemize}
+						\item Nejdøíve za¹ifruje obsah
+						\item Poté k~cipher -- textu pøidá HMAC
+					\end{itemize}
+					\item Protokolové èíslo 51
+				\end{itemize}
+
+				\item \textbf{ISAKMP\,--\,Internet Security}
+				\begin{itemize}
+					\item Protokolový framework slou¾ící k:
+					\begin{itemize}
+						\item Vyjednání zabezpeèeného komunikaèního perimetru (IKE)
+						\item Výmìnì klíèù (DH)
+						\item Autentizování protistran
+						\item Vyjednání parametrù IPsec tunelu (IKE)
+					\end{itemize}
+					\item Vyjednané paremtry se nazývají security association
+					\begin{itemize}
+						\item Bezpeènostní kontrakt mezi dvì konkrétními stranami
+						\item Ulo¾eny v~SADB
+					\end{itemize}
+				\end{itemize}
+
+				\item \textbf{VPN\,--\,Virtual Private Network}
+				\begin{itemize}
+					\item Poskytují konektivitu vzdáleným u¾ivatelùm, ''jakoby'' oni sami byli pøímo pøipojeni k~dané LAN
+					\item VPN je spojením konceptu tunelování (vytvoøení sítì nad sítí) a ¹ifrování
+					\item ISP nevidí do VPN komunikace, u¾ivatel se hlásí internetu jako nìkdo jiný (urèitá míra anonymity), poskytovatel VPN v¹ak má informace kdo se pøipojil z~jaké adresy
+					\item \textbf{Site-to-site VPN}
+					\begin{itemize}
+						\item Propojují celé sítì na velké geografické vzdálenosti
+						\item Typické pou¾ití v~DC, nebo v~korporátním prostøedí
+						\item Pou¾ívají typicky Ipsec èi L2TP
+					\end{itemize}
+					\item \textbf{Remote Access VPN}
+					\begin{itemize}
+						\item Slou¾í k~obèasnému pøipojování vzdálených u¾ivatelù
+						\item Pou¾ívají typicky SSL/TLS èi PPTP
+					\end{itemize}
+				\end{itemize}
+				
+			\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{LAN sítì}
+		\begin{itemize}
+			\item Linková vrstva doruèuje rámce linkové vrstvy mezi sousedními poèítaèi v~lokální síti
+			\item Rámec linkové vrstvy zapouzdøuje datagram sí»ové vrstvy
+			\item Pøenosové medium mù¾e být øízené (koaxiál, dvoulinka, optika) nebo neøízené (vzduch)
+			\item Polo-duplexní nebo plnì-duplexní pøenos
+		\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsection{Slu¾by linkové vrstvy}
+			\begin{itemize}
+				\pojem{Pøístup k~médiu}{zabalení dat do rámcù, pøístup k~sdílenému médiu a adresování}
+				\pojem{Spolehlivé doruèení mezi sousedními uzly}{zále¾í na technologii}
+				\pojem{Øízení toku}{promìnné rychlosti pøenosu}
+				\pojem{Detekce chyby}{chyby zpùsobené utlumením èi ru¹ením}
+				\pojem{Oprava chyby}{není nutné znovu pøená¹et po¹kozený rámec}
+				\pojem{Pøenos}{half-duplex, full-duplex}
+			\end{itemize}
+		
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsection{Detekce a oprava chyb}
+			\begin{itemize}
+				\pojem{Pøi pøenosu}{útlum signálu, ¹um, interference, odraz}
+				\pojem{Detekce chyby}{mo¾nost oznámit chybu a data odesílatel ode¹le znovu nebo se pouze chybný rámec zahodí}
+				\pojem{Oprava chyby}{pokud umo¾òuje pou¾itý kód opravu, bez nutnosti vyslat chybný rámec znovu}
+				\item \textbf{Nedetekované chyby}
+			\end{itemize}
+			
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+			\subsubsection{Mechanismy opravy chyb}
+				\begin{itemize}
+					\pojem{Parita}{zji¹»uje, zda-li do¹ly bity v~poøádku}
+					\pojem{Kontrolní souèet}{kontrolní souèet v¹ech dat, zda-li do¹ly v¹echny korektnì}
+					\pojem{CRC (Cyclic Redundancy Check)}{detekce v¹ech schlukovatelných chyb do délky R, pomocí posuvù a XORù}
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\subsection{Vícenásobný pøístup}
+			\subsubsection{Typy linek}
+				\begin{itemize}
+					\pojem{Point-to-point}{protokol pro vytáèenou telefoní linku \tedy pøepínaný ethernet mezi hostem a pøepínaèem}
+					\pojem{V¹esmìrové vysílání (Broadcast)}{tradièní (historický) ethernet, bezdrátové sítì (802.11), odchozí tok pro HFC}
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{Øízení vícenásobného pøístupu}
+				\begin{itemize}
+					\item Jeden sdílený pøenosový kanál (médium)
+					\item Dva a více uzlù vysílají data ve stejném èase \tedy pouze jeden uzel úspì¹nì pøenesl zprávu
+					\item Protokoly:
+					\begin{itemize}
+						\pojem{Rozdìlení pøenosového kanálu}{rozdìlí kanál na men¹í èásti mezi uzly (TDMA, FDMA, CDMA)}
+						\pojem{S~náhodným pøístupem}{bez rozdìlení, mohou vznikat kolize, zotavení pøi vzniku kolize (ALOHA, CSMA, CSMA/CD, CSMA/CA)}
+						\pojem{S~¾etonem (token)}{pøísnì koordinovaný pøenos od uzlù, vyzvednutí nebo pøedání ¾etonu}
+					\end{itemize}
+					\item Ideální protokol:
+					\begin{itemize}
+						\item je plnì decentralizovaný
+						\item uzel mù¾e vysílat plnou rychlostí
+						\item pokud x uzlù po¾aduje pøenos, ka¾dý bude komunikovat prùmìrnou rychlostí z/x, kde z~je pøenosová rychlost
+						\item bez synchronizace hodin, èasových uzlù
+						\item musí být jednoduchý
+					\end{itemize}
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{TDMA (Time Division Multiple Access)}
+				\begin{itemize}
+					\item jsou definovány intervaly (sloty), kdy mù¾e stanice pøistupovat k~médiu
+					\item intervaly se støídají v~rámci kola
+					\item nevyu¾ité èasové sloty jsou prázdné \tedy nízké vyu¾ití
+					\item vy¹¹í zpo¾dìní v~pøípadì dlouhého kola, tedy hodnì stanic
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{FDMA (Frequency Division Multiple Access)}
+				\begin{itemize}
+					\item dostupné pøenosové pásmo je rozdìlené do nìkolika oblastí podle frekvencí
+					\item ka¾dá stanice má pøidelené urèité frekvenèní pásmo
+					\item zùstává nevyu¾ité frekvenèní pásmo
+					\item uzly mohou pøená¹et data v~jeden èas
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{CDMA (Code Division Multiple Access)}
+				\begin{itemize}
+					\item u¾ivatel má jedineèný identifikátor (code)
+					\item v¹ichni u¾ivatelé sdílí jednu frekvenci
+					\item ka¾dý u¾ivatel zakoduje svou zprávu podle svého kódu
+					\item umo¾òuje sdílení médií více u¾ivatelùm souèasnì (pokud jsou kódy ortogonální)
+					\item pou¾ívá se v~bezdrátových sítích
+				\end{itemize}
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{Slotted ALOHA}
+				\begin{itemize}
+					\item uzly vysílají pouze na zaèátku slotu
+					\item uzly jsou synchronizované
+					\item pokud nastane kolize, uzel dál vysílá v~dal¹ím slotu
+					\item kolize nastává v~pøípadì souèasného vysílání \tedy snaha o~poslání rámce v~dal¹ím slotu
+					\pojem{Výhody}{jeden uzel mù¾e posílat rámce s~vyu¾itím plné kapacity média, decentralizované, jednoduchý pøístup}
+					\pojem{Nevýhody}{kolize plýtvající sloty \tedy nevyu¾ité sloty, kolizi je mo¾né døíve detekovat}
+					\pojem{Pure ALOHA}{jednodu¹¹í, ¾ádná synchronizace. Odesílání okam¾itì bez èekání na zaèátek slotu. Pravdìpodobnost kolize vzrùstá.}
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{CSMA (Cerrier Sence Multiple Access)}
+				\begin{itemize}
+					\item je-li médium volné, ode¹li rámec, jinak èekej
+					\item v~pøípadì kolize, je celý rámec nepou¾itelný a je vy¹¹í doba ¹íøení signálu
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{CSMA/CD (Collision Detection)}
+				\begin{itemize}
+					\item modifikace klasického CSMA
+					\item po detekci kolize je pøenos okam¾itì ukonèen \tedy ¹etøí pøenosové pásmo
+					\item jednoduché v~drátových sítích
+					\item tì¾ké pro bezdrátové spoje
+					\item pøijímaè je pøi vysílání vypnut
+					\item po kolizi se oba uzly umlèí na náhodnì zvolenou dobu, pak opìt zaènou vysílat
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{CSMA/CA (Collision Avoiding)}
+				\begin{itemize}
+					\item ka¾dý uzel informuje o~tom, ¾e bude vysílat
+					\item jakmile jsou v¹echny uzly informované zaène se vysílat
+					\item zabránìní kolizím díky tomu, ¾e v¹echny uzly vìdí o~vysílání døíve ne¾ k~nìmu dojde
+					\item kolize jsou stále mo¾né, ale nejsou detekovatelné
+					\item pou¾ívá se v~bezdrátových sítích
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{Token-ring}
+				\begin{itemize}
+					\item pøedávání ¾etonu
+					\item øídící ¾eton je pøedáván sekvenènì mezi uzly ve zvlá¹tní zprávì
+					\item re¾ie pøedávání ¾etonu
+					\item zpo¾dìní vzniká pøi èekání na ¾eton
+					\item ztráta ¾etonu \tedy znamená prùser
+				\end{itemize}
+					
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+		\subsection{LAN Technologie}
+			\begin{itemize}
+				\item Zaøízení
+				\begin{itemize}
+					\item Hub
+					\item Bridge
+					\item Switch
+				\end{itemize}
+				\item 802.11 (WiFi)
+			\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{MAC Adresy}
+				\begin{itemize}
+					\item 48-bitù, vypálena v~ROM pamìti sí»ového adaptéru
+					\item Ka¾dý adaptér v~lokální síti musí mít unikátní adresu
+					\item MAC adresa je pøidìlována tvùrcem standardu, tedy IEEE
+					\item Jsou ploché, snadná pøenositelnost mezi LAN
+				\end{itemize}
+				
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{ARP (Adress Resolution Protocol)}
+				\begin{itemize}
+					\item pøevádí MAC adresu na IP adresu
+					\item ka¾dý IP host má ARP tabulku
+					\item ARP tabulka mapuje IP/MAC a ARP protokol nevy¾aduje konfiguraci, je implicitnì zapnutý v~multiaccess sítí
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%		
+			\subsubsection{Ethernet}
+				\begin{itemize}
+					\item Levná a nejpou¾ívanìj¹í LAN technologie souèasnosti (rychlost od 10Mbps od 10Gbps)
+					\item Snadná instalace a správa
+					\item 802.3 Standard IEEE
+					\item Vlastnosti:
+					\begin{itemize}
+						\item Nespojovaná komunikace
+						\item Nespolehlivá komunikace (kontrolní souèet pro detekci chybných rámcù)
+						\item Sdílené médium
+						\item Pou¾ívá CSMA/CD:
+						\begin{itemize}
+							\item ®ádné sloty
+							\item Carrier sense
+							\item Collision detection
+							\item Random access
+						\end{itemize}
+					\end{itemize}
+					\item Typy:
+					\begin{itemize}
+						\pojem{10base2}{rychlost 10Mb/s, half-duplex, maximální vzdálenost 200m, pou¾ívá tenký koaxiál}
+						\pojem{10base5}{stejný jako 10base2, ale maximální vzdálenost je 500m, pou¾ívá tlustý koaxiál}
+						\pojem{100baseT}{fast ethernet, kroucená dvoulinka (RJ45), star topologie, maximální vzdálenost 100m mezi uzlem A~a B, HUB je víceportový opakovaè}
+					\end{itemize}
+				\end{itemize}
+				
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{Gigabytový ethernet}
+				\begin{itemize}
+					\item Definovaný IEEE 802.3z
+					\item Pou¾ívá standardní formát rámce
+					\item Pou¾itelný pro Point-to-point linky nebo broadcastové media
+					\item Pou¾ívá CSMA/CD a HUB pro sdílená média
+					\item Full-duplex na 1Gbps pro Peer-to-peer linky
+				\end{itemize}
+				
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{HUB}
+				\begin{itemize}
+					\item Propojuje LAN segmenty
+					\item Zvìt¹uje maximální vzdálenost mezi uzly
+					\item Zvìt¹uje kolizní doménu
+					\item Nemù¾e propojovat segmenty rùzných rychlostí
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{Bridge}
+				\begin{itemize}
+					\item Zaøízení linkové vrstvy
+					\item Ukládá a posílá rámce
+					\item Zkoumá hlavièky rámcù a selektivnì pøeposílá rámce na základì cílové MAC
+					\item Transparentní pro koncové stanice
+					\item Není nutná konfigurace, uèí se z~komunikace
+				\end{itemize}
+				
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			\subsubsection{Kódování}
+				\begin{itemize}
+					\pojem{NRZ (Non-Return-to-Zero)}{reprezentace dat beze zmìny binárního kódu. Není pøíli¹ vhodné, problém se synchronizací pøi dlouhých sekvencích 1 nebo 0.}
+					\begin{figure}[ht!]
+						\center
+						\scalebox{0.5}{\includegraphics{nrz}}
+					\end{figure}
+					
+					\pojem{NRZI (Non-Return-to-Zero Inverted)}{zmìna nastává pøi 1. Zlep¹ení oproti NRZ, av¹ak stále neøe¹í problém s~dlouhými sekvencemi nul.}
+					\begin{figure}[ht!]
+						\center
+						\scalebox{0.5}{\includegraphics{nrzi}}
+					\end{figure}
+
+					\pojem{4B/5B}
+					\begin{itemize}
+						\item 4 bity dat kódovány 5 bity pøeneseným
+						\item nejvý¹e tøi 0 mohou následovat po sobì
+						\item nejvý¹e jedna 0 na zaèátku a dvì 0 na konci
+						\item vlastní pøenos prostøednictvím NRZI
+						\item poèet 1 není dùle¾itý (nejvý¹e 8)
+					\end{itemize}
+					
+					\pojem{Manchester kódování}{sní¾ení efektivní pøenosové kapacity Synchronní manchester kódování}
+					\item \textbf{Klasické manchaster kódování}
+					\begin{itemize}
+						\item Klasické
+						\begin{itemize}
+							\item pøekódovaný signál má hodnotu 1 \tedy výsledkem je 10
+							\item pøekódovaný signál má hodnotu 0 \tedy výsledkem je 01
+						\end{itemize}
+						\item Synchronní
+						\begin{itemize}
+							\item pøekódovaný signál má hodnotu 1 \tedy první polovina je stejná jako druhá polovina pøede¹lého pøekódovaného bitu
+							\item pøekódovaný signál má hodnotu 0 \tedy první polovina je opakem druhé poloviny pøede¹lého pøekódovaného bitu
+						\end{itemize}	
+					\end{itemize}
+					\begin{figure}[ht!]
+						\center
+						\scalebox{0.5}{\includegraphics{man}}
+					\end{figure}
+
+					
+				\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+		\subsection{WLAN Technologie}
+			\begin{itemize}
+				\pojem{AP}{Access point}
+				\item Bezdrátová sí»
+				\item Funguje v~pásmech 2.2GHz nebo 5GHz
+			\end{itemize}
+			
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+			\subsubsection{Typy sítí}
+				\begin{itemize}
+					\pojem{BSS (Basic Service Set)}{základní stavební prvek sítì}
+					\pojem{Ad-hoc sítì}{nezávislé, bez AP, stanice musí být v~radiovém dosahu}
+					\pojem{Infrastrukturní sítì}{pøesnì vymezená struktura s~AP, asociace s~AP, stanice si ¾ádá o~pøístup \tedy AP buï pøijme nebo zamítne}
+				\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+			\subsubsection{Øízení pøístupu k~médiu}
+				\begin{itemize}
+					\pojem{Funkce distrubuované koordinace DCF (Distributed Coordination Function)}{bì¾nì implementován}
+					\pojem{Funkce koordinace jedním bodem PCF (Point Coordination Function)}{øízení prioritou, pro reálný èas, málo implementací}
+					\pojem{CSMA/CA}
+				\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+			\subsubsection{Správa WiFi sítí}
+				\begin{itemize}
+					\item Broadcast informací o~dostupných sítích
+					\begin{itemize}
+						\item Aktivní nebo pasivní skenování
+						\item Lze zakázat \tedy klient aktivnì skenuje sí»
+					\end{itemize}
+					\item Asociace s~AP
+					\item Reasociace (obnovení)
+					\item Deasociace (uzavøení)
+					\item Power management
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+			\subsubsection{Antény}
+				\begin{itemize}
+					\item Smìrovost antén:
+					\begin{itemize}
+						\pojem{V¹esmìrové}{do v¹ech stran, 360$^\circ$}
+						\pojem{Sektorové (panelové)}{vykrývají specifickou oblast}
+						\pojem{Smìrové (parabolické)}{úzký paprsek}
+					\end{itemize}
+					\item Polarizace:
+					\begin{itemize}
+						\pojem{Lineární}{vertikální nebo horizontální}
+						\pojem{Kruhová}{pravotoèivá nebo levotoèivá}
+					\end{itemize}
+					\pojem{Zisk}{pomìr intenzity vyzaøování v~daném smìru k~intenzitì vyzaøování pøijaté v~daném smìru}
+					\pojem{Vyzaøovací diagram}{vertikální a horizontální projekce zisku antény}
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+			\subsubsection{Standardy}
+				\begin{itemize}
+					\pojem{802.11b}{a¾ 11 Mbs, 2.4GHz}
+					\pojem{802.11g}{a¾ 54 Mbs, 2.4GHz}
+					\pojem{802.11g}{a¾ 54 Mbs}
+					\pojem{802.11n}{Vy¹¹í pøenosové rychlosti, více anténní komunikace MIMO, rychlosti 100 Mbs, 200 Mbs, cíl a¾ 540 Mbs}
+					\pojem{802.16}{WiMax, Standard pro venkovní bezdrátové sítì (metropolitní)}
+				\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Multicast}
+		\begin{itemize}
+			\pojem{Definice multicastu}{komunikace mezi více ne¾ dvìma subjekty}
+			\item Úrovnì:
+			\begin{itemize}
+				\item Aplikaèní
+				\item Unicastová
+				\item Nativní
+			\end{itemize}
+		\end{itemize}
+	
+		\subsection{Aplikaèní multicast}
+			\begin{itemize}
+				\item Zcela v re¾ii aplikací
+				\item L7 vrstva
+				\item Smìry komunikace:
+				\begin{itemize}
+					\pojem{One-to-Many}{jeden zdroj, 1+ cíl}
+					\pojem{Many-to-Many}{1+ zdroj, 1+ cíl}
+					\pojem{Many-to-One}{1+ zdroj, 1 cíl}
+				\end{itemize}
+			\end{itemize}
+		\subsection{Nativní multicast}
+			\begin{itemize}
+				\item Podpora ze strany aktivních sí»ových zaøízení
+				\item L3 a L2 vrstva
+				\item Multicast z dne¹ního pohledu
+				\item Adresování:
+				\begin{itemize}
+					\pojem{Multicastová adresa}{Multicastová skupina}
+					\item Zdroje na multicastovou adresu vysílanjí data
+					\item Pøíjemci z ní data odebírají
+				\end{itemize}
+			\end{itemize}
+
+			\subsubsection{Adresování\,--\,L3 pro IPv4}
+				\begin{itemize}
+					\item Adresy tøídy D -- rozsah 224.0.0.0 -- 239.255.255.255 \\
+					\texttt{4bity + 28bitù}
+					\item Dìlení podle dosahu:
+					\begin{itemize}
+						\pojem{Lokální}{224.0.0.0 -- 224.0.0.255}
+						\pojem{Globální}{224.0.1.0 -- 224.0.1.255 nebo 224.0.2.0 -- 238.255.255.255}
+						\pojem{Administrativní}{239.0.0.0 -- 239.255.255.255}
+					\end{itemize}
+				\end{itemize}
+			\subsubsection{Adresování\,--\,L3 pro IPv6}
+				\begin{itemize}
+					\item Adresy s prefixem FF**, kde ** urèuje obsah
+					\pojem{Rozhraní}{FF01:/8 \tedy 0}
+					\pojem{Linka}{FF02:/8 \tedy 1}
+					\pojem{Lokalita}{FF05:/8 \tedy $<$32}
+					\pojem{Organizace}{FF08:/8 \tedy $\leq$255}
+					\pojem{Globální}{FF0E:/8 \tedy $\leq$255}
+					\pojem{Rezervováno}{FF0F:/8}
+				\end{itemize}
+			\subsubsection{Adresování\,--\,L2 pro Ethernet}
+				\begin{itemize}
+					\item I pøepínaèemusejí vìdìt, jak smìøovat multicastové rámce
+					\item První tøi oktety \tedy 01:00:5E
+					\item Prvních 9bitù se zahodí a kopíruje se zbytek, zaèátek je tedy 01:00:5E
+				\end{itemize}
+
+		\subsection{Klient}
+			\begin{itemize}
+				\item Jakým zpùsobem dávají klientské stanice vìdìt, ¾e mají zájem o multicastová data?
+			\end{itemize}
+
+			\subsubsection{IGMP}
+				\begin{itemize}
+					\item Èím je ICMP pro unicast, tím je IGMP pro mutlicast
+					\pojem{IGMP}{protokol mezi stanicí a smìrovaèem/pøepínaèem umo¾òující}
+					\begin{itemize}
+						\item Stanicím se pøihla¹ovat a odhla¹ovat v multicastové skupinì
+						\item Smìrovaèùm a pøepínaèùm vyzvídat, jestli má nìkdo na daném sí»ovém segmentu zájem o odbìr dat z multicastové skupiny
+					\end{itemize}
+					\item L3 vrstva -- zapouzdøen do IPv4
+					\item Jen pro IPv4, pro IPv6 je urèen MLD
+
+					\item Smìrovaèe a pøepínaèe se dotazují na adrese 224.0.0.1
+					\item Klienti odpovídají na adresu 224.0.0.2
+
+					\item Autoritativné mluvèí (Designated router) je ten s nejni¾¹í IP adresou
+					\pojem{IGMPv1}{\\ Smìrovaè: Má nìkdo zájem o jakýkoli multicast?\\Klient: Já mám zájem o tento multicast!}
+					\pojem{IGMPv2}{\\ Smìrovaè: Má nìkdo zájem o tento multicast?\\Klient: Já u¾ nemám zájem o tento multicast!}
+					\pojem{IGMPv3}{\\ Smìrovaè: Má nìkdo zájem o tento multicast od právì tohoto zdroje?\\Klient: Já mám zájem o tento multicast pøièem¾ ho chci od tohoto zdroje!}
+				\end{itemize}
+
+		\subsection{Pøepínaèe}
+			\begin{itemize}
+				\item Jak se chová pøepínaè, který dostane rámec o jeho¾ cílové adrese neví, na kterém rozhraní mu le¾í?
+				\item Naivní øe¹ení je statická konfigurace
+				\item Automatizovaná:
+				\begin{itemize}
+					\item IGMP Snooping \hfill \emph{(Maïarské klobásy)}
+					\item CGMP
+				\end{itemize}
+			\end{itemize}
+
+			\subsubsection{IGMP Snooping}
+				\begin{itemize}
+					\item Pùvodní idea: Aby pøepínaè zjistil, na kterých rozhraních má multicastová zaøízení, tak bude zkoumat ka¾dý paket a podívá se, jestli nemá co doèinìní s multicastem
+					\item Rozpor: Proè zkoumat ka¾dá paket, co¾ pøepínaè zbyteènì zdr¾uje. Pøepínaè má být jen L2 zaøízení.
+					\item Souèasné øe¹ení: Budeme zkoumat jen nìkteré pakety.
+
+					\item Ka¾dý pøepínaè si vytváøí tabulku mapování multicastových skupin na svá rozhraní
+					\item \textbf{CISCO} pøepínaèe kontrolují ka¾dý paket a slídí po:
+					\begin{itemize}
+						\item IGMP Membership Query
+						\item PIMv1 Hello
+						\item PIMv2 Hello
+						\item DVMRP probes
+						\item MOSPF Group-Membership-LSA
+					\end{itemize}
+				\end{itemize}
+
+		\subsection{Smìrovaè}
+			\begin{itemize}
+				\item Stále nevíme, jak pøená¹et multicastová data mezi sí»ovými segmenty pota¾mo rùznými autonomními systémy
+				\item Unicast:
+				\begin{itemize}
+					\item Smìrování na základì toho, kam mají být data doruèena
+					\item Zaji¹»ují unicastové smìrovací protokoly jako OSPF, EIGRP èi IS-IS
+				\end{itemize}
+				\item Multicast:
+				\begin{itemize}
+					\item Smìrování na základì toho, kdo je zdrojem dat
+					\item Distribuèní stromy
+				\end{itemize}
+
+				\item Multicastové smìrovací protokoly:
+				\begin{itemize}
+					\pojem{MOSPF}{roz¹íøení OSPF, ale neujalo se}
+					\pojem{DVMRP}{základ MBONE inspirovaný RIPem}
+					\pojem{PIM}{nejpou¾ívanìj¹í IGP}
+					\pojem{M-BGP}{nadstavba nad BGP pro podporu multicastového smìrování}
+				\end{itemize}
+				\item Multicastové podpùrné protokoly:
+				\begin{itemize}
+					\pojem{MSDP}{¹íøení zdrojù multicastu mezi autonomními systémy}
+					\pojem{RGMP}{CGMP pro routery v páteøní vrstvì}
+				\end{itemize}
+			\end{itemize}
+
+			\subsubsection{Distribuèní stromy}
+				\begin{itemize}
+					\pojem{Shortest path tree\,--\,SPT}{\\Acyklický spojitý faktor grafu s nezápozdì ohodnocenými hranami, kde cesta mezi koøenovým uzlem a v¹emi ostatními uzly je nejmen¹í mo¾ná.\\Abstraktní stromová struktura, kde mezi dvìma body existuje jediná, a to nejkrat¹í cesta.\\Dijkstrùv algoritmus, Floyd-Warshallùv algoritmus}
+					\item Smìrovaèe znají celou topologii sítì pomocí stromù a na základì této znalosti si budují smìrovací tabulky
+					\item Multicastové distribuèní stromy vycházejí z SPT
+					\item (S, G) -- source trees \tedy pro ka¾dý zdroj multicastového provozu je vybudováván SPT ke v¹em jeho pøíjemcùm se zdrojem jako¾to koøenem stromu
+					\item (*, G) -- shared trees \tedy spoleèný bod v topologii sdru¾ující provoz od zdrojù multicastu, od kterého je pak vybudován SPT k pøíjemcùm
+				\end{itemize}
+
+			\subsubsection{PIM\,--\,Protocol Independent Multicast}
+				\begin{itemize}
+					\item Kooperuje s unicastovým smìrovacím protokolem \tedy získává z nìj informace o topologii, na základì které si buduje své distribuèní stromy, je¾ jsou vyu¾ívány pro multicast
+					\item V¹echny PIM smìrovaèe si povídají na adrese 224.0.0.13 u IPv4 a FF02::D u IPv6
+					\item Je nutné filtrovat stejné pakety, které na smìrovaè dorazily rùznými cestami
+					\pojem{RPF = Reverse Path Forwarding}{Princip zaji¹»ující, ¾e se pøi smìrování multicastu eliminují smyèky}
+
+					\pojem{Dense (hustý) mód}
+					\begin{itemize}
+						\item Pracuje inkluzivním pøístupem
+						\item Pravidelnì zaplavuje celou sí» multicastovým provozem
+						\item Prázdné èásti stromu upozoròují koøen, aby jim nic nezasílal
+						\item Ka¾dé 3 minuty
+						\item Pou¾ívá jen (S, G) stromy, které jsou budovány od zdroje a¾ k pøíjemcùm
+						\item Pro topologii s jedním zdrojem multicastu
+					\end{itemize}
+					\pojem{Sparse (øídký) mód}
+					\begin{itemize}
+						\item Pracuje exkluzivním pøístupem
+						\item Strom je budován na základì poptávky pøíjemcù
+						\item Ka¾dý pøíjemce explicitnì upozoròuje, ¾e mají zájem odebírat data z nìjaké multicastové skupiny
+						\item Pracuje s obìma typy distribuèních stromù
+						\begin{itemize}
+							\item Zdrojové stromy jsou budovány od zdrojù k RP
+							\item Sdílené stromy pak od RP k pøíjemcùm
+						\end{itemize}
+						\item Pro topologie s více zdroji multicastu
+						\item \textbf{Nefunguje, pokud v¹ichni neznají RP}
+
+						\item RP \tedy volen tak, aby le¾el co nejblí¾e jak ke zdrojùm, tak k pøíjemcùm
+						\item DR \tedy ten s nejvy¹¹í IP adresou -- kontrola pomocí PIM Hello, øe¹í registraci zdrojù v daném segmentu 
+						
+					\end{itemize}
+				\end{itemize}
+
+
+
+
+
+
+
+
+
+
+\end{document}
