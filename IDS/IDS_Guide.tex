@@ -301,8 +301,8 @@
 
         \pojem{Materializované pohledy}{výsledek dotazu definujícího pohled je skutečně fyzicky uložen v~databázi a je zajištěna aktualizace obsahu}
         \pojem{Selektivní pohled}{obsahuje pouze \texttt{SELECT} a nějaká omezení}
-        \pojem{Projektivní pohled (bez pk)}{používá se zde i \texttt{INSERT}}
-        \pojem{Projektivní pohled (s~pk)}{opět se zde může používat \texttt{INSERT} a navíc sloupce mimo pohled mohou být \texttt{NULL}}
+        \pojem{Projektivní pohled (bez PK)}{používá se zde i \texttt{INSERT}}
+        \pojem{Projektivní pohled (s~PK)}{opět se zde může používat \texttt{INSERT} a navíc sloupce mimo pohled mohou být \texttt{NULL}}
         \pojem{Agregační pohled}{Umožňuje  používání agegačních funkcí a \texttt{INSERT INTO}}
 
         \item Důvody použití \tedy skrytí logické struktury, skrytí složitosti dotazu, skrytí způsobu získávání dat
@@ -383,10 +383,10 @@
         \end{itemize}
         \pojem{Archivace}{ukládání obsahu databáze do stabilní paměti}
         \pojem{Obnova}{obnovení databáze do stavu před poslední archivací}
-        \item Okamžitá modifikace databáze \tedy umožňuje provádět modifikaci databáze, když je transakce v~aktivním stavu. POužívá 2 procedůry:
+        \item Okamžitá modifikace databáze \tedy umožňuje provádět modifikaci databáze, když je transakce v~aktivním stavu. Používá 2 procedůry:
         \begin{itemize}
-          \item UNDO(T$_\textrm{i}$) \tedy pokud dojde k~výpadku, vrátí se původní hodnota
-          \item REDO(T$_\textrm{i}$) \tedy pokud všechno doběhne korektně, uloží se nová hodnota
+          \item \texttt{UNDO($T_\textrm{i}$)} \tedy pokud dojde k~výpadku, vrátí se původní hodnota
+          \item \texttt{REDO($T_\textrm{i}$)} \tedy pokud všechno doběhne korektně, uloží se nová hodnota
         \end{itemize}
       \end{itemize}
       \begin{figure}[h!]
@@ -405,7 +405,7 @@
           \pojem{Schéma zotavení}
           \begin{itemize}
             \item[a)] Nalezení množiny transakcí, které probíhaly nebo byly zahájeny po posledním kontrolním bodu a jejich roztřídění po zotavení
-            \item[b)] Aplikace zotavovacích procedur REDO(T$_\textrm{i}$) a UNDO(T$_\textrm{i}$) na každou transakci podle výsledků roztřídění
+            \item[b)] Aplikace zotavovacích procedur \texttt{REDO($T_\textrm{i}$)} a \texttt{UNDO($T_\textrm{i}$)} na každou transakci podle výsledků roztřídění
           \end{itemize}
           \begin{figure}[h!]
             \centering
@@ -530,14 +530,14 @@
       \pojem{Nevýhody}
       \begin{itemize}
         \item redundance dat (informace se opakují)
-        \item nebezpeční nekonzistence (rozpory v~datech)
+        \item nebezpečí nekonzistence (rozpory v~datech)
         \item problémy s~přístupem k~datům pro neplánové (ad-hoc) dotazy
         \item izolace dat (sbírání dat z~jednotlivých souborů)
         \item problémy s~bezpečností dat (omezený přístup)
         \item problém integrity (implementace integritního omezení)
       \end{itemize}
 
-      \pojem{Perzistentní data}{data s~dobou života překračující běh programu i vypnutí pc}
+      \pojem{Perzistentní data}{data s~dobou života překračující běh programu i vypnutí PC}
       \pojem{Další vlastnosti dat v~DB}
       \begin{itemize}
         \item Integrovaná \tedy sjednocení do jednoho souboru a odstranění redundance
@@ -547,7 +547,7 @@
       \end{itemize}
 
       \pojem{Integrita dat}{správnost dat z~hlediska splnění omezení (integritních)}
-      \pojem{Konzistence dat}{nerozpornost dat \tedy nedojde-li k~porušení dat jsou data nekonzistentní}
+      \pojem{Konzistence dat}{nerozpornost dat \tedy dojde-li k~porušení dat jsou data nekonzistentní}
       \item Systém řízení báze dat (SŘBD) \tedy programová část nad DB (řeší operace)
       \pojem{Databázový systém (DBS)}{systém, který zahrnuje technické prostředky / data DB / SŘBD + aplikační program knihovny, atd. / uživatelé DB}
       \pojem{Základní úrovně abstrakce dat}
@@ -775,7 +775,7 @@
 
         \item \textbf{První normální forma \texttt{1NF}} \hfill {\small (atomické prvky)}
         \begin{itemize}
-          \item relace je v~první normální forme, právě když \emph{všechny její jednoduché domény obsahují pouze atomické hodnoty}
+          \item relace je v~první normální formě, právě když \emph{všechny její jednoduché domény obsahují pouze atomické hodnoty}
         \end{itemize}
 
         \item \textbf{Druhá normální forma \texttt{2NF}} \hfill {\small (vazba ven z~kandidátního klíče)}
@@ -808,13 +808,13 @@
   \section{B+ stromy}
   Dynamická struktura, v~uzlech může být ponechán prostor pro další růst s~tím, že každý uzel s~výjimkou vrcholu je zaplněn minimálně z~50\,\%.
   \begin{itemize}
-    \item Více úrovňový index ve tvaru vyváženého n-nárního stromu, kde n je maximální počet následníků
+    \item Více úrovňový index ve tvaru vyváženého \textit{n}-nárního stromu, kde \textit{n} je maximální počet následníků
     \item Kořen \tedy minimálně 2 následníci
     \item Listy obsahují n ukazatelů na další
     \item Uzel stromu má typicky velikost jednoho diskového bloku
     \pojem{Sekvenční část}{tvořena položkami indexu, které obsahují hodnotu vyhledávacího klíče a ukazatel do primárního souboru, uzly tvoří jednosměrně vázaný seznam}
     \pojem{Indexová část}{tvoří řídký víceúrovňový index části sekvenční}
-    \item Uzel se skládá z~n ukazatelů a n-1 hodnot, které určují od-po které hodnoty jsou pod uzly rozdělené
+  \item Uzel se skládá z~\textit{n} ukazatelů a \textit{n-1} hodnot, které určují od-po které hodnoty jsou pod uzly rozdělené
     \item Vytvoření indexu: \\ \texttt{CREATE [UNIQUE] INDEX nazev ON nazev\_bazove\_tabulky(jmeno\_sloupce [ASC|DESC], ...)}
   \end{itemize}
 
