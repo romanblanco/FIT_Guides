@@ -18,8 +18,8 @@
 	\section{Obecné pojmy}
 		\begin{itemize}
 
-			\pojem{Neuspořádaný soubor \emph{(heap file)}}{každý záznam může být uložen v souboru na libovolné místo, kde je pro něj prostor}
-			\pojem{Sekvenční soubor \emph{(sequential file)}}{záznamy jsou v souboru uloženy podle hodnoty tzv. vyhledávacího klíče (search key)}
+			\pojem{Neuspořádaný soubor \emph{(heap file)}}{každý záznam může být uložen v~souboru na libovolné místo, kde je pro něj prostor}
+			\pojem{Sekvenční soubor \emph{(sequential file)}}{záznamy jsou v~souboru uloženy podle hodnoty tzv. vyhledávacího klíče (search key)}
 			\pojem{Hašovaný soubor \emph{(hashed file)}}{každý záznam souboru je umístěn do bloku, který je určen hašovací funkcí pro hodnotu určitého pole záznamu, tzv. hašovacího klíče (hashing key)}
 			
 			\pojem{Typy spojení}
@@ -36,17 +36,17 @@
 			\pojem{Strukturovaná data}
 			\begin{itemize}
 				\item Relační databáze je vnímána uživatelem jako kolekce časově proměnných normalizovaných relací
-				\item Veškerá data v relační databází jsou reprezentována explicitní hodnotou 
+				\item Veškerá data v~relační databází jsou reprezentována explicitní hodnotou 
 			\end{itemize}
 		\end{itemize}
 
 		\subsection{Relace}
 			\begin{itemize}
-				\pojem{Relace (v databázích)}{tabulka databáze}
+				\pojem{Relace (v~databázích)}{tabulka databáze}
 				\begin{itemize}
 					\item ''Relační model'' \tedy relace je základním abstraktním pojmem modelu a jedinou strukturou databáze na logické úrovni
 				\end{itemize}
-				\pojem{Relace (v matematice)}{libovolný vztah mezi skupinou prvků jedné nebo více množin}
+				\pojem{Relace (v~matematice)}{libovolný vztah mezi skupinou prvků jedné nebo více množin}
 
 				\pojem{Doména}{pojmenovaná množina skalárních hodnot téhož typu}
 				\pojem{Skalární hodnota}{nejmenší sémantická jednotka dat, atomická (vnitřně nestrukturovaná)}
@@ -67,14 +67,14 @@
 		
 		\subsection{Databázová transakce}
 			\begin{itemize}
-				\item jednotka provádění programu, která zpřístupňuje, případně i modifikuje data v databázi
+				\item jednotka provádění programu, která zpřístupňuje, případně i modifikuje data v~databázi
 
 				\pojem{ACID vlastnosti}
 				\begin{itemize}
-					\item \textbf{Atomičnost} $\Rightarrow$ buď je provedena celá transakce nebo žádná z databázových operací, které ji tvoří
+					\item \textbf{Atomičnost} $\Rightarrow$ buď je provedena celá transakce nebo žádná z~databázových operací, které ji tvoří
 					\item \textbf{Konzistence} $\Rightarrow$ izolovaná transakce zachovává konzistenci databáze
 					\item \textbf{Izolace} $\Rightarrow$ i při souběžném běhu transakcí SŘBD zajistí, že pro každou dvojici souběžných transakcí T$_i$ a T$_j$ se T$_i$ jeví, že T$_j$ skončila dříve, než T$_i$ zahájila provádění nebo T$_j$ zahájila provádění poté, co T$_i$ skončila
-					\item \textbf{Trvalost} $\Rightarrow$ poté, co transakce úspěšně skončí budou mít všechny změny v databázi, které transakce provedla, trvalý charakter a to i při výpadku systému
+					\item \textbf{Trvalost} $\Rightarrow$ poté, co transakce úspěšně skončí budou mít všechny změny v~databázi, které transakce provedla, trvalý charakter a to i při výpadku systému
 				\end{itemize}
 				\pagebreak
 
@@ -85,16 +85,16 @@
 				\end{figure}
 				
 				\begin{itemize}
-					\item \textbf{Aktivní (A)} -- počáteční stav, transakce v něm setrvává po dobu provádění
+					\item \textbf{Aktivní (A)} -- počáteční stav, transakce v~něm setrvává po dobu provádění
 					\item \textbf{Částečně potvrzená (PC)} -- po provedení posledního příkazu
 					\item \textbf{Chybový stav (F)} -- po zjištění, že normální provádění není dál možné
-					\item \textbf{Zrušená (AB)} -- poté, co byly změny v databázi provedené transakcí anulovány (operace rollback), databáze bude vestavu před zahájením transakce
+					\item \textbf{Zrušená (AB)} -- poté, co byly změny v~databázi provedené transakcí anulovány (operace rollback), databáze bude vestavu před zahájením transakce
 					\item \textbf{Potvrzená (C)} -- po úspěšném dokončení transakce
 				\end{itemize}
 			\end{itemize}
 
 			\subsubsection{Uspořádané plány}
-				Binární relace "je v konfliktu" z množiny instrukcí transakce $\textrm{T}_{\textrm{i}}$ do množiny instrukcí souběžné transakce $\textrm{T}_{\textrm{j}}$
+				Binární relace "je v~konfliktu" z~množiny instrukcí transakce $\textrm{T}_{\textrm{i}}$ do množiny instrukcí souběžné transakce $\textrm{T}_{\textrm{j}}$
 				\begin{table}[h!]
 					\center
 					\begin{tabular}{ c  c  c }
@@ -102,7 +102,7 @@
 							\centering
 							\scalebox{0.5}{\includegraphics{imgs/tab1_usp_plan}}
 						\end{minipage}
-						& $\textrm{I}_{\textrm{x}}$ je v konfliktu s $\textrm{I}_{\textrm{y}}$ &
+						& $\textrm{I}_{\textrm{x}}$ je v~konfliktu s~$\textrm{I}_{\textrm{y}}$ &
 						\begin{minipage}{.3\textwidth}
 							\centering
 							\scalebox{0.4}{\includegraphics{imgs/tab2_usp_plan}}
@@ -128,12 +128,12 @@
 				\begin{itemize}
 					\pojem{Plán souběžných transakcí (schedule)}{Chronologické pořadí provádění databázových operací \texttt{read} a \texttt{write} souběžně probíhajících transakcí. Označuje se také jako rozvrh souběžných transakcí}
 
-					\pojem{Uspořadatelný vzhledem ke konfliktům}{Plán souběžných transakcí S se nazývá uspořádatelný vzhledem ke konfliktům, jestliže existuje sériový plán ekvivalentní s plánem S vzhledem ke konfliktům}
+					\pojem{Uspořadatelný vzhledem ke konfliktům}{Plán souběžných transakcí S se nazývá uspořádatelný vzhledem ke konfliktům, jestliže existuje sériový plán ekvivalentní s~plánem S vzhledem ke konfliktům}
 
 					\pojem{Uzamykací protokoly}{Soustava pravidel určující, kdy může transakce zamknout/odemknout objekt}
 					\begin{itemize}
-						\pojem{Sdílený zámek}{může s ním pracovat více transakcí}
-						\pojem{Výlučný zámek}{používá max jedna transakce, která má k objektu výlučný přístup}
+						\pojem{Sdílený zámek}{může s~ním pracovat více transakcí}
+						\pojem{Výlučný zámek}{používá max jedna transakce, která má k~objektu výlučný přístup}
 					\end{itemize}
 
 					\pojem{Dvoufázový uzamykací protokol}{zajišťuje uspořadatelnost vzhledem ke konfliktům, ne však deadlock}
@@ -146,7 +146,7 @@
 
 					\pojem{Granularita uzamykání}{Udává jak velká část DB podléhá uzamykání (řádky, blok, atd.)}
 
-					\pojem{Deadlock}{Stav systému kdy žádná z transakcí nemůže pokračovat, protože jí v tom brání jiná transakce (typicky při uvolňování zdrojů -- zámků)}
+					\pojem{Deadlock}{Stav systému kdy žádná z~transakcí nemůže pokračovat, protože jí v~tom brání jiná transakce (typicky při uvolňování zdrojů -- zámků)}
 					\begin{itemize}
 						\pojem{Řešení}{protokol zabraňující deadlocku nebo timeout}
 					\end{itemize}
@@ -161,7 +161,7 @@
 						\item Přepis nepotvrzené hodnoty
 						\item Nekonzistentní analýza
 					\end{itemize}
-					\pojem{Schéma řízení}{souhrn pravidel použitých k zajištění souběžného přístupu}
+					\pojem{Schéma řízení}{souhrn pravidel použitých k~zajištění souběžného přístupu}
 					\pojem{Plán (rozvrh)}{udává chronologické pořadí provádění instrukcí souběžných transakcí}
 					\pojem{Sériový plán}{instrukce jedné transakce bezprostředně za sebou}
 				\end{itemize}
@@ -169,7 +169,7 @@
 					\centering
 					\scalebox{0.7}{\includegraphics{imgs/Seriovy-plan}}
 				\end{figure}
-				Obrázek demonstruje správný seriový plán vlevo a špatný vpravo. Je nutné zachovat postup čtení z proměnných v době, kdy je už změnil jiný plán.
+				Obrázek demonstruje správný seriový plán vlevo a špatný vpravo. Je nutné zachovat postup čtení z~proměnných v~době, kdy je už změnil jiný plán.
 				\begin{table}[h]
 					\center
 					\begin{tabular}{| c | c | c |}
@@ -197,19 +197,19 @@
 
 		\subsection{Hašování a Indexování}
 			\begin{itemize}
-				\item Zajištění přístupu k záznamům tabulky podle vybraného sloupce tabulky
+				\item Zajištění přístupu k~záznamům tabulky podle vybraného sloupce tabulky
 				\begin{itemize}
-					\pojem{Hašování}{používá hašovací funkci k určení sektoru s daty}
+					\pojem{Hašování}{používá hašovací funkci k~určení sektoru s~daty}
 					\pojem{Indexování}{založeno na indexových souborech}
 				\end{itemize}
 
 				\pojem{Klíčový atribut}{atribut, který je součástí některého kandidátního klíče}
 				\pojem{Kandidátní klíč}{unikátní atribut pro každý řádek tabulky}
-				\pojem{Primární klíč}{jeden z kandidátních klíčů, který bude sloužit k adresaci řádků tabulky}
+				\pojem{Primární klíč}{jeden z~kandidátních klíčů, který bude sloužit k~adresaci řádků tabulky}
 				\pojem{Cizí klíč}{splňuje časově nezávislé vlastnosti:}
 				\begin{enumerate}
 					\item Každá hodnota FK je buď plně zadaná nebo plně nezadaná
-					\item Existuje relace R s kandidátním klíčem CK takovým, že každá zadaná hodnota FK je identická s hodnotou CK nějaké n-tice relace R
+					\item Existuje relace R s~kandidátním klíčem CK takovým, že každá zadaná hodnota FK je identická s~hodnotou CK nějaké n-tice relace R
 				\end{enumerate}
 				
 				\pojem{Uspořádaný index}{datová struktura tvořená záznamy obsahujícími hodnoty vyhledávacího klíče}
@@ -220,15 +220,15 @@
 
 				\pojem{Indexsekvenční soubor}{uspořádaný primární soubor + primární index}
 
-				\pojem{Položka indexu}{záznam obsahující hodnotu vyhledávacího klíče a ukazatele na jeden nebo několik záznamů primárního souboru s touto hodnotou primárního klíče, případně ukazatel na sektor ukazatelů}
+				\pojem{Položka indexu}{záznam obsahující hodnotu vyhledávacího klíče a ukazatele na jeden nebo několik záznamů primárního souboru s~touto hodnotou primárního klíče, případně ukazatel na sektor ukazatelů}
 
-				\pojem{Hustý index}{obsahuje položku pro každou hodnotu vyhledávacího klíče, která se v primárním souboru vyskytuje}
+				\pojem{Hustý index}{obsahuje položku pro každou hodnotu vyhledávacího klíče, která se v~primárním souboru vyskytuje}
 
-				\pojem{Řídký index}{obsahuje jen některé hodnoty vyhledávacího klíče. Takový může být jen primární, protože lze využít uspořádání záznamů v primárním souboru}
+				\pojem{Řídký index}{obsahuje jen některé hodnoty vyhledávacího klíče. Takový může být jen primární, protože lze využít uspořádání záznamů v~primárním souboru}
 
-				\pojem{Víceúrovňový index}{každá úroveň, s výjimkou poslední, je řídkým primárním indexem úrovně následující. Poslední úroveň je jednoúrovňovým indexem primárního souboru}
+				\pojem{Víceúrovňový index}{každá úroveň, s~výjimkou poslední, je řídkým primárním indexem úrovně následující. Poslední úroveň je jednoúrovňovým indexem primárního souboru}
 
-				\pojem{Index s unikátními hodnotami (unique index)}{index pro vyhledávací klíč, jehož hodnoty jsou v primárním souboru unikátní}
+				\pojem{Index s~unikátními hodnotami (unique index)}{index pro vyhledávací klíč, jehož hodnoty jsou v~primárním souboru unikátní}
 			\end{itemize}
 
 			\subsubsection{Hašování}
@@ -260,10 +260,10 @@
 						\end{itemize}
 					\end{itemize}
 
-					\pojem{Hašovaný index}{datová struktura, uspořádaní jejích záznamů je dáno hodnotou hašovací funkce pro hodnotu vyhledávacího klíče obsaženou v daném záznamu}
+					\pojem{Hašovaný index}{datová struktura, uspořádaní jejích záznamů je dáno hodnotou hašovací funkce pro hodnotu vyhledávacího klíče obsaženou v~daném záznamu}
 					\begin{itemize}
 						\item Soubor může být hašovaný pouze podle jednoho vyhledávacího klíče
-						\item U hašovaného indexu jsou v sektorech položky s hodnotou vyhledávacího klíče a ukazatelem do souboru (obdoba sekundárních indexů)
+						\item U~hašovaného indexu jsou v~sektorech položky s~hodnotou vyhledávacího klíče a ukazatelem do souboru (obdoba sekundárních indexů)
 					\end{itemize}
 
 					\item Nevýhoda statického hašování
@@ -279,14 +279,14 @@
 
 			\subsubsection{Shlukování (clustering)}
 				\begin{itemize}
-					\item Umístění záznamů se stejnými vlastnostmi (hodnotou klíče pro shlukování) fyzicky blízko u sebe
-					\item Přístup k záznamům prostřednictvím indexu nebo hašováním
-					\item V souboru mohou být záznamy jedné nebo několika tabulek
+					\item Umístění záznamů se stejnými vlastnostmi (hodnotou klíče pro shlukování) fyzicky blízko u~sebe
+					\item Přístup k~záznamům prostřednictvím indexu nebo hašováním
+					\item V~souboru mohou být záznamy jedné nebo několika tabulek
 				\end{itemize} 
 			\subsubsection{Bitmapové indexy}
 				\begin{itemize}
-					\item Uložení informace o tom, ve kterých záznamech tabulky se vyskytuje daná hodnota vyhledávacího klíče, ve formě bitových vektorů \tedy velikost bitmapového souboru je výrazně menší
-					\item Jedničky v bitmapě určují, na kterém řádku se určitý atribut
+					\item Uložení informace o~tom, ve kterých záznamech tabulky se vyskytuje daná hodnota vyhledávacího klíče, ve formě bitových vektorů \tedy velikost bitmapového souboru je výrazně menší
+					\item Jedničky v~bitmapě určují, na kterém řádku se určitý atribut
 					\item Pomocí logických operací se nad bitmapami dají vykonávat operace
 					\item Př: stejné hodnoty ve dvou tabulkách \\
 					\texttt{111110 $\land$ 100101 = 100100}
@@ -294,15 +294,15 @@
 
 		\subsection{Pohledy}
 			\begin{itemize}
-				\item Pojmenovaná virtuální tabulka odvozená z bázové
+				\item Pojmenovaná virtuální tabulka odvozená z~bázové
 				\item Definice pohledů se ukládá do systémového katalogu
-				\item Při dotazu na pohled se provede transformace nad bázovou tabulkou(zdrojová tabulka z pohledu)
-				\item Pohledy s klazulemi \texttt{DISTINCT}, \texttt{GROUB BY}, \texttt{HAVING}, s agregačními funkcemi a spojující několik tabulek umožňují pouze čtení
+				\item Při dotazu na pohled se provede transformace nad bázovou tabulkou(zdrojová tabulka z~pohledu)
+				\item Pohledy s~klazulemi \texttt{DISTINCT}, \texttt{GROUB BY}, \texttt{HAVING}, s~agregačními funkcemi a spojující několik tabulek umožňují pouze čtení
 
-				\pojem{Materializované pohledy}{výsledek dotazu definujícího pohled je skutečně fyzicky uložen v databázi a je zajištěna aktualizace obsahu}
+				\pojem{Materializované pohledy}{výsledek dotazu definujícího pohled je skutečně fyzicky uložen v~databázi a je zajištěna aktualizace obsahu}
 				\pojem{Selektivní pohled}{obsahuje pouze \texttt{SELECT} a nějaká omezení}
 				\pojem{Projektivní pohled (bez pk)}{používá se zde i \texttt{INSERT}}
-				\pojem{Projektivní pohled (s pk)}{opět se zde může používat \texttt{INSERT} a navíc sloupce mimo pohled mohou být \texttt{NULL}}
+				\pojem{Projektivní pohled (s~pk)}{opět se zde může používat \texttt{INSERT} a navíc sloupce mimo pohled mohou být \texttt{NULL}}
 				\pojem{Agregační pohled}{Umožňuje  používání agegačních funkcí a \texttt{INSERT INTO}}
 				
 				\item Důvody použití \tedy skrytí logické struktury, skrytí složitosti dotazu, skrytí způsobu získávání dat
@@ -310,7 +310,7 @@
 				\item Příklad: \\ \texttt{CREATE VIEW janska AS SELECT k.* FROM klient k, ucet u} \\
 					\texttt{WHERE k.r\_cislo = u.r\_cislo AND u.pobocka = 'Janská'} \\
 					\texttt{WITH CHECK OPTION} \\
-				\item Výhody: Zpřehlednění práce s daty a sestavování dotazů, velké uplatnění z hlediska ochrany dat
+				\item Výhody: Zpřehlednění práce s~daty a sestavování dotazů, velké uplatnění z~hlediska ochrany dat
 				\pojem{Použití pohledu}
 				\begin{itemize}
 					\item[a)] Omezení přístupu, skrytí logické struktury (bezpečnost)
@@ -321,15 +321,15 @@
 
 		\subsection{Kurzor}
 			\begin{itemize}
-				\item Umožňuje pojmenovat jednotlivé pracovní oblasti a přistupovat k nim
+				\item Umožňuje pojmenovat jednotlivé pracovní oblasti a přistupovat k~nim
 				\item Deklarace: \texttt{DECLARE nazev CURSOR FOR select ORDER BY ...}
-				\item Nejčastěji používány v uložených procedůrách a triggerech
-				\item Využívají se ve spojení s transakčním rozšířením jazyka SQL
+				\item Nejčastěji používány v~uložených procedůrách a triggerech
+				\item Využívají se ve spojení s~transakčním rozšířením jazyka SQL
 				\item Základní operace: deklarace, otevření a uzavření, přechod na další/předchozí záznam
 			\end{itemize}
 		\subsection{Databázový trigger}
 			\begin{itemize}
-				\item Databázový objekt obsahující kód spouštěný specifikovanou událostí v databázi
+				\item Databázový objekt obsahující kód spouštěný specifikovanou událostí v~databázi
 				\item Databázový trigger je něco jiného než trigger klientské části aplikace, který se spouští typicky událostí formuláře nebo tiskové sestavy
 				\item Složky příkazu
 				\begin{itemize}
@@ -343,23 +343,23 @@
 				\begin{itemize}
 					\pojem{\texttt{BEFORE}}{příkazy těla triggeru se provedou před provedením události, která trigger spouští}
 					\pojem{\texttt{AFTER}}{příkazy těla triggeru se provedou po provedení události, která trigger spouští}
-					\pojem{Příkazový}{je spuštěn jedenkrát pro příkaz, který způsobí zadanou událost, je-li splněna podmínka uvedená v klauzuli \texttt{WHEN} (když je uvedena)}
-					\pojem{Řádkový}{je spuštěn jedenkrát pro každý řádek ovlivněný danou událostí, je-li splněna podmínka uvedená v klauzuli \texttt{WHEN} (když je uvedena)}
+					\pojem{Příkazový}{je spuštěn jedenkrát pro příkaz, který způsobí zadanou událost, je-li splněna podmínka uvedená v~klauzuli \texttt{WHEN} (když je uvedena)}
+					\pojem{Řádkový}{je spuštěn jedenkrát pro každý řádek ovlivněný danou událostí, je-li splněna podmínka uvedená v~klauzuli \texttt{WHEN} (když je uvedena)}
 				\end{itemize}
 				\item Typický použití databázových triggerů
 				\begin{itemize}
 					\item Implementace integritních omezení
-					\item Implementace složitých bezpečnostních omezení (např. možnost modifikace dat jen v určitou dobu)
+					\item Implementace složitých bezpečnostních omezení (např. možnost modifikace dat jen v~určitou dobu)
 					\item Implementace auditu (kdo jaké operace prováděl)
 					\item Provedení transparentních modifikací při nějaké události
-					\item Výpočet hodnot pro sloupec s odvozenými hodnotami
+					\item Výpočet hodnot pro sloupec s~odvozenými hodnotami
 				\end{itemize}
 				\item Zásady při použití databázových triggerů
 				\begin{itemize}
-					\item Použij databázový trigger k zajištění, že při provedení konkrétní operace jsou provedeny odpovídající akce
+					\item Použij databázový trigger k~zajištění, že při provedení konkrétní operace jsou provedeny odpovídající akce
 					\item Použij databázový trigger jen pro centralizované globální operace, které by měly být spuštěny bez ohledu na to, který uživatel/aplikace operací provede
-					\item Nepoužívej databázový trigger k odmítnutí nesprávných dat, jestliže lze totéž provést použitím deklarativních integritních omezení
-					\item Je-li tělo triggeru rozsáhlé vytvoř uloženou proceduru, která se bude volat z těla triggeru
+					\item Nepoužívej databázový trigger k~odmítnutí nesprávných dat, jestliže lze totéž provést použitím deklarativních integritních omezení
+					\item Je-li tělo triggeru rozsáhlé vytvoř uloženou proceduru, která se bude volat z~těla triggeru
 					\item Nevytvářej rekurzivní triggery
 					\item Používej databázové triggery uvážlivě. Provádí se pro každého uživatele/aplikaci pokaždé, když daná událost nastane
 				\end{itemize}				
@@ -374,7 +374,7 @@
 					\item \textbf{Zhroucení systému}
 					\item \textbf{Porucha disku}
 				\end{itemize}
-				\item K zajištění atomicity transakce a trvanlivosti změn je nutné před modifikací databáze uložit do stabilní paměti informace o modifikaci
+				\item K~zajištění atomicity transakce a trvanlivosti změn je nutné před modifikací databáze uložit do stabilní paměti informace o~modifikaci
 				\pojem{Žurnál}{posloupnost záznamů žurnálu (log record) zaznamenávající všechny modifikace databáze}
 				\begin{itemize}
 					\pojem{Start}{začátek transakce}
@@ -383,9 +383,9 @@
 				\end{itemize}
 				\pojem{Archivace}{ukládání obsahu databáze do stabilní paměti}
 				\pojem{Obnova}{obnovení databáze do stavu před poslední archivací}
-				\item Okamžitá modifikace databáze \tedy umožňuje provádět modifikaci databáze, když je transakce v aktivním stavu. POužívá 2 procedůry:
+				\item Okamžitá modifikace databáze \tedy umožňuje provádět modifikaci databáze, když je transakce v~aktivním stavu. POužívá 2 procedůry:
 				\begin{itemize}
-					\item UNDO(T$_\textrm{i}$) \tedy pokud dojde k výpadku, vrátí se původní hodnota
+					\item UNDO(T$_\textrm{i}$) \tedy pokud dojde k~výpadku, vrátí se původní hodnota
 					\item REDO(T$_\textrm{i}$) \tedy pokud všechno doběhne korektně, uloží se nová hodnota
 				\end{itemize}
 			\end{itemize}
@@ -395,11 +395,11 @@
 			\end{figure}
 			\subsubsection{Kontrolní bod (checkpoint)}
 				\begin{itemize}
-					\item Periodické ukládání vyrovnávacích pamětí žurnálu a databáze na disk z důvodu snížení režie související se zotavením po výpadku
+					\item Periodické ukládání vyrovnávacích pamětí žurnálu a databáze na disk z~důvodu snížení režie související se zotavením po výpadku
 					\pojem{Postup}
 					\begin{itemize}
-						\item[a)] Uložení všech záznamů žůrnálu z hlavní paměti
-						\item[b)] Uložení všech modifikovaných bloků databáze z vyrovnávací paměti na disk
+						\item[a)] Uložení všech záznamů žůrnálu z~hlavní paměti
+						\item[b)] Uložení všech modifikovaných bloků databáze z~vyrovnávací paměti na disk
 						\item[c)] Uložení záznamu \texttt{<checkpoint>} do stabilní paměti
 					\end{itemize}
 					\pojem{Schéma zotavení}
@@ -432,7 +432,7 @@
 				\item Cílem je min. odezva a max. propustnost
 				\pojem{Vstup}{SQL dotaz -- neoptimalizovaný}
 				\pojem{Výstup}{plán vyhodnocení, optimální strategie zpracování dotazu}
-				\item Přístup k optimalizaci lze založit na statistikách nebo pravidlech
+				\item Přístup k~optimalizaci lze založit na statistikách nebo pravidlech
 				\item Postup:
 				\begin{enumerate}
 					\item Převod do vnitřní reprezentace \\
@@ -455,11 +455,11 @@
 			
 		\subsection{Integrita databáze}
 			\begin{itemize} 
-				\item Data v databázi jsou konzistentní vůči definovaným pravidlům
+				\item Data v~databázi jsou konzistentní vůči definovaným pravidlům
 				\item Lze zadávat pouze data, která vyhovují předem definovaným kriteriím
-				\item K zajištění integriti slouží integritní omezení
+				\item K~zajištění integriti slouží integritní omezení
 				\begin{itemize}
-					\item Jedná se o nástroje, které zabrání vložení nesprávných dat či ztrátě nebo poškození stávajících záznamů v průběhu práce s databází
+					\item Jedná se o~nástroje, které zabrání vložení nesprávných dat či ztrátě nebo poškození stávajících záznamů v~průběhu práce s~databází
 					\item Je možné zajistit mazání dat, která již ztratila svůj význam 
 				\end{itemize}
 				\pojem{Referenční integrita}{DB nesmí míst nesouhlasné hodnoty cizího klíče}		
@@ -468,7 +468,7 @@
 			\subsubsection{Druhy integritních omezení}
 				\begin{enumerate}
 					\pojem{Entitní integritní omezení}{povinné integritní omezení, které zajišťuje úplnost primárního klíče tabulky}
-					\pojem{Doménová integritní omezení}{zajišťují dodržování datových typů/domén definovaných u sloupců databázové tabulky}
+					\pojem{Doménová integritní omezení}{zajišťují dodržování datových typů/domén definovaných u~sloupců databázové tabulky}
 					\pojem{Referenční integritní omezení}{zabývají se vztahy dvou tabulek, kde jejich relace je určena vazbou primárního a cizího klíče}
 					\pojem{Aktivní referenční integrita}{definuje činnosti, které databázový systém provede, pokud jsou porušena některá pravidla}
 				\end{enumerate}
@@ -477,20 +477,20 @@
 				\begin{itemize}
 					\item Umístění jednoduchých mechanismů pro dodržování integritních omezení na straně databázového serveru
 					\begin{itemize}
-						\item Nejlepší způsob z hlediska ochrany dat
+						\item Nejlepší způsob z~hlediska ochrany dat
 						\item Delší odezva systému
 						\item Nelze zajistit přenositelnost na jiný DBS
 					\end{itemize}
 					\item Umístění ochranných mechanismů na straně klienta
 					\begin{itemize}
 						\item Pro komfort a nezávislost na DBS
-						\item Může způsobit chyby u aplikací a v případě většího počtu aplikací je potřeba je opravit na více místech
+						\item Může způsobit chyby u~aplikací a v~případě většího počtu aplikací je potřeba je opravit na více místech
 					\end{itemize}
 					\item Samostatné programové moduly na straně serveru
 					\begin{itemize}
-						\item Použití triggerů \tedy samostatné procedury, které lze spouštět automatizovaně před a po operacích manipulujících s daty
+						\item Použití triggerů \tedy samostatné procedury, které lze spouštět automatizovaně před a po operacích manipulujících s~daty
 						\item Umožňuje i implementaci složitých integritních omezení
-						\item Omezení při provádění na serveru a v přenositelnosti na jiný DBS
+						\item Omezení při provádění na serveru a v~přenositelnosti na jiný DBS
 					\end{itemize}
 				\end{itemize}
 
@@ -498,9 +498,9 @@
 			\begin{itemize}
 				\item[a)] Důvěrnost \tedy informace by neměly být přístupné neautorizovaným uživatelům
 				\item[b)] Integrita \tedy modifikovat data může jen autorizovaný uživatel
-				\item[c)] Dostupnost \tedy autorizovaným uživatelům by nemělo být bráněno v přístupu
+				\item[c)] Dostupnost \tedy autorizovaným uživatelům by nemělo být bráněno v~přístupu
 				\begin{itemize}
-					\item Bezpečnostní politika: kdo co může s jakými daty provádět
+					\item Bezpečnostní politika: kdo co může s~jakými daty provádět
 					\item Bezpečnostní mechanismy: zajištění bezpečnostní politiky
 				\end{itemize}	
 			\end{itemize}
@@ -509,7 +509,7 @@
 					\item Pohledy
 					\item Řízení přístupu dat
 					\begin{itemize}
-						\item Nepovinné \tedy založen na přístupových právech, každý uživatel má přístupová práva k databázovým objektům
+						\item Nepovinné \tedy založen na přístupových právech, každý uživatel má přístupová práva k~databázovým objektům
 						\item Povinné \tedy založen na bezpečnostních třídách objektů, stupních prověření subjektů a pravidlech provádění operací
 					\end{itemize}
 					\item SQL poskytuje podporu pro nepovinné řízení
@@ -517,37 +517,37 @@
 					\begin{itemize}
 						\item Identifikace uživatelů a rolí (\texttt{CREATE USER, CREATE ROLE})
 						\item Přidělování a odnímání přístupových práv (\texttt{GRANT, REVOKE})
-						\item Přístupová práva k databázovým objektům
-						\item Parametry vztažené k heslu (\texttt{CREATE PROFILE})
+						\item Přístupová práva k~databázovým objektům
+						\item Parametry vztažené k~heslu (\texttt{CREATE PROFILE})
 					\end{itemize}
 				\end{itemize}
 		
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\section{Databáze}
 		\begin{itemize}
-			\pojem{Databáze}{papírová agenda (registr) v podobě perzistentních dat}
+			\pojem{Databáze}{papírová agenda (registr) v~podobě perzistentních dat}
 			\item Systém pro ovládání souborů:
 			\pojem{Nevýhody}
 			\begin{itemize}
 				\item redundance dat (informace se opakují)
-				\item nebezpeční nekonzistence (rozpory v datech)
-				\item problémy s přístupem k datům pro neplánové (ad-hoc) dotazy
-				\item izolace dat (sbírání dat z jednotlivých souborů)
-				\item problémy s bezpečností dat (omezený přístup)
+				\item nebezpeční nekonzistence (rozpory v~datech)
+				\item problémy s~přístupem k~datům pro neplánové (ad-hoc) dotazy
+				\item izolace dat (sbírání dat z~jednotlivých souborů)
+				\item problémy s~bezpečností dat (omezený přístup)
 				\item problém integrity (implementace integritního omezení)
 			\end{itemize}
 
-			\pojem{Perzistentní data}{data s dobou života překračující běh programu i vypnutí pc}
-			\pojem{Další vlastnosti dat v DB}
+			\pojem{Perzistentní data}{data s~dobou života překračující běh programu i vypnutí pc}
+			\pojem{Další vlastnosti dat v~DB}
 			\begin{itemize}
 				\item Integrovaná \tedy sjednocení do jednoho souboru a odstranění redundance
 				\item Sdílená \tedy typicky víceuživatelská (třeba omezeným přístupem)
-				\item Bezpečná \tedy shodná realizace omezení přístupu k datům
+				\item Bezpečná \tedy shodná realizace omezení přístupu k~datům
 				\item Snadná integrita (implementace integritních omezení)
 			\end{itemize}
 
-			\pojem{Integrita dat}{správnost dat z hlediska splnění omezení (integritních)}
-			\pojem{Konzistence dat}{nerozpornost dat \tedy nedojde-li k porušení dat jsou data nekonzistentní}
+			\pojem{Integrita dat}{správnost dat z~hlediska splnění omezení (integritních)}
+			\pojem{Konzistence dat}{nerozpornost dat \tedy nedojde-li k~porušení dat jsou data nekonzistentní}
 			\item Systém řízení báze dat (SŘBD) \tedy programová část nad DB (řeší operace)
 			\pojem{Databázový systém (DBS)}{systém, který zahrnuje technické prostředky / data DB / SŘBD + aplikační program knihovny, atd. / uživatelé DB}
 			\pojem{Základní úrovně abstrakce dat}
@@ -560,18 +560,18 @@
 			\pojem{Rozdělení podle úrovně modelování}
 			\begin{itemize}
 				\item Logické modely \tedy popisují data na úrovni konceptuální a pohledů -- konceptuální modelování
-				\item Databázové modely \tedy definují logickou organizaci v DB
+				\item Databázové modely \tedy definují logickou organizaci v~DB
 				\item Modely fyzických dat \tedy popisují data na fyzické úrovni
 				\item Hierarchický model \tedy záznamy jsou organizovány jako stromy
-				\item Síťový model \tedy množina záznamů, pojmenovaných vazeb (obdoba ukazatelů), navigační manipulace s daty
-				\item Relační model \tedy na logické úrovni jsou data strukturována do tabulek, manipulace s daty probíhá výběrem z tabulky
+				\item Síťový model \tedy množina záznamů, pojmenovaných vazeb (obdoba ukazatelů), navigační manipulace s~daty
+				\item Relační model \tedy na logické úrovni jsou data strukturována do tabulek, manipulace s~daty probíhá výběrem z~tabulky
 				\begin{itemize}
 					\item Výhody: technická struktura, jednoduché operace
 					\item Nevýhody: informace jsou rozprostřeny po tabulkách, nutno spojovat
 				\end{itemize}
 			\end{itemize}
 
-			\pojem{Schéma databáze}{metainformace popisující data v databázi, v případě relační databáze obsahuje schéma informace o tabulkách, jejich sloupcích, omezeních na hodnoty ve sloupcích, informace o schématu je typicky uložena v systémovém katalogu}
+			\pojem{Schéma databáze}{metainformace popisující data v~databázi, v~případě relační databáze obsahuje schéma informace o~tabulkách, jejich sloupcích, omezeních na hodnoty ve sloupcích, informace o~schématu je typicky uložena v~systémovém katalogu}
 			\pojem{Datová nezávislost}{schopnost modifikovat schéma bez vlivu na schéma na vyšší vrstvě (úrovni)}
 			\begin{itemize}
 				\pojem{Fyzická nezávislost}{schopnost modifikace fyzického schématu bez nutnosti přepsat aplikační program}
@@ -584,8 +584,8 @@
 					\item Jazyk, kterému ''rozumí'' SŘBD, někdy označovány jako databázové
 					\item Součástí DB jazyka -- musí existovat prostředky pro:
 					\begin{itemize}
-						\item Specifikaci schématu databáze \tedy jazyk pro identifikaci dat (DDL $=$ Data Definition Language) -- vytvoří informace v systémovém katalogu (sborníku dat) a dané struktury
-						\item Manipulaci s daty \tedy (DML $=$ Data Manipulation Language) -- vyhledávání, modifikace, rušení v daném datovém modelu
+						\item Specifikaci schématu databáze \tedy jazyk pro identifikaci dat (DDL $=$ Data Definition Language) -- vytvoří informace v~systémovém katalogu (sborníku dat) a dané struktury
+						\item Manipulaci s~daty \tedy (DML $=$ Data Manipulation Language) -- vyhledávání, modifikace, rušení v~daném datovém modelu
 					\end{itemize}
 
 					\item Další prostředky
@@ -593,7 +593,7 @@
 						\item jazyk pro řízení dat (DCL $=$ Data Control Language) -- transakční zpracování, atd.
 					\end{itemize}
 
-					\item Přístup k databázi z aplikačních programů (v čem programujeme)
+					\item Přístup k~databázi z~aplikačních programů (v~čem programujeme)
 					\begin{itemize}
 						\item používají se speciální databázové jazyky
 					\end{itemize}
@@ -602,7 +602,7 @@
 					\begin{itemize}
 						\item PL/SQL, Transact SQL, PL/pySQL, Informix 4GL
 					\end{itemize}
-					\item Obecný programovací jazyk (poskytuje rozhraní pro přístup k DB)
+					\item Obecný programovací jazyk (poskytuje rozhraní pro přístup k~DB)
 					\begin{itemize}
 						\item Naivní \tedy OCi, ADO
 						\item Standardizované \tedy ODBC, JDBC
@@ -613,7 +613,7 @@
 						\item SQL pro PASCAL, C, SQLJ pro Javu
 					\end{itemize}
 
-					\item Objektově relační mapování \tedy vytváří přístup k virtuální oo databázi
+					\item Objektově relační mapování \tedy vytváří přístup k~virtuální oo databázi
 					\begin{itemize}
 						\item Hibernate specifikace JDO, JP4a, implementace JPOX
 					\end{itemize}
@@ -622,14 +622,14 @@
 			\subsection{Uživatelé databázových systémů}
 				\begin{itemize}
 					\pojem{Admin DB}{zajišťuje centrální kontrolu nad daty a programy, mezi funkce patří definice schémat, pamťové struktury a přístupové metody, přidělování práv přístupu, modifikace schématu a fyzické organizace}
-					\pojem{Aplikační programátor}{vytváří programy s pomocí jazyků, které manipulují s hostitelskými daty}
-					\pojem{Znalý uživatel}{je schopen formulovat požadavky v DB jazyce pro manipulaci s daty}
-					\pojem{Naivní uživatel}{komunikuje s programem prostřednictvím aplikace}
+					\pojem{Aplikační programátor}{vytváří programy s~pomocí jazyků, které manipulují s~hostitelskými daty}
+					\pojem{Znalý uživatel}{je schopen formulovat požadavky v~DB jazyce pro manipulaci s~daty}
+					\pojem{Naivní uživatel}{komunikuje s~programem prostřednictvím aplikace}
 				\end{itemize}
 
 			\subsection{Architektura DB systémů a aplikací}
 				\begin{itemize}
-					\item Datová aplikace ve spojení s SŘBD
+					\item Datová aplikace ve spojení s~SŘBD
 					\begin{itemize}
 						\item Proces na popředí (fronted, klient) \tedy část aplikace využívající SŘBD
 						\item Proces na pozadí (backend, server) \tedy část aplikace realizující věcný základ funkce SŘBD + další funkce (aplikačně orientované)
@@ -640,7 +640,7 @@
 					\item \emph{Architektura typu ''Klient/server'' (dvouvrstvá)}
 					\item \emph{Vícevrstvá architektura}
 
-					\pojem{V současné době se používají 2 kategorie SŘBD}
+					\pojem{V~současné době se používají 2 kategorie SŘBD}
 					\begin{itemize}
 						\pojem{Stolní}{orientované na jednouživatelské aktivity, původně pro architektury file server (Access)}
 						\pojem{Serverové}{orientované na víceuživatelské klient/server a vícevrstvé aplikace}
@@ -651,7 +651,7 @@
 						\item Předrelační (hierarchické, síťové)
 						\item Relační
 						\begin{enumerate}
-							\item Architektura typu ''main frame'' \tedy systémy v 2. pol. 20. let
+							\item Architektura typu ''main frame'' \tedy systémy v~2. pol. 20. let
 							\item Architektura typu ''PC file server'' \tedy FOXBASE
 							\item Architektura typu ''Klient/server'' (dvouvrstvá) \tedy ORACLE SQL, Microsoft SQL
 						\end{enumerate}
@@ -667,8 +667,8 @@
 			\begin{itemize}
 				\pojem{Charakteristika}{proměnné i sloupce mohou mít stejná jména}
 				\item Příkazy mají tvar: \texttt{EXEC SQL sql\_prikaz} a končí středníkem
-				\item Proměnné v hostitelském prostředí se značí předponou ':'
-				\item Referované hostitelské proměnné musí být definovány v deklarační sekci
+				\item Proměnné v~hostitelském prostředí se značí předponou ':'
+				\item Referované hostitelské proměnné musí být definovány v~deklarační sekci
 			\end{itemize}
 		\subsection{Dynamický SQL}
 			\begin{itemize}
@@ -682,7 +682,7 @@
 				\end{itemize}
 			\end{itemize}
 
-		\subsection{Procedury v prostředí Oracle}
+		\subsection{Procedury v~prostředí Oracle}
 		\begin{verbatim}
 		CREATE OR REPLACE PROCEDURE jméno(jméno_proměnné TYP_PROMĚNNÉ) 
 		BEGIN
@@ -690,7 +690,7 @@
 		END;	
 		\end{verbatim}
 
-		\subsection{Funkce v prostředí Oracle}
+		\subsection{Funkce v~prostředí Oracle}
 		\begin{verbatim}
 		CREATE OR REPLACE FUNCTION jméno(jméno_proměnné TYP_PROMĚNNÉ) 
 		    RETURN NUMBER
@@ -700,7 +700,7 @@
 		END;
 		\end{verbatim}
 
-		\subsection{Triggery v prostředí Oracle}
+		\subsection{Triggery v~prostředí Oracle}
 		\begin{verbatim}
 		CREATE OR REPLACE TRIGGER jméno
 		    [BEFORE|AFTER|INSTEAD OF][DELETE|INSERT|UPDATE|OR]
@@ -717,9 +717,9 @@
 				\pojem{Funkční závislost}{hodnota atributu relace určuje jednoznačně hodnotu jiného atributu téže relace}
 				\begin{itemize}
 					\item Zapisujeme $X \rightarrow Y$
-					\item Vyplývá z významu atributů, představuje integritní omezení
-					\item \emph{Nechť X a Y jsou atributy relace R. Řekneme, že Y funkčně závisí na X, právě když pro libovolné dvě n-tice t$_1$ a t$_2$ každého přípustného stavu relace R platí, že je-li x$_1$, resp. y$_1$ hodnota atributu X, resp. Y v n-tici t$_1$ a x$_2$, resp. y$_2$ hodnota atributu X, resp. Y v n-tici t$_2$ a x$_1 = $ x$_2$, potom i y$_1 = $y$_2$.}
-					\item Praktický důsledek: opakuje-li se v relaci stejná hodnota determinantu, musí se opakovat i odpovídající stejné hodnoty závislého atributu
+					\item Vyplývá z~významu atributů, představuje integritní omezení
+					\item \emph{Nechť X a Y jsou atributy relace R. Řekneme, že Y funkčně závisí na X, právě když pro libovolné dvě n-tice t$_1$ a t$_2$ každého přípustného stavu relace R platí, že je-li x$_1$, resp. y$_1$ hodnota atributu X, resp. Y v~n-tici t$_1$ a x$_2$, resp. y$_2$ hodnota atributu X, resp. Y v~n-tici t$_2$ a x$_1 = $ x$_2$, potom i y$_1 = $y$_2$.}
+					\item Praktický důsledek: opakuje-li se v~relaci stejná hodnota determinantu, musí se opakovat i odpovídající stejné hodnoty závislého atributu
 
 					\pojem{Plná funkční závislost}{atribut je funkčně závislý na celém složeném atributu a není funkčně závislý jen na některé jeho části}
 					\item Je-li kandidátní klíč relace složený, stejné hodnoty složek se mohou opakovat \tedy musí se opakovat i hodnoty atributů, které jsou částečně (ne plně) závislé
@@ -729,7 +729,7 @@
 				\item Návrh databáze:
 				\begin{itemize}
 					\item Proces návrhu založený na teorii závislostí se nazývá normalizace
-					\item Postup návrhu: seznam atributů $\rightarrow$ postupná dekompozice na schéma v dostatečně vysoké normální formě
+					\item Postup návrhu: seznam atributů $\rightarrow$ postupná dekompozice na schéma v~dostatečně vysoké normální formě
 					\item Praktický postup: datový model $\rightarrow$ transformace na schéma relační databáze $\rightarrow$ zjemnění využitím normalizace resp. normalizace ER modelu před transformací
 					\pojem{Problémy špatného návrhu}
 					\begin{enumerate}
@@ -746,7 +746,7 @@
 					\item Žádoucí vlastnosti dekompozice:
 					\begin{itemize}
 						\pojem{Bezeztrátovost při zpětném spojení (Loosless-Join/Nonloss decomp.)}{spojení tabulek, které vzniknou dekompozicí musí dát přesně původní tabulku}
-						\pojem{Zachování závislostí}{všechny původní závislosti musí být zachovány a snadno kontrolovatelné (v rámci jedné tabulky)}
+						\pojem{Zachování závislostí}{všechny původní závislosti musí být zachovány a snadno kontrolovatelné (v~rámci jedné tabulky)}
 						\pojem{Odstranění opakování informace (redundance)}
 					\end{itemize}
 					\pojem{Boyce-Coddova normální forma (BCNF)}
@@ -759,7 +759,7 @@
 
 		\subsection{Normální formy}
 			\begin{itemize}
-				\item Definuje požadavek na vlastnosti schématu relace z pohledu závislostí mezi atributy
+				\item Definuje požadavek na vlastnosti schématu relace z~pohledu závislostí mezi atributy
 				\item Hierarchie normálních forem (Codd: 1NF až 3NF, BCNF, 4NF, 5NF), tj, n-tá normální forma musí splňovat podmínky (n-1) normální formy a něco navíc
 				\item Požadavky na návrh založený na normalizaci:
 				\begin{itemize}
@@ -775,12 +775,12 @@
 			
 				\item \textbf{První normální forma \texttt{1NF}} \hfill {\small (atomické prvky)}
 				\begin{itemize}
-					\item relace je v první normální forme, právě když \emph{všechny její jednoduché domény obsahují pouze atomické hodnoty}
+					\item relace je v~první normální forme, právě když \emph{všechny její jednoduché domény obsahují pouze atomické hodnoty}
 				\end{itemize}
 
-				\item \textbf{Druhá normální forma \texttt{2NF}} \hfill {\small (vazba ven z kandidátního klíče)}
+				\item \textbf{Druhá normální forma \texttt{2NF}} \hfill {\small (vazba ven z~kandidátního klíče)}
 				\begin{itemize}
-					\item schéma relace je ve druhé normální formě, právě když je v 1NF a \emph{každý její neklíčový atribut je \underline{plně} funkčně závislý na každém kandidátním klíči}
+					\item schéma relace je ve druhé normální formě, právě když je v~1NF a \emph{každý její neklíčový atribut je \underline{plně} funkčně závislý na každém kandidátním klíči}
 				\end{itemize}
 
 				\item \textbf{Třetí normální forma \texttt{3NF}} \hfill {\small (tranzitivnost)}
@@ -790,23 +790,23 @@
 
 				\item \textbf{Boyce-Coddova normální forma \texttt{BCNF}}
 				\begin{itemize}
-					\item schéma relace je v Boyce-Coddově normální formě, jestliže \emph{pro každou netriviální funkční závislost $X \rightarrow Y$ je $X$ superklíčem}
+					\item schéma relace je v~Boyce-Coddově normální formě, jestliže \emph{pro každou netriviální funkční závislost $X \rightarrow Y$ je $X$ superklíčem}
 				\end{itemize}
 
 				\item \textbf{Čtvrtá normální forma \texttt{4NF}}
 				\begin{itemize}
-					\item vymezuje vlastnosti, které musí splňovat atributy relace s ohledem na vícehodnotové závislosti
+					\item vymezuje vlastnosti, které musí splňovat atributy relace s~ohledem na vícehodnotové závislosti
 				\end{itemize}
 
 				\item \textbf{Pátá normální forma \texttt{5NF}}
 				\begin{itemize}
-					\item vymezuje vlastnosti, které musí splňovat atributy relace s ohledem na závislosti na spojení
+					\item vymezuje vlastnosti, které musí splňovat atributy relace s~ohledem na závislosti na spojení
 				\end{itemize}
 			\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\section{B+ stromy}
-	Dynamická struktura, v uzlech může být ponechán prostor pro další růst s tím, že každý uzel s výjimkou vrcholu je zaplněn minimálně z 50\,\%.
+	Dynamická struktura, v~uzlech může být ponechán prostor pro další růst s~tím, že každý uzel s~výjimkou vrcholu je zaplněn minimálně z~50\,\%.
 	\begin{itemize}
 		\item Více úrovňový index ve tvaru vyváženého n-nárního stromu, kde n je maximální počet následníků
 		\item Kořen \tedy minimálně 2 následníci
@@ -814,7 +814,7 @@
 		\item Uzel stromu má typicky velikost jednoho diskového bloku
 		\pojem{Sekvenční část}{tvořena položkami indexu, které obsahují hodnotu vyhledávacího klíče a ukazatel do primárního souboru, uzly tvoří jednosměrně vázaný seznam}
 		\pojem{Indexová část}{tvoří řídký víceúrovňový index části sekvenční}
-		\item Uzel se skládá z n ukazatelů a n-1 hodnot, které určují od-po které hodnoty jsou pod uzly rozdělené
+		\item Uzel se skládá z~n ukazatelů a n-1 hodnot, které určují od-po které hodnoty jsou pod uzly rozdělené
 		\item Vytvoření indexu: \\ \texttt{CREATE [UNIQUE] INDEX nazev ON nazev\_bazove\_tabulky(jmeno\_sloupce [ASC|DESC], ...)}
 	\end{itemize}
 
