@@ -1,10 +1,10 @@
 \documentclass[a4paper,10pt]{article}
-\usepackage[IL2]{fontenc}
-\usepackage[latin2]{inputenc}
 \usepackage[top=1.5cm, left=1cm, text={19cm, 26cm}]{geometry}
 \usepackage{times}
 \usepackage{graphics}
 \usepackage[czech]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 
 \newcommand{\pojem}[2]{\item \textbf{#1:}\quad #2}
 \newcommand{\tedy}{$\Rightarrow$ }
@@ -15,66 +15,66 @@
 	\tableofcontents
 
 	\newpage
-	\section{Obecné pojmy}
+	\section{ObecnÃ© pojmy}
 		\begin{itemize}
 
-			\pojem{Neuspoøádanı soubor \emph{(heap file)}}{ka¾dı záznam mù¾e bıt ulo¾en v souboru na libovolné místo, kde je pro nìj prostor}
-			\pojem{Sekvenèní soubor \emph{(sequential file)}}{záznamy jsou v souboru ulo¾eny podle hodnoty tzv. vyhledávacího klíèe (search key)}
-			\pojem{Ha¹ovanı soubor \emph{(hashed file)}}{ka¾dı záznam souboru je umístìn do bloku, kterı je urèen ha¹ovací funkcí pro hodnotu urèitého pole záznamu, tzv. ha¹ovacího klíèe (hashing key)}
+			\pojem{NeuspoÅ™Ã¡danÃ½ soubor \emph{(heap file)}}{kaÅ¾dÃ½ zÃ¡znam mÅ¯Å¾e bÃ½t uloÅ¾en v souboru na libovolnÃ© mÃ­sto, kde je pro nÄ›j prostor}
+			\pojem{SekvenÄnÃ­ soubor \emph{(sequential file)}}{zÃ¡znamy jsou v souboru uloÅ¾eny podle hodnoty tzv. vyhledÃ¡vacÃ­ho klÃ­Äe (search key)}
+			\pojem{HaÅ¡ovanÃ½ soubor \emph{(hashed file)}}{kaÅ¾dÃ½ zÃ¡znam souboru je umÃ­stÄ›n do bloku, kterÃ½ je urÄen haÅ¡ovacÃ­ funkcÃ­ pro hodnotu urÄitÃ©ho pole zÃ¡znamu, tzv. haÅ¡ovacÃ­ho klÃ­Äe (hashing key)}
 			
-			\pojem{Typy spojení}
+			\pojem{Typy spojenÃ­}
 			\begin{itemize}
-				\pojem{Vnitøní (inner)}
+				\pojem{VnitÅ™nÃ­ (inner)}
 				\begin{itemize}
-					\item Obecné na základì podmínky (\texttt{JOIN})
-					\item Na základì rovnosti (\texttt{EQUIJOIN})
-					\item Pøirozené (\texttt{NATURAL JOIN}) samy vyhledají identické prvky tabulky (musí mít stejnı název)
+					\item ObecnÃ© na zÃ¡kladÄ› podmÃ­nky (\texttt{JOIN})
+					\item Na zÃ¡kladÄ› rovnosti (\texttt{EQUIJOIN})
+					\item PÅ™irozenÃ© (\texttt{NATURAL JOIN}) samy vyhledajÃ­ identickÃ© prvky tabulky (musÃ­ mÃ­t stejnÃ½ nÃ¡zev)
 				\end{itemize}
-				\item \textbf{Vnìj¹í (outer)}
+				\item \textbf{VnÄ›jÅ¡Ã­ (outer)}
 			\end{itemize}
 
-			\pojem{Strukturovaná data}
+			\pojem{StrukturovanÃ¡ data}
 			\begin{itemize}
-				\item Relaèní databáze je vnímána u¾ivatelem jako kolekce èasovì promìnnıch normalizovanıch relací
-				\item Ve¹kerá data v relaèní databází jsou reprezentována explicitní hodnotou 
+				\item RelaÄnÃ­ databÃ¡ze je vnÃ­mÃ¡na uÅ¾ivatelem jako kolekce ÄasovÄ› promÄ›nnÃ½ch normalizovanÃ½ch relacÃ­
+				\item VeÅ¡kerÃ¡ data v relaÄnÃ­ databÃ¡zÃ­ jsou reprezentovÃ¡na explicitnÃ­ hodnotou 
 			\end{itemize}
 		\end{itemize}
 
 		\subsection{Relace}
 			\begin{itemize}
-				\pojem{Relace (v databázích)}{tabulka databáze}
+				\pojem{Relace (v databÃ¡zÃ­ch)}{tabulka databÃ¡ze}
 				\begin{itemize}
-					\item ''Relaèní model'' \tedy relace je základním abstraktním pojmem modelu a jedinou strukturou databáze na logické úrovni
+					\item ''RelaÄnÃ­ model'' \tedy relace je zÃ¡kladnÃ­m abstraktnÃ­m pojmem modelu a jedinou strukturou databÃ¡ze na logickÃ© Ãºrovni
 				\end{itemize}
-				\pojem{Relace (v matematice)}{libovolnı vztah mezi skupinou prvkù jedné nebo více mno¾in}
+				\pojem{Relace (v matematice)}{libovolnÃ½ vztah mezi skupinou prvkÅ¯ jednÃ© nebo vÃ­ce mnoÅ¾in}
 
-				\pojem{Doména}{pojmenovaná mno¾ina skalárních hodnot tého¾ typu}
-				\pojem{Skalární hodnota}{nejmen¹í sémantická jednotka dat, atomická (vnitønì nestrukturovaná)}
-				\pojem{Slo¾ená doména}{z nìkolika jednoduchıch domén}
-				\pojem{Tabulka}{forma znázornìní relace}
+				\pojem{DomÃ©na}{pojmenovanÃ¡ mnoÅ¾ina skalÃ¡rnÃ­ch hodnot tÃ©hoÅ¾ typu}
+				\pojem{SkalÃ¡rnÃ­ hodnota}{nejmenÅ¡Ã­ sÃ©mantickÃ¡ jednotka dat, atomickÃ¡ (vnitÅ™nÄ› nestrukturovanÃ¡)}
+				\pojem{SloÅ¾enÃ¡ domÃ©na}{z nÄ›kolika jednoduchÃ½ch domÃ©n}
+				\pojem{Tabulka}{forma znÃ¡zornÄ›nÃ­ relace}
 			\end{itemize}
-			\subsubsection{Relaèní algebra}
+			\subsubsection{RelaÄnÃ­ algebra}
 				\begin{itemize}
-					\item Tradièní mno¾inové operace \tedy sjednocení, prùnik, rozdíl, souèin
-					\item Speciální relaèní operace \tedy projekce, selekce, spojení
+					\item TradiÄnÃ­ mnoÅ¾inovÃ© operace \tedy sjednocenÃ­, prÅ¯nik, rozdÃ­l, souÄin
+					\item SpeciÃ¡lnÃ­ relaÄnÃ­ operace \tedy projekce, selekce, spojenÃ­
 					\begin{itemize}
-						\pojem{Projekce}{Vısledkem projekce bude tabulka, která bude obsahovat jenom nìkteré ze sloupcù pùvodní tabulky}
-						\pojem{Selekce}{Vısledkem operace selekce bude narozdíl od projekce tabulka, která bude zahrnovat v¹echny sloupce, ale obecnì jen nìkteré øádky. Budou to ty øádky, které vyhovují zadané podmínce.}
-						\pojem{Spojení}{Umo¾òuje nám spojovat øádky dvou tabulek na základì stejné hodnoty ve stejnì pojmenovanıch sloupcích.}
+						\pojem{Projekce}{VÃ½sledkem projekce bude tabulka, kterÃ¡ bude obsahovat jenom nÄ›kterÃ© ze sloupcÅ¯ pÅ¯vodnÃ­ tabulky}
+						\pojem{Selekce}{VÃ½sledkem operace selekce bude narozdÃ­l od projekce tabulka, kterÃ¡ bude zahrnovat vÅ¡echny sloupce, ale obecnÄ› jen nÄ›kterÃ© Å™Ã¡dky. Budou to ty Å™Ã¡dky, kterÃ© vyhovujÃ­ zadanÃ© podmÃ­nce.}
+						\pojem{SpojenÃ­}{UmoÅ¾Åˆuje nÃ¡m spojovat Å™Ã¡dky dvou tabulek na zÃ¡kladÄ› stejnÃ© hodnoty ve stejnÄ› pojmenovanÃ½ch sloupcÃ­ch.}
 
 					\end{itemize}
 				\end{itemize}
 		
-		\subsection{Databázová transakce}
+		\subsection{DatabÃ¡zovÃ¡ transakce}
 			\begin{itemize}
-				\item jednotka provádìní programu, která zpøístupòuje, pøípadnì i modifikuje data v databázi
+				\item jednotka provÃ¡dÄ›nÃ­ programu, kterÃ¡ zpÅ™Ã­stupÅˆuje, pÅ™Ã­padnÄ› i modifikuje data v databÃ¡zi
 
 				\pojem{ACID vlastnosti}
 				\begin{itemize}
-					\item \textbf{Atomiènost} $\Rightarrow$ buï je provedena celá transakce nebo ¾ádná z databázovıch operací, které ji tvoøí
-					\item \textbf{Konzistence} $\Rightarrow$ izolovaná transakce zachovává konzistenci databáze
-					\item \textbf{Izolace} $\Rightarrow$ i pøi soubì¾ném bìhu transakcí SØBD zajistí, ¾e pro ka¾dou dvojici soubì¾nıch transakcí T$_i$ a T$_j$ se T$_i$ jeví, ¾e T$_j$ skonèila døíve, ne¾ T$_i$ zahájila provádìní nebo T$_j$ zahájila provádìní poté, co T$_i$ skonèila
-					\item \textbf{Trvalost} $\Rightarrow$ poté, co transakce úspì¹nì skonèí budou mít v¹echny zmìny v databázi, které transakce provedla, trvalı charakter a to i pøi vıpadku systému
+					\item \textbf{AtomiÄnost} $\Rightarrow$ buÄ je provedena celÃ¡ transakce nebo Å¾Ã¡dnÃ¡ z databÃ¡zovÃ½ch operacÃ­, kterÃ© ji tvoÅ™Ã­
+					\item \textbf{Konzistence} $\Rightarrow$ izolovanÃ¡ transakce zachovÃ¡vÃ¡ konzistenci databÃ¡ze
+					\item \textbf{Izolace} $\Rightarrow$ i pÅ™i soubÄ›Å¾nÃ©m bÄ›hu transakcÃ­ SÅ˜BD zajistÃ­, Å¾e pro kaÅ¾dou dvojici soubÄ›Å¾nÃ½ch transakcÃ­ T$_i$ a T$_j$ se T$_i$ jevÃ­, Å¾e T$_j$ skonÄila dÅ™Ã­ve, neÅ¾ T$_i$ zahÃ¡jila provÃ¡dÄ›nÃ­ nebo T$_j$ zahÃ¡jila provÃ¡dÄ›nÃ­ potÃ©, co T$_i$ skonÄila
+					\item \textbf{Trvalost} $\Rightarrow$ potÃ©, co transakce ÃºspÄ›Å¡nÄ› skonÄÃ­ budou mÃ­t vÅ¡echny zmÄ›ny v databÃ¡zi, kterÃ© transakce provedla, trvalÃ½ charakter a to i pÅ™i vÃ½padku systÃ©mu
 				\end{itemize}
 				\pagebreak
 
@@ -85,16 +85,16 @@
 				\end{figure}
 				
 				\begin{itemize}
-					\item \textbf{Aktivní (A)} -- poèáteèní stav, transakce v nìm setrvává po dobu provádìní
-					\item \textbf{Èásteènì potvrzená (PC)} -- po provedení posledního pøíkazu
-					\item \textbf{Chybovı stav (F)} -- po zji¹tìní, ¾e normální provádìní není dál mo¾né
-					\item \textbf{Zru¹ená (AB)} -- poté, co byly zmìny v databázi provedené transakcí anulovány (operace rollback), databáze bude vestavu pøed zahájením transakce
-					\item \textbf{Potvrzená (C)} -- po úspì¹ném dokonèení transakce
+					\item \textbf{AktivnÃ­ (A)} -- poÄÃ¡teÄnÃ­ stav, transakce v nÄ›m setrvÃ¡vÃ¡ po dobu provÃ¡dÄ›nÃ­
+					\item \textbf{ÄŒÃ¡steÄnÄ› potvrzenÃ¡ (PC)} -- po provedenÃ­ poslednÃ­ho pÅ™Ã­kazu
+					\item \textbf{ChybovÃ½ stav (F)} -- po zjiÅ¡tÄ›nÃ­, Å¾e normÃ¡lnÃ­ provÃ¡dÄ›nÃ­ nenÃ­ dÃ¡l moÅ¾nÃ©
+					\item \textbf{ZruÅ¡enÃ¡ (AB)} -- potÃ©, co byly zmÄ›ny v databÃ¡zi provedenÃ© transakcÃ­ anulovÃ¡ny (operace rollback), databÃ¡ze bude vestavu pÅ™ed zahÃ¡jenÃ­m transakce
+					\item \textbf{PotvrzenÃ¡ (C)} -- po ÃºspÄ›Å¡nÃ©m dokonÄenÃ­ transakce
 				\end{itemize}
 			\end{itemize}
 
-			\subsubsection{Uspoøádané plány}
-				Binární relace "je v konfliktu" z mno¾iny instrukcí transakce $\textrm{T}_{\textrm{i}}$ do mno¾iny instrukcí soubì¾né transakce $\textrm{T}_{\textrm{j}}$
+			\subsubsection{UspoÅ™Ã¡danÃ© plÃ¡ny}
+				BinÃ¡rnÃ­ relace "je v konfliktu" z mnoÅ¾iny instrukcÃ­ transakce $\textrm{T}_{\textrm{i}}$ do mnoÅ¾iny instrukcÃ­ soubÄ›Å¾nÃ© transakce $\textrm{T}_{\textrm{j}}$
 				\begin{table}[h!]
 					\center
 					\begin{tabular}{ c  c  c }
@@ -110,9 +110,9 @@
 					\end{tabular}
 				\end{table}
 				
-			\subsubsection{Graf relace precedence transakcí}			
-				Je graf reprezentující binární relaci ''$T_i$ pøedchází $T_j$'' implikovanou konfliktními instrukcemi transakci $T_i$ a $T_j$.
-				Plán je uspoøádatelnı vzhledem ke konfliktùm právì, kdy¾ je odpovídající graf precedence acyklickı.
+			\subsubsection{Graf relace precedence transakcÃ­}			
+				Je graf reprezentujÃ­cÃ­ binÃ¡rnÃ­ relaci ''$T_i$ pÅ™edchÃ¡zÃ­ $T_j$'' implikovanou konfliktnÃ­mi instrukcemi transakci $T_i$ a $T_j$.
+				PlÃ¡n je uspoÅ™Ã¡datelnÃ½ vzhledem ke konfliktÅ¯m prÃ¡vÄ›, kdyÅ¾ je odpovÃ­dajÃ­cÃ­ graf precedence acyklickÃ½.
 
 				\begin{figure}[h!]
 					\centering
@@ -124,59 +124,59 @@
 				\end{figure}
 				\pagebreak			
 				
-			\subsubsection{Plány}
+			\subsubsection{PlÃ¡ny}
 				\begin{itemize}
-					\pojem{Plán soubì¾nıch transakcí (schedule)}{Chronologické poøadí provádìní databázovıch operací \texttt{read} a \texttt{write} soubì¾nì probíhajících transakcí. Oznaèuje se také jako rozvrh soubì¾nıch transakcí}
+					\pojem{PlÃ¡n soubÄ›Å¾nÃ½ch transakcÃ­ (schedule)}{ChronologickÃ© poÅ™adÃ­ provÃ¡dÄ›nÃ­ databÃ¡zovÃ½ch operacÃ­ \texttt{read} a \texttt{write} soubÄ›Å¾nÄ› probÃ­hajÃ­cÃ­ch transakcÃ­. OznaÄuje se takÃ© jako rozvrh soubÄ›Å¾nÃ½ch transakcÃ­}
 
-					\pojem{Uspoøadatelnı vzhledem ke konfliktùm}{Plán soubì¾nıch transakcí S se nazıvá uspoøádatelnı vzhledem ke konfliktùm, jestli¾e existuje sériovı plán ekvivalentní s plánem S vzhledem ke konfliktùm}
+					\pojem{UspoÅ™adatelnÃ½ vzhledem ke konfliktÅ¯m}{PlÃ¡n soubÄ›Å¾nÃ½ch transakcÃ­ S se nazÃ½vÃ¡ uspoÅ™Ã¡datelnÃ½ vzhledem ke konfliktÅ¯m, jestliÅ¾e existuje sÃ©riovÃ½ plÃ¡n ekvivalentnÃ­ s plÃ¡nem S vzhledem ke konfliktÅ¯m}
 
-					\pojem{Uzamykací protokoly}{Soustava pravidel urèující, kdy mù¾e transakce zamknout/odemknout objekt}
+					\pojem{UzamykacÃ­ protokoly}{Soustava pravidel urÄujÃ­cÃ­, kdy mÅ¯Å¾e transakce zamknout/odemknout objekt}
 					\begin{itemize}
-						\pojem{Sdílenı zámek}{mù¾e s ním pracovat více transakcí}
-						\pojem{Vıluènı zámek}{pou¾ívá max jedna transakce, která má k objektu vıluènı pøístup}
+						\pojem{SdÃ­lenÃ½ zÃ¡mek}{mÅ¯Å¾e s nÃ­m pracovat vÃ­ce transakcÃ­}
+						\pojem{VÃ½luÄnÃ½ zÃ¡mek}{pouÅ¾Ã­vÃ¡ max jedna transakce, kterÃ¡ mÃ¡ k objektu vÃ½luÄnÃ½ pÅ™Ã­stup}
 					\end{itemize}
 
-					\pojem{Dvoufázovı uzamykací protokol}{zaji¹»uje uspoøadatelnost vzhledem ke konfliktùm, ne v¹ak deadlock}
+					\pojem{DvoufÃ¡zovÃ½ uzamykacÃ­ protokol}{zajiÅ¡Å¥uje uspoÅ™adatelnost vzhledem ke konfliktÅ¯m, ne vÅ¡ak deadlock}
 					\begin{itemize}
-						\pojem{Fáze rùstu}{transakce uzamyká objekty podle potøeby, ale neodemyká je (uzamykací kód)}
-						\pojem{Fáze zmen¹ování}{transakce odemyká objekty, ale u¾ ¾ádnı nesmí zamknout}
+						\pojem{FÃ¡ze rÅ¯stu}{transakce uzamykÃ¡ objekty podle potÅ™eby, ale neodemykÃ¡ je (uzamykacÃ­ kÃ³d)}
+						\pojem{FÃ¡ze zmenÅ¡ovÃ¡nÃ­}{transakce odemykÃ¡ objekty, ale uÅ¾ Å¾Ã¡dnÃ½ nesmÃ­ zamknout}
 					\end{itemize}
 
-					\pojem{Implementace uzamykání}{správce uzamykání pou¾ívá tabulku zámkù (ha¹ovaná tabulka)}
+					\pojem{Implementace uzamykÃ¡nÃ­}{sprÃ¡vce uzamykÃ¡nÃ­ pouÅ¾Ã­vÃ¡ tabulku zÃ¡mkÅ¯ (haÅ¡ovanÃ¡ tabulka)}
 
-					\pojem{Granularita uzamykání}{Udává jak velká èást DB podléhá uzamykání (øádky, blok, atd.)}
+					\pojem{Granularita uzamykÃ¡nÃ­}{UdÃ¡vÃ¡ jak velkÃ¡ ÄÃ¡st DB podlÃ©hÃ¡ uzamykÃ¡nÃ­ (Å™Ã¡dky, blok, atd.)}
 
-					\pojem{Deadlock}{Stav systému kdy ¾ádná z transakcí nemù¾e pokraèovat, proto¾e jí v tom brání jiná transakce (typicky pøi uvolòování zdrojù -- zámkù)}
+					\pojem{Deadlock}{Stav systÃ©mu kdy Å¾Ã¡dnÃ¡ z transakcÃ­ nemÅ¯Å¾e pokraÄovat, protoÅ¾e jÃ­ v tom brÃ¡nÃ­ jinÃ¡ transakce (typicky pÅ™i uvolÅˆovÃ¡nÃ­ zdrojÅ¯ -- zÃ¡mkÅ¯)}
 					\begin{itemize}
-						\pojem{Øe¹ení}{protokol zabraòující deadlocku nebo timeout}
+						\pojem{Å˜eÅ¡enÃ­}{protokol zabraÅˆujÃ­cÃ­ deadlocku nebo timeout}
 					\end{itemize}
 				\end{itemize}
 
-				\subsubsection{Øízení soubì¾ného pøístupu}
+				\subsubsection{Å˜Ã­zenÃ­ soubÄ›Å¾nÃ©ho pÅ™Ã­stupu}
 				\begin{itemize}
-					\item Problémy pøi soubì¾ném pøístupu:
+					\item ProblÃ©my pÅ™i soubÄ›Å¾nÃ©m pÅ™Ã­stupu:
 					\begin{itemize}
-						\item Ztráta aktualizace
-						\item Závislost na potvrzení naètené hodnoty
-						\item Pøepis nepotvrzené hodnoty
-						\item Nekonzistentní analıza
+						\item ZtrÃ¡ta aktualizace
+						\item ZÃ¡vislost na potvrzenÃ­ naÄtenÃ© hodnoty
+						\item PÅ™epis nepotvrzenÃ© hodnoty
+						\item NekonzistentnÃ­ analÃ½za
 					\end{itemize}
-					\pojem{Schéma øízení}{souhrn pravidel pou¾itıch k zaji¹tìní soubì¾ného pøístupu}
-					\pojem{Plán (rozvrh)}{udává chronologické poøadí provádìní instrukcí soubì¾nıch transakcí}
-					\pojem{Sériovı plán}{instrukce jedné transakce bezprostøednì za sebou}
+					\pojem{SchÃ©ma Å™Ã­zenÃ­}{souhrn pravidel pouÅ¾itÃ½ch k zajiÅ¡tÄ›nÃ­ soubÄ›Å¾nÃ©ho pÅ™Ã­stupu}
+					\pojem{PlÃ¡n (rozvrh)}{udÃ¡vÃ¡ chronologickÃ© poÅ™adÃ­ provÃ¡dÄ›nÃ­ instrukcÃ­ soubÄ›Å¾nÃ½ch transakcÃ­}
+					\pojem{SÃ©riovÃ½ plÃ¡n}{instrukce jednÃ© transakce bezprostÅ™ednÄ› za sebou}
 				\end{itemize}
 				\begin{figure}[h!]
 					\centering
 					\scalebox{0.7}{\includegraphics{imgs/Seriovy-plan}}
 				\end{figure}
-				Obrázek demonstruje správnı seriovı plán vlevo a ¹patnı vpravo. Je nutné zachovat postup ètení z promìnnıch v dobì, kdy je u¾ zmìnil jinı plán.
+				ObrÃ¡zek demonstruje sprÃ¡vnÃ½ seriovÃ½ plÃ¡n vlevo a Å¡patnÃ½ vpravo. Je nutnÃ© zachovat postup ÄtenÃ­ z promÄ›nnÃ½ch v dobÄ›, kdy je uÅ¾ zmÄ›nil jinÃ½ plÃ¡n.
 				\begin{table}[h]
 					\center
 					\begin{tabular}{| c | c | c |}
 						\hline
-						\textbf{Ztráta aktualizace} &
-						\textbf{Závislost na potvrzení naètené hodnoty} &
-						\textbf{Pøepis nepotvrzené hodnoty} \\ \hline \hline
+						\textbf{ZtrÃ¡ta aktualizace} &
+						\textbf{ZÃ¡vislost na potvrzenÃ­ naÄtenÃ© hodnoty} &
+						\textbf{PÅ™epis nepotvrzenÃ© hodnoty} \\ \hline \hline
 						\begin{minipage}{.3\textwidth}
 							\centering
 							\scalebox{0.8}{\includegraphics{imgs/ztr_akt}}
@@ -195,627 +195,627 @@
 					\end{tabular}
 				\end{table}	
 
-		\subsection{Ha¹ování a Indexování}
+		\subsection{HaÅ¡ovÃ¡nÃ­ a IndexovÃ¡nÃ­}
 			\begin{itemize}
-				\item Zaji¹tìní pøístupu k záznamùm tabulky podle vybraného sloupce tabulky
+				\item ZajiÅ¡tÄ›nÃ­ pÅ™Ã­stupu k zÃ¡znamÅ¯m tabulky podle vybranÃ©ho sloupce tabulky
 				\begin{itemize}
-					\pojem{Ha¹ování}{pou¾ívá ha¹ovací funkci k urèení sektoru s daty}
-					\pojem{Indexování}{zalo¾eno na indexovıch souborech}
+					\pojem{HaÅ¡ovÃ¡nÃ­}{pouÅ¾Ã­vÃ¡ haÅ¡ovacÃ­ funkci k urÄenÃ­ sektoru s daty}
+					\pojem{IndexovÃ¡nÃ­}{zaloÅ¾eno na indexovÃ½ch souborech}
 				\end{itemize}
 
-				\pojem{Klíèovı atribut}{atribut, kterı je souèástí nìkterého kandidátního klíèe}
-				\pojem{Kandidátní klíè}{unikátní atribut pro ka¾dı øádek tabulky}
-				\pojem{Primární klíè}{jeden z kandidátních klíèù, kterı bude slou¾it k adresaci øádkù tabulky}
-				\pojem{Cizí klíè}{splòuje èasovì nezávislé vlastnosti:}
+				\pojem{KlÃ­ÄovÃ½ atribut}{atribut, kterÃ½ je souÄÃ¡stÃ­ nÄ›kterÃ©ho kandidÃ¡tnÃ­ho klÃ­Äe}
+				\pojem{KandidÃ¡tnÃ­ klÃ­Ä}{unikÃ¡tnÃ­ atribut pro kaÅ¾dÃ½ Å™Ã¡dek tabulky}
+				\pojem{PrimÃ¡rnÃ­ klÃ­Ä}{jeden z kandidÃ¡tnÃ­ch klÃ­ÄÅ¯, kterÃ½ bude slouÅ¾it k adresaci Å™Ã¡dkÅ¯ tabulky}
+				\pojem{CizÃ­ klÃ­Ä}{splÅˆuje ÄasovÄ› nezÃ¡vislÃ© vlastnosti:}
 				\begin{enumerate}
-					\item Ka¾dá hodnota FK je buï plnì zadaná nebo plnì nezadaná
-					\item Existuje relace R s kandidátním klíèem CK takovım, ¾e ka¾dá zadaná hodnota FK je identická s hodnotou CK nìjaké n-tice relace R
+					\item KaÅ¾dÃ¡ hodnota FK je buÄ plnÄ› zadanÃ¡ nebo plnÄ› nezadanÃ¡
+					\item Existuje relace R s kandidÃ¡tnÃ­m klÃ­Äem CK takovÃ½m, Å¾e kaÅ¾dÃ¡ zadanÃ¡ hodnota FK je identickÃ¡ s hodnotou CK nÄ›jakÃ© n-tice relace R
 				\end{enumerate}
 				
-				\pojem{Uspoøádanı index}{datová struktura tvoøená záznamy obsahujícími hodnoty vyhledávacího klíèe}
+				\pojem{UspoÅ™Ã¡danÃ½ index}{datovÃ¡ struktura tvoÅ™enÃ¡ zÃ¡znamy obsahujÃ­cÃ­mi hodnoty vyhledÃ¡vacÃ­ho klÃ­Äe}
 
-				\pojem{Primární index}{index pro primární vyhledávací klíè}
+				\pojem{PrimÃ¡rnÃ­ index}{index pro primÃ¡rnÃ­ vyhledÃ¡vacÃ­ klÃ­Ä}
 
-				\pojem{Sekundární index}{index pro sekundární vyhledávací klíè}
+				\pojem{SekundÃ¡rnÃ­ index}{index pro sekundÃ¡rnÃ­ vyhledÃ¡vacÃ­ klÃ­Ä}
 
-				\pojem{Indexsekvenèní soubor}{uspoøádanı primární soubor + primární index}
+				\pojem{IndexsekvenÄnÃ­ soubor}{uspoÅ™Ã¡danÃ½ primÃ¡rnÃ­ soubor + primÃ¡rnÃ­ index}
 
-				\pojem{Polo¾ka indexu}{záznam obsahující hodnotu vyhledávacího klíèe a ukazatele na jeden nebo nìkolik záznamù primárního souboru s touto hodnotou primárního klíèe, pøípadnì ukazatel na sektor ukazatelù}
+				\pojem{PoloÅ¾ka indexu}{zÃ¡znam obsahujÃ­cÃ­ hodnotu vyhledÃ¡vacÃ­ho klÃ­Äe a ukazatele na jeden nebo nÄ›kolik zÃ¡znamÅ¯ primÃ¡rnÃ­ho souboru s touto hodnotou primÃ¡rnÃ­ho klÃ­Äe, pÅ™Ã­padnÄ› ukazatel na sektor ukazatelÅ¯}
 
-				\pojem{Hustı index}{obsahuje polo¾ku pro ka¾dou hodnotu vyhledávacího klíèe, která se v primárním souboru vyskytuje}
+				\pojem{HustÃ½ index}{obsahuje poloÅ¾ku pro kaÅ¾dou hodnotu vyhledÃ¡vacÃ­ho klÃ­Äe, kterÃ¡ se v primÃ¡rnÃ­m souboru vyskytuje}
 
-				\pojem{Øídkı index}{obsahuje jen nìkteré hodnoty vyhledávacího klíèe. Takovı mù¾e bıt jen primární, proto¾e lze vyu¾ít uspoøádání záznamù v primárním souboru}
+				\pojem{Å˜Ã­dkÃ½ index}{obsahuje jen nÄ›kterÃ© hodnoty vyhledÃ¡vacÃ­ho klÃ­Äe. TakovÃ½ mÅ¯Å¾e bÃ½t jen primÃ¡rnÃ­, protoÅ¾e lze vyuÅ¾Ã­t uspoÅ™Ã¡dÃ¡nÃ­ zÃ¡znamÅ¯ v primÃ¡rnÃ­m souboru}
 
-				\pojem{Víceúrovòovı index}{ka¾dá úroveò, s vıjimkou poslední, je øídkım primárním indexem úrovnì následující. Poslední úroveò je jednoúrovòovım indexem primárního souboru}
+				\pojem{VÃ­ceÃºrovÅˆovÃ½ index}{kaÅ¾dÃ¡ ÃºroveÅˆ, s vÃ½jimkou poslednÃ­, je Å™Ã­dkÃ½m primÃ¡rnÃ­m indexem ÃºrovnÄ› nÃ¡sledujÃ­cÃ­. PoslednÃ­ ÃºroveÅˆ je jednoÃºrovÅˆovÃ½m indexem primÃ¡rnÃ­ho souboru}
 
-				\pojem{Index s unikátními hodnotami (unique index)}{index pro vyhledávací klíè, jeho¾ hodnoty jsou v primárním souboru unikátní}
+				\pojem{Index s unikÃ¡tnÃ­mi hodnotami (unique index)}{index pro vyhledÃ¡vacÃ­ klÃ­Ä, jehoÅ¾ hodnoty jsou v primÃ¡rnÃ­m souboru unikÃ¡tnÃ­}
 			\end{itemize}
 
-			\subsubsection{Ha¹ování}
+			\subsubsection{HaÅ¡ovÃ¡nÃ­}
 				\begin{itemize}
-					\item Ha¹ované soubory $\rightarrow$ pøímé ha¹ování
-					\item Ha¹ovací funkce pøevádí hodnotu vyhledávacího klíèe na adresu sektoru záznamù
+					\item HaÅ¡ovanÃ© soubory $\rightarrow$ pÅ™Ã­mÃ© haÅ¡ovÃ¡nÃ­
+					\item HaÅ¡ovacÃ­ funkce pÅ™evÃ¡dÃ­ hodnotu vyhledÃ¡vacÃ­ho klÃ­Äe na adresu sektoru zÃ¡znamÅ¯
 
-					\item Po¾adavky na ha¹ovací funkci
+					\item PoÅ¾adavky na haÅ¡ovacÃ­ funkci
 					\begin{itemize}
-						\item Rozlo¾ení hodnot je rovnomìrné
-						\item Vıskyt hodnot je náhodnı
+						\item RozloÅ¾enÃ­ hodnot je rovnomÄ›rnÃ©
+						\item VÃ½skyt hodnot je nÃ¡hodnÃ½
 					\end{itemize}
 
-					\item Typické ha¹ovací funkce
+					\item TypickÃ© haÅ¡ovacÃ­ funkce
 					\begin{itemize}
-						\item souèet bin. reprezentace znakù øetìce \texttt{MOD} poèet sektorù
+						\item souÄet bin. reprezentace znakÅ¯ Å™etÄ›ce \texttt{MOD} poÄet sektorÅ¯
 					\end{itemize}
 
-					\item Pøeteèení sektorù
+					\item PÅ™eteÄenÃ­ sektorÅ¯
 					\begin{itemize}
-						\item Nedostateènı poèet sektorù
+						\item NedostateÄnÃ½ poÄet sektorÅ¯
 						\begin{itemize}
-							\item[$\circ$] Musí platit $N > \frac{n_z}{z_s}$, kde $N$ je poèet sektorù, $n_z$ je celkovı poèet záznamù a $z_s$ je poèet záznamù sektoru
+							\item[$\circ$] MusÃ­ platit $N > \frac{n_z}{z_s}$, kde $N$ je poÄet sektorÅ¯, $n_z$ je celkovÃ½ poÄet zÃ¡znamÅ¯ a $z_s$ je poÄet zÃ¡znamÅ¯ sektoru
 						\end{itemize}
-						\item Pøetí¾ení nìkterıch sektorù (skew)
+						\item PÅ™etÃ­Å¾enÃ­ nÄ›kterÃ½ch sektorÅ¯ (skew)
 						\begin{itemize}
-							\item[a)] Nerovnomìrné rozdìlení hodnot vyhledávacího klíèe
-							\item[b)] Poèet sektorù se volí $\left(\frac{n_z}{z_s}\right)*(1+d)$, kde $d$ je faktor korekce, typicky 0.2 
+							\item[a)] NerovnomÄ›rnÃ© rozdÄ›lenÃ­ hodnot vyhledÃ¡vacÃ­ho klÃ­Äe
+							\item[b)] PoÄet sektorÅ¯ se volÃ­ $\left(\frac{n_z}{z_s}\right)*(1+d)$, kde $d$ je faktor korekce, typicky 0.2 
 						\end{itemize}
 					\end{itemize}
 
-					\pojem{Ha¹ovanı index}{datová struktura, uspoøádaní jejích záznamù je dáno hodnotou ha¹ovací funkce pro hodnotu vyhledávacího klíèe obsa¾enou v daném záznamu}
+					\pojem{HaÅ¡ovanÃ½ index}{datovÃ¡ struktura, uspoÅ™Ã¡danÃ­ jejÃ­ch zÃ¡znamÅ¯ je dÃ¡no hodnotou haÅ¡ovacÃ­ funkce pro hodnotu vyhledÃ¡vacÃ­ho klÃ­Äe obsaÅ¾enou v danÃ©m zÃ¡znamu}
 					\begin{itemize}
-						\item Soubor mù¾e bıt ha¹ovanı pouze podle jednoho vyhledávacího klíèe
-						\item U ha¹ovaného indexu jsou v sektorech polo¾ky s hodnotou vyhledávacího klíèe a ukazatelem do souboru (obdoba sekundárních indexù)
+						\item Soubor mÅ¯Å¾e bÃ½t haÅ¡ovanÃ½ pouze podle jednoho vyhledÃ¡vacÃ­ho klÃ­Äe
+						\item U haÅ¡ovanÃ©ho indexu jsou v sektorech poloÅ¾ky s hodnotou vyhledÃ¡vacÃ­ho klÃ­Äe a ukazatelem do souboru (obdoba sekundÃ¡rnÃ­ch indexÅ¯)
 					\end{itemize}
 
-					\item Nevıhoda statického ha¹ování
+					\item NevÃ½hoda statickÃ©ho haÅ¡ovÃ¡nÃ­
 					\begin{itemize}
-						\item Ha¹ovací funkce se musí zvolit pøi implementaci, resp. definici ha¹ovaného souboru a nelze ji snadno zmìnit se zmìnou velikosti tabulky
+						\item HaÅ¡ovacÃ­ funkce se musÃ­ zvolit pÅ™i implementaci, resp. definici haÅ¡ovanÃ©ho souboru a nelze ji snadno zmÄ›nit se zmÄ›nou velikosti tabulky
 					\end{itemize}
 
-					\item Dynamické ha¹ování
+					\item DynamickÃ© haÅ¡ovÃ¡nÃ­
 					\begin{itemize}
-						\item Dynamická modifikace ha¹ovací funkce tak, aby odrá¾ela zmìny velikosti tabulky
+						\item DynamickÃ¡ modifikace haÅ¡ovacÃ­ funkce tak, aby odrÃ¡Å¾ela zmÄ›ny velikosti tabulky
 					\end{itemize}
 				\end{itemize}
 
-			\subsubsection{Shlukování (clustering)}
+			\subsubsection{ShlukovÃ¡nÃ­ (clustering)}
 				\begin{itemize}
-					\item Umístìní záznamù se stejnımi vlastnostmi (hodnotou klíèe pro shlukování) fyzicky blízko u sebe
-					\item Pøístup k záznamùm prostøednictvím indexu nebo ha¹ováním
-					\item V souboru mohou bıt záznamy jedné nebo nìkolika tabulek
+					\item UmÃ­stÄ›nÃ­ zÃ¡znamÅ¯ se stejnÃ½mi vlastnostmi (hodnotou klÃ­Äe pro shlukovÃ¡nÃ­) fyzicky blÃ­zko u sebe
+					\item PÅ™Ã­stup k zÃ¡znamÅ¯m prostÅ™ednictvÃ­m indexu nebo haÅ¡ovÃ¡nÃ­m
+					\item V souboru mohou bÃ½t zÃ¡znamy jednÃ© nebo nÄ›kolika tabulek
 				\end{itemize} 
-			\subsubsection{Bitmapové indexy}
+			\subsubsection{BitmapovÃ© indexy}
 				\begin{itemize}
-					\item Ulo¾ení informace o tom, ve kterıch záznamech tabulky se vyskytuje daná hodnota vyhledávacího klíèe, ve formì bitovıch vektorù \tedy velikost bitmapového souboru je vıraznì men¹í
-					\item Jednièky v bitmapì urèují, na kterém øádku se urèitı atribut
-					\item Pomocí logickıch operací se nad bitmapami dají vykonávat operace
-					\item Pø: stejné hodnoty ve dvou tabulkách \\
+					\item UloÅ¾enÃ­ informace o tom, ve kterÃ½ch zÃ¡znamech tabulky se vyskytuje danÃ¡ hodnota vyhledÃ¡vacÃ­ho klÃ­Äe, ve formÄ› bitovÃ½ch vektorÅ¯ \tedy velikost bitmapovÃ©ho souboru je vÃ½raznÄ› menÅ¡Ã­
+					\item JedniÄky v bitmapÄ› urÄujÃ­, na kterÃ©m Å™Ã¡dku se urÄitÃ½ atribut
+					\item PomocÃ­ logickÃ½ch operacÃ­ se nad bitmapami dajÃ­ vykonÃ¡vat operace
+					\item PÅ™: stejnÃ© hodnoty ve dvou tabulkÃ¡ch \\
 					\texttt{111110 $\land$ 100101 = 100100}
 				\end{itemize}
 
 		\subsection{Pohledy}
 			\begin{itemize}
-				\item Pojmenovaná virtuální tabulka odvozená z bázové
-				\item Definice pohledù se ukládá do systémového katalogu
-				\item Pøi dotazu na pohled se provede transformace nad bázovou tabulkou(zdrojová tabulka z pohledu)
-				\item Pohledy s klazulemi \texttt{DISTINCT}, \texttt{GROUB BY}, \texttt{HAVING}, s agregaèními funkcemi a spojující nìkolik tabulek umo¾òují pouze ètení
+				\item PojmenovanÃ¡ virtuÃ¡lnÃ­ tabulka odvozenÃ¡ z bÃ¡zovÃ©
+				\item Definice pohledÅ¯ se uklÃ¡dÃ¡ do systÃ©movÃ©ho katalogu
+				\item PÅ™i dotazu na pohled se provede transformace nad bÃ¡zovou tabulkou(zdrojovÃ¡ tabulka z pohledu)
+				\item Pohledy s klazulemi \texttt{DISTINCT}, \texttt{GROUB BY}, \texttt{HAVING}, s agregaÄnÃ­mi funkcemi a spojujÃ­cÃ­ nÄ›kolik tabulek umoÅ¾ÅˆujÃ­ pouze ÄtenÃ­
 
-				\pojem{Materializované pohledy}{vısledek dotazu definujícího pohled je skuteènì fyzicky ulo¾en v databázi a je zaji¹tìna aktualizace obsahu}
-				\pojem{Selektivní pohled}{obsahuje pouze \texttt{SELECT} a nìjaká omezení}
-				\pojem{Projektivní pohled (bez pk)}{pou¾ívá se zde i \texttt{INSERT}}
-				\pojem{Projektivní pohled (s pk)}{opìt se zde mù¾e pou¾ívat \texttt{INSERT} a navíc sloupce mimo pohled mohou bıt \texttt{NULL}}
-				\pojem{Agregaèní pohled}{Umo¾òuje  pou¾ívání agegaèních funkcí a \texttt{INSERT INTO}}
+				\pojem{MaterializovanÃ© pohledy}{vÃ½sledek dotazu definujÃ­cÃ­ho pohled je skuteÄnÄ› fyzicky uloÅ¾en v databÃ¡zi a je zajiÅ¡tÄ›na aktualizace obsahu}
+				\pojem{SelektivnÃ­ pohled}{obsahuje pouze \texttt{SELECT} a nÄ›jakÃ¡ omezenÃ­}
+				\pojem{ProjektivnÃ­ pohled (bez pk)}{pouÅ¾Ã­vÃ¡ se zde i \texttt{INSERT}}
+				\pojem{ProjektivnÃ­ pohled (s pk)}{opÄ›t se zde mÅ¯Å¾e pouÅ¾Ã­vat \texttt{INSERT} a navÃ­c sloupce mimo pohled mohou bÃ½t \texttt{NULL}}
+				\pojem{AgregaÄnÃ­ pohled}{UmoÅ¾Åˆuje  pouÅ¾Ã­vÃ¡nÃ­ agegaÄnÃ­ch funkcÃ­ a \texttt{INSERT INTO}}
 				
-				\item Dùvody pou¾ití \tedy skrytí logické struktury, skrytí slo¾itosti dotazu, skrytí zpùsobu získávání dat
+				\item DÅ¯vody pouÅ¾itÃ­ \tedy skrytÃ­ logickÃ© struktury, skrytÃ­ sloÅ¾itosti dotazu, skrytÃ­ zpÅ¯sobu zÃ­skÃ¡vÃ¡nÃ­ dat
 				\item Deklarace: \texttt{CREATE VIEW pohled AS select}
-				\item Pøíklad: \\ \texttt{CREATE VIEW janska AS SELECT k.* FROM klient k, ucet u} \\
-					\texttt{WHERE k.r\_cislo = u.r\_cislo AND u.pobocka = 'Janská'} \\
+				\item PÅ™Ã­klad: \\ \texttt{CREATE VIEW janska AS SELECT k.* FROM klient k, ucet u} \\
+					\texttt{WHERE k.r\_cislo = u.r\_cislo AND u.pobocka = 'JanskÃ¡'} \\
 					\texttt{WITH CHECK OPTION} \\
-				\item Vıhody: Zpøehlednìní práce s daty a sestavování dotazù, velké uplatnìní z hlediska ochrany dat
-				\pojem{Pou¾ití pohledu}
+				\item VÃ½hody: ZpÅ™ehlednÄ›nÃ­ prÃ¡ce s daty a sestavovÃ¡nÃ­ dotazÅ¯, velkÃ© uplatnÄ›nÃ­ z hlediska ochrany dat
+				\pojem{PouÅ¾itÃ­ pohledu}
 				\begin{itemize}
-					\item[a)] Omezení pøístupu, skrytí logické struktury (bezpeènost)
-					\item[b)] Skrytí slo¾itosti dotazu \tedy zjednodu¹ení
-					\item[c)] Skrytí zpùsobu získání dat \tedy nezávislost na zmìnì dotazu
+					\item[a)] OmezenÃ­ pÅ™Ã­stupu, skrytÃ­ logickÃ© struktury (bezpeÄnost)
+					\item[b)] SkrytÃ­ sloÅ¾itosti dotazu \tedy zjednoduÅ¡enÃ­
+					\item[c)] SkrytÃ­ zpÅ¯sobu zÃ­skÃ¡nÃ­ dat \tedy nezÃ¡vislost na zmÄ›nÄ› dotazu
 				\end{itemize}
 			\end{itemize}
 
 		\subsection{Kurzor}
 			\begin{itemize}
-				\item Umo¾òuje pojmenovat jednotlivé pracovní oblasti a pøistupovat k nim
+				\item UmoÅ¾Åˆuje pojmenovat jednotlivÃ© pracovnÃ­ oblasti a pÅ™istupovat k nim
 				\item Deklarace: \texttt{DECLARE nazev CURSOR FOR select ORDER BY ...}
-				\item Nejèastìji pou¾ívány v ulo¾enıch procedùrách a triggerech
-				\item Vyu¾ívají se ve spojení s transakèním roz¹íøením jazyka SQL
-				\item Základní operace: deklarace, otevøení a uzavøení, pøechod na dal¹í/pøedchozí záznam
+				\item NejÄastÄ›ji pouÅ¾Ã­vÃ¡ny v uloÅ¾enÃ½ch procedÅ¯rÃ¡ch a triggerech
+				\item VyuÅ¾Ã­vajÃ­ se ve spojenÃ­ s transakÄnÃ­m rozÅ¡Ã­Å™enÃ­m jazyka SQL
+				\item ZÃ¡kladnÃ­ operace: deklarace, otevÅ™enÃ­ a uzavÅ™enÃ­, pÅ™echod na dalÅ¡Ã­/pÅ™edchozÃ­ zÃ¡znam
 			\end{itemize}
-		\subsection{Databázovı trigger}
+		\subsection{DatabÃ¡zovÃ½ trigger}
 			\begin{itemize}
-				\item Databázovı objekt obsahující kód spou¹tìnı specifikovanou událostí v databázi
-				\item Databázovı trigger je nìco jiného ne¾ trigger klientské èásti aplikace, kterı se spou¹tí typicky událostí formuláøe nebo tiskové sestavy
-				\item Slo¾ky pøíkazu
+				\item DatabÃ¡zovÃ½ objekt obsahujÃ­cÃ­ kÃ³d spouÅ¡tÄ›nÃ½ specifikovanou udÃ¡lostÃ­ v databÃ¡zi
+				\item DatabÃ¡zovÃ½ trigger je nÄ›co jinÃ©ho neÅ¾ trigger klientskÃ© ÄÃ¡sti aplikace, kterÃ½ se spouÅ¡tÃ­ typicky udÃ¡lostÃ­ formulÃ¡Å™e nebo tiskovÃ© sestavy
+				\item SloÅ¾ky pÅ™Ã­kazu
 				\begin{itemize}
-					\item Jméno triggeru
-					\item Jméno tabulky \texttt{jmeno [REFERENCING alias\_pro\_OLD\_a\_NEW]}
-					\item Èas spu¹tìní akce -- \texttt{BEFORE / AFTER}
-					\item Událost -- \texttt{INSERT / DELETE / UPDATE [OF sloupec, ...]}
-					\item Spou¹tìná akce -- \texttt{FOR EACH \{ROW | STATEMENT\} [WHEN podminka] spousteny\_SQL\_prikaz}
+					\item JmÃ©no triggeru
+					\item JmÃ©no tabulky \texttt{jmeno [REFERENCING alias\_pro\_OLD\_a\_NEW]}
+					\item ÄŒas spuÅ¡tÄ›nÃ­ akce -- \texttt{BEFORE / AFTER}
+					\item UdÃ¡lost -- \texttt{INSERT / DELETE / UPDATE [OF sloupec, ...]}
+					\item SpouÅ¡tÄ›nÃ¡ akce -- \texttt{FOR EACH \{ROW | STATEMENT\} [WHEN podminka] spousteny\_SQL\_prikaz}
 				\end{itemize}
-				\item Typy databázového triggeru:
+				\item Typy databÃ¡zovÃ©ho triggeru:
 				\begin{itemize}
-					\pojem{\texttt{BEFORE}}{pøíkazy tìla triggeru se provedou pøed provedením události, která trigger spou¹tí}
-					\pojem{\texttt{AFTER}}{pøíkazy tìla triggeru se provedou po provedení události, která trigger spou¹tí}
-					\pojem{Pøíkazovı}{je spu¹tìn jedenkrát pro pøíkaz, kterı zpùsobí zadanou událost, je-li splnìna podmínka uvedená v klauzuli \texttt{WHEN} (kdy¾ je uvedena)}
-					\pojem{Øádkovı}{je spu¹tìn jedenkrát pro ka¾dı øádek ovlivnìnı danou událostí, je-li splnìna podmínka uvedená v klauzuli \texttt{WHEN} (kdy¾ je uvedena)}
+					\pojem{\texttt{BEFORE}}{pÅ™Ã­kazy tÄ›la triggeru se provedou pÅ™ed provedenÃ­m udÃ¡losti, kterÃ¡ trigger spouÅ¡tÃ­}
+					\pojem{\texttt{AFTER}}{pÅ™Ã­kazy tÄ›la triggeru se provedou po provedenÃ­ udÃ¡losti, kterÃ¡ trigger spouÅ¡tÃ­}
+					\pojem{PÅ™Ã­kazovÃ½}{je spuÅ¡tÄ›n jedenkrÃ¡t pro pÅ™Ã­kaz, kterÃ½ zpÅ¯sobÃ­ zadanou udÃ¡lost, je-li splnÄ›na podmÃ­nka uvedenÃ¡ v klauzuli \texttt{WHEN} (kdyÅ¾ je uvedena)}
+					\pojem{Å˜Ã¡dkovÃ½}{je spuÅ¡tÄ›n jedenkrÃ¡t pro kaÅ¾dÃ½ Å™Ã¡dek ovlivnÄ›nÃ½ danou udÃ¡lostÃ­, je-li splnÄ›na podmÃ­nka uvedenÃ¡ v klauzuli \texttt{WHEN} (kdyÅ¾ je uvedena)}
 				\end{itemize}
-				\item Typickı pou¾ití databázovıch triggerù
+				\item TypickÃ½ pouÅ¾itÃ­ databÃ¡zovÃ½ch triggerÅ¯
 				\begin{itemize}
-					\item Implementace integritních omezení
-					\item Implementace slo¾itıch bezpeènostních omezení (napø. mo¾nost modifikace dat jen v urèitou dobu)
-					\item Implementace auditu (kdo jaké operace provádìl)
-					\item Provedení transparentních modifikací pøi nìjaké události
-					\item Vıpoèet hodnot pro sloupec s odvozenımi hodnotami
+					\item Implementace integritnÃ­ch omezenÃ­
+					\item Implementace sloÅ¾itÃ½ch bezpeÄnostnÃ­ch omezenÃ­ (napÅ™. moÅ¾nost modifikace dat jen v urÄitou dobu)
+					\item Implementace auditu (kdo jakÃ© operace provÃ¡dÄ›l)
+					\item ProvedenÃ­ transparentnÃ­ch modifikacÃ­ pÅ™i nÄ›jakÃ© udÃ¡losti
+					\item VÃ½poÄet hodnot pro sloupec s odvozenÃ½mi hodnotami
 				\end{itemize}
-				\item Zásady pøi pou¾ití databázovıch triggerù
+				\item ZÃ¡sady pÅ™i pouÅ¾itÃ­ databÃ¡zovÃ½ch triggerÅ¯
 				\begin{itemize}
-					\item Pou¾ij databázovı trigger k zaji¹tìní, ¾e pøi provedení konkrétní operace jsou provedeny odpovídající akce
-					\item Pou¾ij databázovı trigger jen pro centralizované globální operace, které by mìly bıt spu¹tìny bez ohledu na to, kterı u¾ivatel/aplikace operací provede
-					\item Nepou¾ívej databázovı trigger k odmítnutí nesprávnıch dat, jestli¾e lze toté¾ provést pou¾itím deklarativních integritních omezení
-					\item Je-li tìlo triggeru rozsáhlé vytvoø ulo¾enou proceduru, která se bude volat z tìla triggeru
-					\item Nevytváøej rekurzivní triggery
-					\item Pou¾ívej databázové triggery uvá¾livì. Provádí se pro ka¾dého u¾ivatele/aplikaci poka¾dé, kdy¾ daná událost nastane
+					\item PouÅ¾ij databÃ¡zovÃ½ trigger k zajiÅ¡tÄ›nÃ­, Å¾e pÅ™i provedenÃ­ konkrÃ©tnÃ­ operace jsou provedeny odpovÃ­dajÃ­cÃ­ akce
+					\item PouÅ¾ij databÃ¡zovÃ½ trigger jen pro centralizovanÃ© globÃ¡lnÃ­ operace, kterÃ© by mÄ›ly bÃ½t spuÅ¡tÄ›ny bez ohledu na to, kterÃ½ uÅ¾ivatel/aplikace operacÃ­ provede
+					\item NepouÅ¾Ã­vej databÃ¡zovÃ½ trigger k odmÃ­tnutÃ­ nesprÃ¡vnÃ½ch dat, jestliÅ¾e lze totÃ©Å¾ provÃ©st pouÅ¾itÃ­m deklarativnÃ­ch integritnÃ­ch omezenÃ­
+					\item Je-li tÄ›lo triggeru rozsÃ¡hlÃ© vytvoÅ™ uloÅ¾enou proceduru, kterÃ¡ se bude volat z tÄ›la triggeru
+					\item NevytvÃ¡Å™ej rekurzivnÃ­ triggery
+					\item PouÅ¾Ã­vej databÃ¡zovÃ© triggery uvÃ¡Å¾livÄ›. ProvÃ¡dÃ­ se pro kaÅ¾dÃ©ho uÅ¾ivatele/aplikaci pokaÅ¾dÃ©, kdyÅ¾ danÃ¡ udÃ¡lost nastane
 				\end{itemize}				
 			\end{itemize}
 			
-		\subsection{Zotavení}
+		\subsection{ZotavenÃ­}
 			\begin{itemize}
-				\item Znamená obnovení konzistentního stavu databáze po vıpadku
-				\item Klasifikace vıpadku:
+				\item ZnamenÃ¡ obnovenÃ­ konzistentnÃ­ho stavu databÃ¡ze po vÃ½padku
+				\item Klasifikace vÃ½padku:
 				\begin{itemize}
-					\pojem{Vıpadek transakce}{logická chyba \tedy data nebyly nalezeny nebo systémová chyba \tedy deadlock}
-					\item \textbf{Zhroucení systému}
+					\pojem{VÃ½padek transakce}{logickÃ¡ chyba \tedy data nebyly nalezeny nebo systÃ©movÃ¡ chyba \tedy deadlock}
+					\item \textbf{ZhroucenÃ­ systÃ©mu}
 					\item \textbf{Porucha disku}
 				\end{itemize}
-				\item K zaji¹tìní atomicity transakce a trvanlivosti zmìn je nutné pøed modifikací databáze ulo¾it do stabilní pamìti informace o modifikaci
-				\pojem{®urnál}{posloupnost záznamù ¾urnálu (log record) zaznamenávající v¹echny modifikace databáze}
+				\item K zajiÅ¡tÄ›nÃ­ atomicity transakce a trvanlivosti zmÄ›n je nutnÃ© pÅ™ed modifikacÃ­ databÃ¡ze uloÅ¾it do stabilnÃ­ pamÄ›ti informace o modifikaci
+				\pojem{Å½urnÃ¡l}{posloupnost zÃ¡znamÅ¯ Å¾urnÃ¡lu (log record) zaznamenÃ¡vajÃ­cÃ­ vÅ¡echny modifikace databÃ¡ze}
 				\begin{itemize}
-					\pojem{Start}{zaèátek transakce}
-					\pojem{Commit}{potvrzení, ¾e v¹e skonèilo korektnì}
-					\pojem{Abort}{transakce byla zru¹ena}
+					\pojem{Start}{zaÄÃ¡tek transakce}
+					\pojem{Commit}{potvrzenÃ­, Å¾e vÅ¡e skonÄilo korektnÄ›}
+					\pojem{Abort}{transakce byla zruÅ¡ena}
 				\end{itemize}
-				\pojem{Archivace}{ukládání obsahu databáze do stabilní pamìti}
-				\pojem{Obnova}{obnovení databáze do stavu pøed poslední archivací}
-				\item Okam¾itá modifikace databáze \tedy umo¾òuje provádìt modifikaci databáze, kdy¾ je transakce v aktivním stavu. POu¾ívá 2 procedùry:
+				\pojem{Archivace}{uklÃ¡dÃ¡nÃ­ obsahu databÃ¡ze do stabilnÃ­ pamÄ›ti}
+				\pojem{Obnova}{obnovenÃ­ databÃ¡ze do stavu pÅ™ed poslednÃ­ archivacÃ­}
+				\item OkamÅ¾itÃ¡ modifikace databÃ¡ze \tedy umoÅ¾Åˆuje provÃ¡dÄ›t modifikaci databÃ¡ze, kdyÅ¾ je transakce v aktivnÃ­m stavu. POuÅ¾Ã­vÃ¡ 2 procedÅ¯ry:
 				\begin{itemize}
-					\item UNDO(T$_\textrm{i}$) \tedy pokud dojde k vıpadku, vrátí se pùvodní hodnota
-					\item REDO(T$_\textrm{i}$) \tedy pokud v¹echno dobìhne korektnì, ulo¾í se nová hodnota
+					\item UNDO(T$_\textrm{i}$) \tedy pokud dojde k vÃ½padku, vrÃ¡tÃ­ se pÅ¯vodnÃ­ hodnota
+					\item REDO(T$_\textrm{i}$) \tedy pokud vÅ¡echno dobÄ›hne korektnÄ›, uloÅ¾Ã­ se novÃ¡ hodnota
 				\end{itemize}
 			\end{itemize}
 			\begin{figure}[h!]
 				\centering
 				\scalebox{0.65}{\includegraphics{imgs/Schema-zotaveni}}
 			\end{figure}
-			\subsubsection{Kontrolní bod (checkpoint)}
+			\subsubsection{KontrolnÃ­ bod (checkpoint)}
 				\begin{itemize}
-					\item Periodické ukládání vyrovnávacích pamìtí ¾urnálu a databáze na disk z dùvodu sní¾ení re¾ie související se zotavením po vıpadku
+					\item PeriodickÃ© uklÃ¡dÃ¡nÃ­ vyrovnÃ¡vacÃ­ch pamÄ›tÃ­ Å¾urnÃ¡lu a databÃ¡ze na disk z dÅ¯vodu snÃ­Å¾enÃ­ reÅ¾ie souvisejÃ­cÃ­ se zotavenÃ­m po vÃ½padku
 					\pojem{Postup}
 					\begin{itemize}
-						\item[a)] Ulo¾ení v¹ech záznamù ¾ùrnálu z hlavní pamìti
-						\item[b)] Ulo¾ení v¹ech modifikovanıch blokù databáze z vyrovnávací pamìti na disk
-						\item[c)] Ulo¾ení záznamu \texttt{<checkpoint>} do stabilní pamìti
+						\item[a)] UloÅ¾enÃ­ vÅ¡ech zÃ¡znamÅ¯ Å¾Å¯rnÃ¡lu z hlavnÃ­ pamÄ›ti
+						\item[b)] UloÅ¾enÃ­ vÅ¡ech modifikovanÃ½ch blokÅ¯ databÃ¡ze z vyrovnÃ¡vacÃ­ pamÄ›ti na disk
+						\item[c)] UloÅ¾enÃ­ zÃ¡znamu \texttt{<checkpoint>} do stabilnÃ­ pamÄ›ti
 					\end{itemize}
-					\pojem{Schéma zotavení}
+					\pojem{SchÃ©ma zotavenÃ­}
 					\begin{itemize}
-						\item[a)] Nalezení mno¾iny transakcí, které probíhaly nebo byly zahájeny po posledním kontrolním bodu a jejich roztøídìní po zotavení
-						\item[b)] Aplikace zotavovacích procedur REDO(T$_\textrm{i}$) a UNDO(T$_\textrm{i}$) na ka¾dou transakci podle vısledkù roztøídìní
+						\item[a)] NalezenÃ­ mnoÅ¾iny transakcÃ­, kterÃ© probÃ­haly nebo byly zahÃ¡jeny po poslednÃ­m kontrolnÃ­m bodu a jejich roztÅ™Ã­dÄ›nÃ­ po zotavenÃ­
+						\item[b)] Aplikace zotavovacÃ­ch procedur REDO(T$_\textrm{i}$) a UNDO(T$_\textrm{i}$) na kaÅ¾dou transakci podle vÃ½sledkÅ¯ roztÅ™Ã­dÄ›nÃ­
 					\end{itemize}
 					\begin{figure}[h!]
 						\centering
 						\scalebox{0.8}{\includegraphics{imgs/Schema-zotaveni-graf}}
 					\end{figure}
 										
-					\pojem{Správa vyrovnávací pamìti}
+					\pojem{SprÃ¡va vyrovnÃ¡vacÃ­ pamÄ›ti}
 					\begin{itemize}
-						\item Datové polo¾ky se zapisují pøímo na disk -- operace \texttt{write}
-						\item Záznamy ¾urnálu se nezapisují okam¾itì do stabilní pamìti
+						\item DatovÃ© poloÅ¾ky se zapisujÃ­ pÅ™Ã­mo na disk -- operace \texttt{write}
+						\item ZÃ¡znamy Å¾urnÃ¡lu se nezapisujÃ­ okamÅ¾itÄ› do stabilnÃ­ pamÄ›ti
 					\end{itemize}
-					\pojem{Zásady}
+					\pojem{ZÃ¡sady}
 					\begin{itemize}
-						\item Transakce se dostává do stavu potvrzení a¾ po ulo¾ení záznamu \texttt{COMMIT} pro danou transakci stabilní pamìti
-						\item Pøed záznamem \texttt{COMMIT} musí bıt do stabilní pamìti ulo¾eny v¹echny záznamy ¾urnálu tıkající se dané transakce
-						\item Pøed ulo¾ením bloku dat do databáze musí bıt ulo¾eny v¹echny záznamy ¾urnálu, tıkající se daného bloku \tedy pravidlo WAL (Write-Ahead-Logging)
+						\item Transakce se dostÃ¡vÃ¡ do stavu potvrzenÃ­ aÅ¾ po uloÅ¾enÃ­ zÃ¡znamu \texttt{COMMIT} pro danou transakci stabilnÃ­ pamÄ›ti
+						\item PÅ™ed zÃ¡znamem \texttt{COMMIT} musÃ­ bÃ½t do stabilnÃ­ pamÄ›ti uloÅ¾eny vÅ¡echny zÃ¡znamy Å¾urnÃ¡lu tÃ½kajÃ­cÃ­ se danÃ© transakce
+						\item PÅ™ed uloÅ¾enÃ­m bloku dat do databÃ¡ze musÃ­ bÃ½t uloÅ¾eny vÅ¡echny zÃ¡znamy Å¾urnÃ¡lu, tÃ½kajÃ­cÃ­ se danÃ©ho bloku \tedy pravidlo WAL (Write-Ahead-Logging)
 					\end{itemize}
 				\end{itemize}
 				
 
 		\subsection{Optimalizace}
 			\begin{itemize}
-				\pojem{Optimalizace zpracování dotazu}{nalezení (sub)optimální strategie zpracování dotazu, prování SØDB}
-				\item Cílem je min. odezva a max. propustnost
-				\pojem{Vstup}{SQL dotaz -- neoptimalizovanı}
-				\pojem{Vıstup}{plán vyhodnocení, optimální strategie zpracování dotazu}
-				\item Pøístup k optimalizaci lze zalo¾it na statistikách nebo pravidlech
+				\pojem{Optimalizace zpracovÃ¡nÃ­ dotazu}{nalezenÃ­ (sub)optimÃ¡lnÃ­ strategie zpracovÃ¡nÃ­ dotazu, provÃ¡nÃ­ SÅ˜DB}
+				\item CÃ­lem je min. odezva a max. propustnost
+				\pojem{Vstup}{SQL dotaz -- neoptimalizovanÃ½}
+				\pojem{VÃ½stup}{plÃ¡n vyhodnocenÃ­, optimÃ¡lnÃ­ strategie zpracovÃ¡nÃ­ dotazu}
+				\item PÅ™Ã­stup k optimalizaci lze zaloÅ¾it na statistikÃ¡ch nebo pravidlech
 				\item Postup:
 				\begin{enumerate}
-					\item Pøevod do vnitøní reprezentace \\
-					\texttt{((Klient JOIN Ucet) WHERE mesto = 'Ivanèice')[pobocka]}
-					\item Nalezení ekvivalentního, ale efektivnìj¹ího vırazu \\
-					\texttt{(((Klient WHERE mesto = 'Ivanèice')[r\_cislo]) JOIN Ucet)[pobocka]}
+					\item PÅ™evod do vnitÅ™nÃ­ reprezentace \\
+					\texttt{((Klient JOIN Ucet) WHERE mesto = 'IvanÄice')[pobocka]}
+					\item NalezenÃ­ ekvivalentnÃ­ho, ale efektivnÄ›jÅ¡Ã­ho vÃ½razu \\
+					\texttt{(((Klient WHERE mesto = 'IvanÄice')[r\_cislo]) JOIN Ucet)[pobocka]}
 					\begin{itemize}
-						\item Nìkterá pravidla (heuristiky): \\
+						\item NÄ›kterÃ¡ pravidla (heuristiky): \\
 						\texttt{(A JOIN B) WHERE podm\_A AND podm\_B = (A WHERE podm\_A) JOIN (B WHERE podm\_B)} \\
 						\texttt{(A WHERE podm1\_A) WHERE podm2\_A = A WHERE podm1\_A AND podm2\_A} \\
 						\texttt{(A[atributy1])[atributy2] = A[atributy2]} \\
 						\texttt{(A[atributy1]) WHERE podm1 = (A WHERE podm1)[atributy1]}
-						\item Sémantická optimalizace -- vyu¾ití sémantické informace \\
+						\item SÃ©mantickÃ¡ optimalizace -- vyuÅ¾itÃ­ sÃ©mantickÃ© informace \\
 						\texttt{(Ucet JOIN Klient)[r\_cislo] = Ucet[r\_cislo]}
 					\end{itemize}
-					\item Vıbìr kandidátù procedur pro implementaci operací \tedy statistiky databáze, existence indexù, shlukování, ... 
-					\item Generování plánu vyhodnocení a vıbìr nejlep¹ího
+					\item VÃ½bÄ›r kandidÃ¡tÅ¯ procedur pro implementaci operacÃ­ \tedy statistiky databÃ¡ze, existence indexÅ¯, shlukovÃ¡nÃ­, ... 
+					\item GenerovÃ¡nÃ­ plÃ¡nu vyhodnocenÃ­ a vÃ½bÄ›r nejlepÅ¡Ã­ho
 				\end{enumerate}
 			\end{itemize}
 			
-		\subsection{Integrita databáze}
+		\subsection{Integrita databÃ¡ze}
 			\begin{itemize} 
-				\item Data v databázi jsou konzistentní vùèi definovanım pravidlùm
-				\item Lze zadávat pouze data, která vyhovují pøedem definovanım kriteriím
-				\item K zaji¹tìní integriti slou¾í integritní omezení
+				\item Data v databÃ¡zi jsou konzistentnÃ­ vÅ¯Äi definovanÃ½m pravidlÅ¯m
+				\item Lze zadÃ¡vat pouze data, kterÃ¡ vyhovujÃ­ pÅ™edem definovanÃ½m kriteriÃ­m
+				\item K zajiÅ¡tÄ›nÃ­ integriti slouÅ¾Ã­ integritnÃ­ omezenÃ­
 				\begin{itemize}
-					\item Jedná se o nástroje, které zabrání vlo¾ení nesprávnıch dat èi ztrátì nebo po¹kození stávajících záznamù v prùbìhu práce s databází
-					\item Je mo¾né zajistit mazání dat, která ji¾ ztratila svùj vıznam 
+					\item JednÃ¡ se o nÃ¡stroje, kterÃ© zabrÃ¡nÃ­ vloÅ¾enÃ­ nesprÃ¡vnÃ½ch dat Äi ztrÃ¡tÄ› nebo poÅ¡kozenÃ­ stÃ¡vajÃ­cÃ­ch zÃ¡znamÅ¯ v prÅ¯bÄ›hu prÃ¡ce s databÃ¡zÃ­
+					\item Je moÅ¾nÃ© zajistit mazÃ¡nÃ­ dat, kterÃ¡ jiÅ¾ ztratila svÅ¯j vÃ½znam 
 				\end{itemize}
-				\pojem{Referenèní integrita}{DB nesmí míst nesouhlasné hodnoty cizího klíèe}		
+				\pojem{ReferenÄnÃ­ integrita}{DB nesmÃ­ mÃ­st nesouhlasnÃ© hodnoty cizÃ­ho klÃ­Äe}		
 			\end{itemize}
 			
-			\subsubsection{Druhy integritních omezení}
+			\subsubsection{Druhy integritnÃ­ch omezenÃ­}
 				\begin{enumerate}
-					\pojem{Entitní integritní omezení}{povinné integritní omezení, které zaji¹»uje úplnost primárního klíèe tabulky}
-					\pojem{Doménová integritní omezení}{zaji¹»ují dodr¾ování datovıch typù/domén definovanıch u sloupcù databázové tabulky}
-					\pojem{Referenèní integritní omezení}{zabıvají se vztahy dvou tabulek, kde jejich relace je urèena vazbou primárního a cizího klíèe}
-					\pojem{Aktivní referenèní integrita}{definuje èinnosti, které databázovı systém provede, pokud jsou poru¹ena nìkterá pravidla}
+					\pojem{EntitnÃ­ integritnÃ­ omezenÃ­}{povinnÃ© integritnÃ­ omezenÃ­, kterÃ© zajiÅ¡Å¥uje Ãºplnost primÃ¡rnÃ­ho klÃ­Äe tabulky}
+					\pojem{DomÃ©novÃ¡ integritnÃ­ omezenÃ­}{zajiÅ¡Å¥ujÃ­ dodrÅ¾ovÃ¡nÃ­ datovÃ½ch typÅ¯/domÃ©n definovanÃ½ch u sloupcÅ¯ databÃ¡zovÃ© tabulky}
+					\pojem{ReferenÄnÃ­ integritnÃ­ omezenÃ­}{zabÃ½vajÃ­ se vztahy dvou tabulek, kde jejich relace je urÄena vazbou primÃ¡rnÃ­ho a cizÃ­ho klÃ­Äe}
+					\pojem{AktivnÃ­ referenÄnÃ­ integrita}{definuje Äinnosti, kterÃ© databÃ¡zovÃ½ systÃ©m provede, pokud jsou poruÅ¡ena nÄ›kterÃ¡ pravidla}
 				\end{enumerate}
 
-			\subsubsection{Dodr¾ování integritních omezení}
+			\subsubsection{DodrÅ¾ovÃ¡nÃ­ integritnÃ­ch omezenÃ­}
 				\begin{itemize}
-					\item Umístìní jednoduchıch mechanismù pro dodr¾ování integritních omezení na stranì databázového serveru
+					\item UmÃ­stÄ›nÃ­ jednoduchÃ½ch mechanismÅ¯ pro dodrÅ¾ovÃ¡nÃ­ integritnÃ­ch omezenÃ­ na stranÄ› databÃ¡zovÃ©ho serveru
 					\begin{itemize}
-						\item Nejlep¹í zpùsob z hlediska ochrany dat
-						\item Del¹í odezva systému
-						\item Nelze zajistit pøenositelnost na jinı DBS
+						\item NejlepÅ¡Ã­ zpÅ¯sob z hlediska ochrany dat
+						\item DelÅ¡Ã­ odezva systÃ©mu
+						\item Nelze zajistit pÅ™enositelnost na jinÃ½ DBS
 					\end{itemize}
-					\item Umístìní ochrannıch mechanismù na stranì klienta
+					\item UmÃ­stÄ›nÃ­ ochrannÃ½ch mechanismÅ¯ na stranÄ› klienta
 					\begin{itemize}
-						\item Pro komfort a nezávislost na DBS
-						\item Mù¾e zpùsobit chyby u aplikací a v pøípadì vìt¹ího poètu aplikací je potøeba je opravit na více místech
+						\item Pro komfort a nezÃ¡vislost na DBS
+						\item MÅ¯Å¾e zpÅ¯sobit chyby u aplikacÃ­ a v pÅ™Ã­padÄ› vÄ›tÅ¡Ã­ho poÄtu aplikacÃ­ je potÅ™eba je opravit na vÃ­ce mÃ­stech
 					\end{itemize}
-					\item Samostatné programové moduly na stranì serveru
+					\item SamostatnÃ© programovÃ© moduly na stranÄ› serveru
 					\begin{itemize}
-						\item Pou¾ití triggerù \tedy samostatné procedury, které lze spou¹tìt automatizovanì pøed a po operacích manipulujících s daty
-						\item Umo¾òuje i implementaci slo¾itıch integritních omezení
-						\item Omezení pøi provádìní na serveru a v pøenositelnosti na jinı DBS
+						\item PouÅ¾itÃ­ triggerÅ¯ \tedy samostatnÃ© procedury, kterÃ© lze spouÅ¡tÄ›t automatizovanÄ› pÅ™ed a po operacÃ­ch manipulujÃ­cÃ­ch s daty
+						\item UmoÅ¾Åˆuje i implementaci sloÅ¾itÃ½ch integritnÃ­ch omezenÃ­
+						\item OmezenÃ­ pÅ™i provÃ¡dÄ›nÃ­ na serveru a v pÅ™enositelnosti na jinÃ½ DBS
 					\end{itemize}
 				\end{itemize}
 
-		\subsection{Bezpeènost}
+		\subsection{BezpeÄnost}
 			\begin{itemize}
-				\item[a)] Dùvìrnost \tedy informace by nemìly bıt pøístupné neautorizovanım u¾ivatelùm
-				\item[b)] Integrita \tedy modifikovat data mù¾e jen autorizovanı u¾ivatel
-				\item[c)] Dostupnost \tedy autorizovanım u¾ivatelùm by nemìlo bıt bránìno v pøístupu
+				\item[a)] DÅ¯vÄ›rnost \tedy informace by nemÄ›ly bÃ½t pÅ™Ã­stupnÃ© neautorizovanÃ½m uÅ¾ivatelÅ¯m
+				\item[b)] Integrita \tedy modifikovat data mÅ¯Å¾e jen autorizovanÃ½ uÅ¾ivatel
+				\item[c)] Dostupnost \tedy autorizovanÃ½m uÅ¾ivatelÅ¯m by nemÄ›lo bÃ½t brÃ¡nÄ›no v pÅ™Ã­stupu
 				\begin{itemize}
-					\item Bezpeènostní politika: kdo co mù¾e s jakımi daty provádìt
-					\item Bezpeènostní mechanismy: zaji¹tìní bezpeènostní politiky
+					\item BezpeÄnostnÃ­ politika: kdo co mÅ¯Å¾e s jakÃ½mi daty provÃ¡dÄ›t
+					\item BezpeÄnostnÃ­ mechanismy: zajiÅ¡tÄ›nÃ­ bezpeÄnostnÃ­ politiky
 				\end{itemize}	
 			\end{itemize}
-			\subsubsection{Bezpeènostní mechanismy poskytované SØBD}
+			\subsubsection{BezpeÄnostnÃ­ mechanismy poskytovanÃ© SÅ˜BD}
 				\begin{itemize}
 					\item Pohledy
-					\item Øízení pøístupu dat
+					\item Å˜Ã­zenÃ­ pÅ™Ã­stupu dat
 					\begin{itemize}
-						\item Nepovinné \tedy zalo¾en na pøístupovıch právech, ka¾dı u¾ivatel má pøístupová práva k databázovım objektùm
-						\item Povinné \tedy zalo¾en na bezpeènostních tøídách objektù, stupních provìøení subjektù a pravidlech provádìní operací
+						\item NepovinnÃ© \tedy zaloÅ¾en na pÅ™Ã­stupovÃ½ch prÃ¡vech, kaÅ¾dÃ½ uÅ¾ivatel mÃ¡ pÅ™Ã­stupovÃ¡ prÃ¡va k databÃ¡zovÃ½m objektÅ¯m
+						\item PovinnÃ© \tedy zaloÅ¾en na bezpeÄnostnÃ­ch tÅ™Ã­dÃ¡ch objektÅ¯, stupnÃ­ch provÄ›Å™enÃ­ subjektÅ¯ a pravidlech provÃ¡dÄ›nÃ­ operacÃ­
 					\end{itemize}
-					\item SQL poskytuje podporu pro nepovinné øízení
-					\item Typické prostøedky pro øízení pøístupovıch práv
+					\item SQL poskytuje podporu pro nepovinnÃ© Å™Ã­zenÃ­
+					\item TypickÃ© prostÅ™edky pro Å™Ã­zenÃ­ pÅ™Ã­stupovÃ½ch prÃ¡v
 					\begin{itemize}
-						\item Identifikace u¾ivatelù a rolí (\texttt{CREATE USER, CREATE ROLE})
-						\item Pøidìlování a odnímání pøístupovıch práv (\texttt{GRANT, REVOKE})
-						\item Pøístupová práva k databázovım objektùm
-						\item Parametry vzta¾ené k heslu (\texttt{CREATE PROFILE})
+						\item Identifikace uÅ¾ivatelÅ¯ a rolÃ­ (\texttt{CREATE USER, CREATE ROLE})
+						\item PÅ™idÄ›lovÃ¡nÃ­ a odnÃ­mÃ¡nÃ­ pÅ™Ã­stupovÃ½ch prÃ¡v (\texttt{GRANT, REVOKE})
+						\item PÅ™Ã­stupovÃ¡ prÃ¡va k databÃ¡zovÃ½m objektÅ¯m
+						\item Parametry vztaÅ¾enÃ© k heslu (\texttt{CREATE PROFILE})
 					\end{itemize}
 				\end{itemize}
 		
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\section{Databáze}
+	\section{DatabÃ¡ze}
 		\begin{itemize}
-			\pojem{Databáze}{papírová agenda (registr) v podobì perzistentních dat}
-			\item Systém pro ovládání souborù:
-			\pojem{Nevıhody}
+			\pojem{DatabÃ¡ze}{papÃ­rovÃ¡ agenda (registr) v podobÄ› perzistentnÃ­ch dat}
+			\item SystÃ©m pro ovlÃ¡dÃ¡nÃ­ souborÅ¯:
+			\pojem{NevÃ½hody}
 			\begin{itemize}
-				\item redundance dat (informace se opakují)
-				\item nebezpeèní nekonzistence (rozpory v datech)
-				\item problémy s pøístupem k datùm pro neplánové (ad-hoc) dotazy
-				\item izolace dat (sbírání dat z jednotlivıch souborù)
-				\item problémy s bezpeèností dat (omezenı pøístup)
-				\item problém integrity (implementace integritního omezení)
+				\item redundance dat (informace se opakujÃ­)
+				\item nebezpeÄnÃ­ nekonzistence (rozpory v datech)
+				\item problÃ©my s pÅ™Ã­stupem k datÅ¯m pro neplÃ¡novÃ© (ad-hoc) dotazy
+				\item izolace dat (sbÃ­rÃ¡nÃ­ dat z jednotlivÃ½ch souborÅ¯)
+				\item problÃ©my s bezpeÄnostÃ­ dat (omezenÃ½ pÅ™Ã­stup)
+				\item problÃ©m integrity (implementace integritnÃ­ho omezenÃ­)
 			\end{itemize}
 
-			\pojem{Perzistentní data}{data s dobou ¾ivota pøekraèující bìh programu i vypnutí pc}
-			\pojem{Dal¹í vlastnosti dat v DB}
+			\pojem{PerzistentnÃ­ data}{data s dobou Å¾ivota pÅ™ekraÄujÃ­cÃ­ bÄ›h programu i vypnutÃ­ pc}
+			\pojem{DalÅ¡Ã­ vlastnosti dat v DB}
 			\begin{itemize}
-				\item Integrovaná \tedy sjednocení do jednoho souboru a odstranìní redundance
-				\item Sdílená \tedy typicky víceu¾ivatelská (tøeba omezenım pøístupem)
-				\item Bezpeèná \tedy shodná realizace omezení pøístupu k datùm
-				\item Snadná integrita (implementace integritních omezení)
+				\item IntegrovanÃ¡ \tedy sjednocenÃ­ do jednoho souboru a odstranÄ›nÃ­ redundance
+				\item SdÃ­lenÃ¡ \tedy typicky vÃ­ceuÅ¾ivatelskÃ¡ (tÅ™eba omezenÃ½m pÅ™Ã­stupem)
+				\item BezpeÄnÃ¡ \tedy shodnÃ¡ realizace omezenÃ­ pÅ™Ã­stupu k datÅ¯m
+				\item SnadnÃ¡ integrita (implementace integritnÃ­ch omezenÃ­)
 			\end{itemize}
 
-			\pojem{Integrita dat}{správnost dat z hlediska splnìní omezení (integritních)}
-			\pojem{Konzistence dat}{nerozpornost dat \tedy nedojde-li k poru¹ení dat jsou data nekonzistentní}
-			\item Systém øízení báze dat (SØBD) \tedy programová èást nad DB (øe¹í operace)
-			\pojem{Databázovı systém (DBS)}{systém, kterı zahrnuje technické prostøedky / data DB / SØBD + aplikaèní program knihovny, atd. / u¾ivatelé DB}
-			\pojem{Základní úrovnì abstrakce dat}
+			\pojem{Integrita dat}{sprÃ¡vnost dat z hlediska splnÄ›nÃ­ omezenÃ­ (integritnÃ­ch)}
+			\pojem{Konzistence dat}{nerozpornost dat \tedy nedojde-li k poruÅ¡enÃ­ dat jsou data nekonzistentnÃ­}
+			\item SystÃ©m Å™Ã­zenÃ­ bÃ¡ze dat (SÅ˜BD) \tedy programovÃ¡ ÄÃ¡st nad DB (Å™eÅ¡Ã­ operace)
+			\pojem{DatabÃ¡zovÃ½ systÃ©m (DBS)}{systÃ©m, kterÃ½ zahrnuje technickÃ© prostÅ™edky / data DB / SÅ˜BD + aplikaÄnÃ­ program knihovny, atd. / uÅ¾ivatelÃ© DB}
+			\pojem{ZÃ¡kladnÃ­ ÃºrovnÄ› abstrakce dat}
 			\begin{itemize}
-				\pojem{Fyzická (interní) úroveò}{popisuje data, jak jsou skuteènì ulo¾eny}
-				\pojem{Konceptuální (logická) úroveò}{popisuje data, jak jsou skuteènì ulo¾eny a jaké vztahy mezi nimi jsou (vazby)}
-				\pojem{Úroveò pohledù (externí)}{popisuje, jak jednotlivá data vnímají jednotliví u¾ivatelé}
+				\pojem{FyzickÃ¡ (internÃ­) ÃºroveÅˆ}{popisuje data, jak jsou skuteÄnÄ› uloÅ¾eny}
+				\pojem{KonceptuÃ¡lnÃ­ (logickÃ¡) ÃºroveÅˆ}{popisuje data, jak jsou skuteÄnÄ› uloÅ¾eny a jakÃ© vztahy mezi nimi jsou (vazby)}
+				\pojem{ÃšroveÅˆ pohledÅ¯ (externÃ­)}{popisuje, jak jednotlivÃ¡ data vnÃ­majÃ­ jednotlivÃ­ uÅ¾ivatelÃ©}
 			\end{itemize}
-			\pojem{Datové modely}{Kolekce konceptuálních nástrojù pro popis objektù, reality, reprezentujících dat, vztahù, sémantiky a integritních omezení}
-			\pojem{Rozdìlení podle úrovnì modelování}
+			\pojem{DatovÃ© modely}{Kolekce konceptuÃ¡lnÃ­ch nÃ¡strojÅ¯ pro popis objektÅ¯, reality, reprezentujÃ­cÃ­ch dat, vztahÅ¯, sÃ©mantiky a integritnÃ­ch omezenÃ­}
+			\pojem{RozdÄ›lenÃ­ podle ÃºrovnÄ› modelovÃ¡nÃ­}
 			\begin{itemize}
-				\item Logické modely \tedy popisují data na úrovni konceptuální a pohledù -- konceptuální modelování
-				\item Databázové modely \tedy definují logickou organizaci v DB
-				\item Modely fyzickıch dat \tedy popisují data na fyzické úrovni
-				\item Hierarchickı model \tedy záznamy jsou organizovány jako stromy
-				\item Sí»ovı model \tedy mno¾ina záznamù, pojmenovanıch vazeb (obdoba ukazatelù), navigaèní manipulace s daty
-				\item Relaèní model \tedy na logické úrovni jsou data strukturována do tabulek, manipulace s daty probíhá vıbìrem z tabulky
+				\item LogickÃ© modely \tedy popisujÃ­ data na Ãºrovni konceptuÃ¡lnÃ­ a pohledÅ¯ -- konceptuÃ¡lnÃ­ modelovÃ¡nÃ­
+				\item DatabÃ¡zovÃ© modely \tedy definujÃ­ logickou organizaci v DB
+				\item Modely fyzickÃ½ch dat \tedy popisujÃ­ data na fyzickÃ© Ãºrovni
+				\item HierarchickÃ½ model \tedy zÃ¡znamy jsou organizovÃ¡ny jako stromy
+				\item SÃ­Å¥ovÃ½ model \tedy mnoÅ¾ina zÃ¡znamÅ¯, pojmenovanÃ½ch vazeb (obdoba ukazatelÅ¯), navigaÄnÃ­ manipulace s daty
+				\item RelaÄnÃ­ model \tedy na logickÃ© Ãºrovni jsou data strukturovÃ¡na do tabulek, manipulace s daty probÃ­hÃ¡ vÃ½bÄ›rem z tabulky
 				\begin{itemize}
-					\item Vıhody: technická struktura, jednoduché operace
-					\item Nevıhody: informace jsou rozprostøeny po tabulkách, nutno spojovat
+					\item VÃ½hody: technickÃ¡ struktura, jednoduchÃ© operace
+					\item NevÃ½hody: informace jsou rozprostÅ™eny po tabulkÃ¡ch, nutno spojovat
 				\end{itemize}
 			\end{itemize}
 
-			\pojem{Schéma databáze}{metainformace popisující data v databázi, v pøípadì relaèní databáze obsahuje schéma informace o tabulkách, jejich sloupcích, omezeních na hodnoty ve sloupcích, informace o schématu je typicky ulo¾ena v systémovém katalogu}
-			\pojem{Datová nezávislost}{schopnost modifikovat schéma bez vlivu na schéma na vy¹¹í vrstvì (úrovni)}
+			\pojem{SchÃ©ma databÃ¡ze}{metainformace popisujÃ­cÃ­ data v databÃ¡zi, v pÅ™Ã­padÄ› relaÄnÃ­ databÃ¡ze obsahuje schÃ©ma informace o tabulkÃ¡ch, jejich sloupcÃ­ch, omezenÃ­ch na hodnoty ve sloupcÃ­ch, informace o schÃ©matu je typicky uloÅ¾ena v systÃ©movÃ©m katalogu}
+			\pojem{DatovÃ¡ nezÃ¡vislost}{schopnost modifikovat schÃ©ma bez vlivu na schÃ©ma na vyÅ¡Å¡Ã­ vrstvÄ› (Ãºrovni)}
 			\begin{itemize}
-				\pojem{Fyzická nezávislost}{schopnost modifikace fyzického schématu bez nutnosti pøepsat aplikaèní program}
-				\pojem{Logická nezávislost}{schopnost modifikace logického schématu bez nutnosti pøepsat aplikaèní program}
+				\pojem{FyzickÃ¡ nezÃ¡vislost}{schopnost modifikace fyzickÃ©ho schÃ©matu bez nutnosti pÅ™epsat aplikaÄnÃ­ program}
+				\pojem{LogickÃ¡ nezÃ¡vislost}{schopnost modifikace logickÃ©ho schÃ©matu bez nutnosti pÅ™epsat aplikaÄnÃ­ program}
 			\end{itemize}
 		\end{itemize}
 		
-			\subsection{Databázové jazyky}
+			\subsection{DatabÃ¡zovÃ© jazyky}
 				\begin{itemize}
-					\item Jazyk, kterému ''rozumí'' SØBD, nìkdy oznaèovány jako databázové
-					\item Souèástí DB jazyka -- musí existovat prostøedky pro:
+					\item Jazyk, kterÃ©mu ''rozumÃ­'' SÅ˜BD, nÄ›kdy oznaÄovÃ¡ny jako databÃ¡zovÃ©
+					\item SouÄÃ¡stÃ­ DB jazyka -- musÃ­ existovat prostÅ™edky pro:
 					\begin{itemize}
-						\item Specifikaci schématu databáze \tedy jazyk pro identifikaci dat (DDL $=$ Data Definition Language) -- vytvoøí informace v systémovém katalogu (sborníku dat) a dané struktury
-						\item Manipulaci s daty \tedy (DML $=$ Data Manipulation Language) -- vyhledávání, modifikace, ru¹ení v daném datovém modelu
+						\item Specifikaci schÃ©matu databÃ¡ze \tedy jazyk pro identifikaci dat (DDL $=$ Data Definition Language) -- vytvoÅ™Ã­ informace v systÃ©movÃ©m katalogu (sbornÃ­ku dat) a danÃ© struktury
+						\item Manipulaci s daty \tedy (DML $=$ Data Manipulation Language) -- vyhledÃ¡vÃ¡nÃ­, modifikace, ruÅ¡enÃ­ v danÃ©m datovÃ©m modelu
 					\end{itemize}
 
-					\item Dal¹í prostøedky
+					\item DalÅ¡Ã­ prostÅ™edky
 					\begin{itemize}
-						\item jazyk pro øízení dat (DCL $=$ Data Control Language) -- transakèní zpracování, atd.
+						\item jazyk pro Å™Ã­zenÃ­ dat (DCL $=$ Data Control Language) -- transakÄnÃ­ zpracovÃ¡nÃ­, atd.
 					\end{itemize}
 
-					\item Pøístup k databázi z aplikaèních programù (v èem programujeme)
+					\item PÅ™Ã­stup k databÃ¡zi z aplikaÄnÃ­ch programÅ¯ (v Äem programujeme)
 					\begin{itemize}
-						\item pou¾ívají se speciální databázové jazyky
+						\item pouÅ¾Ã­vajÃ­ se speciÃ¡lnÃ­ databÃ¡zovÃ© jazyky
 					\end{itemize}
 					
-					\item Neprocedurální databázovı jazyk
+					\item NeprocedurÃ¡lnÃ­ databÃ¡zovÃ½ jazyk
 					\begin{itemize}
 						\item PL/SQL, Transact SQL, PL/pySQL, Informix 4GL
 					\end{itemize}
-					\item Obecnı programovací jazyk (poskytuje rozhraní pro pøístup k DB)
+					\item ObecnÃ½ programovacÃ­ jazyk (poskytuje rozhranÃ­ pro pÅ™Ã­stup k DB)
 					\begin{itemize}
-						\item Naivní \tedy OCi, ADO
-						\item Standardizované \tedy ODBC, JDBC
+						\item NaivnÃ­ \tedy OCi, ADO
+						\item StandardizovanÃ© \tedy ODBC, JDBC
 					\end{itemize}
 
-					\item Umo¾òují zaèlenit základní DB jazyk do zdrojového textu programu
+					\item UmoÅ¾ÅˆujÃ­ zaÄlenit zÃ¡kladnÃ­ DB jazyk do zdrojovÃ©ho textu programu
 					\begin{itemize}
 						\item SQL pro PASCAL, C, SQLJ pro Javu
 					\end{itemize}
 
-					\item Objektovì relaèní mapování \tedy vytváøí pøístup k virtuální oo databázi
+					\item ObjektovÄ› relaÄnÃ­ mapovÃ¡nÃ­ \tedy vytvÃ¡Å™Ã­ pÅ™Ã­stup k virtuÃ¡lnÃ­ oo databÃ¡zi
 					\begin{itemize}
 						\item Hibernate specifikace JDO, JP4a, implementace JPOX
 					\end{itemize}
 				\end{itemize}
 
-			\subsection{U¾ivatelé databázovıch systémù}
+			\subsection{UÅ¾ivatelÃ© databÃ¡zovÃ½ch systÃ©mÅ¯}
 				\begin{itemize}
-					\pojem{Admin DB}{zaji¹»uje centrální kontrolu nad daty a programy, mezi funkce patøí definice schémat, pam»ové struktury a pøístupové metody, pøidìlování práv pøístupu, modifikace schématu a fyzické organizace}
-					\pojem{Aplikaèní programátor}{vytváøí programy s pomocí jazykù, které manipulují s hostitelskımi daty}
-					\pojem{Znalı u¾ivatel}{je schopen formulovat po¾adavky v DB jazyce pro manipulaci s daty}
-					\pojem{Naivní u¾ivatel}{komunikuje s programem prostøednictvím aplikace}
+					\pojem{Admin DB}{zajiÅ¡Å¥uje centrÃ¡lnÃ­ kontrolu nad daty a programy, mezi funkce patÅ™Ã­ definice schÃ©mat, pamÅ¥ovÃ© struktury a pÅ™Ã­stupovÃ© metody, pÅ™idÄ›lovÃ¡nÃ­ prÃ¡v pÅ™Ã­stupu, modifikace schÃ©matu a fyzickÃ© organizace}
+					\pojem{AplikaÄnÃ­ programÃ¡tor}{vytvÃ¡Å™Ã­ programy s pomocÃ­ jazykÅ¯, kterÃ© manipulujÃ­ s hostitelskÃ½mi daty}
+					\pojem{ZnalÃ½ uÅ¾ivatel}{je schopen formulovat poÅ¾adavky v DB jazyce pro manipulaci s daty}
+					\pojem{NaivnÃ­ uÅ¾ivatel}{komunikuje s programem prostÅ™ednictvÃ­m aplikace}
 				\end{itemize}
 
-			\subsection{Architektura DB systémù a aplikací}
+			\subsection{Architektura DB systÃ©mÅ¯ a aplikacÃ­}
 				\begin{itemize}
-					\item Datová aplikace ve spojení s SØBD
+					\item DatovÃ¡ aplikace ve spojenÃ­ s SÅ˜BD
 					\begin{itemize}
-						\item Proces na popøedí (fronted, klient) \tedy èást aplikace vyu¾ívající SØBD
-						\item Proces na pozadí (backend, server) \tedy èást aplikace realizující vìcnı základ funkce SØBD + dal¹í funkce (aplikaènì orientované)
+						\item Proces na popÅ™edÃ­ (fronted, klient) \tedy ÄÃ¡st aplikace vyuÅ¾Ã­vajÃ­cÃ­ SÅ˜BD
+						\item Proces na pozadÃ­ (backend, server) \tedy ÄÃ¡st aplikace realizujÃ­cÃ­ vÄ›cnÃ½ zÃ¡klad funkce SÅ˜BD + dalÅ¡Ã­ funkce (aplikaÄnÄ› orientovanÃ©)
 					\end{itemize}
 
 					\item \emph{Architektura typu ''main frame''}
 					\item \emph{Architektura typu ''PC file server''}
-					\item \emph{Architektura typu ''Klient/server'' (dvouvrstvá)}
-					\item \emph{Vícevrstvá architektura}
+					\item \emph{Architektura typu ''Klient/server'' (dvouvrstvÃ¡)}
+					\item \emph{VÃ­cevrstvÃ¡ architektura}
 
-					\pojem{V souèasné dobì se pou¾ívají 2 kategorie SØBD}
+					\pojem{V souÄasnÃ© dobÄ› se pouÅ¾Ã­vajÃ­ 2 kategorie SÅ˜BD}
 					\begin{itemize}
-						\pojem{Stolní}{orientované na jednou¾ivatelské aktivity, pùvodnì pro architektury file server (Access)}
-						\pojem{Serverové}{orientované na víceu¾ivatelské klient/server a vícevrstvé aplikace}
+						\pojem{StolnÃ­}{orientovanÃ© na jednouÅ¾ivatelskÃ© aktivity, pÅ¯vodnÄ› pro architektury file server (Access)}
+						\pojem{ServerovÃ©}{orientovanÃ© na vÃ­ceuÅ¾ivatelskÃ© klient/server a vÃ­cevrstvÃ© aplikace}
 					\end{itemize}
 
 					\pojem{Typy DBS}
 					\begin{itemize}
-						\item Pøedrelaèní (hierarchické, sí»ové)
-						\item Relaèní
+						\item PÅ™edrelaÄnÃ­ (hierarchickÃ©, sÃ­Å¥ovÃ©)
+						\item RelaÄnÃ­
 						\begin{enumerate}
-							\item Architektura typu ''main frame'' \tedy systémy v 2. pol. 20. let
+							\item Architektura typu ''main frame'' \tedy systÃ©my v 2. pol. 20. let
 							\item Architektura typu ''PC file server'' \tedy FOXBASE
-							\item Architektura typu ''Klient/server'' (dvouvrstvá) \tedy ORACLE SQL, Microsoft SQL
+							\item Architektura typu ''Klient/server'' (dvouvrstvÃ¡) \tedy ORACLE SQL, Microsoft SQL
 						\end{enumerate}
-						\item Porelaèní (objektovì orientované, objektovì relaèní, deduktivní) \tedy SimpleDB, GemStone
+						\item PorelaÄnÃ­ (objektovÄ› orientovanÃ©, objektovÄ› relaÄnÃ­, deduktivnÃ­) \tedy SimpleDB, GemStone
 					\end{itemize}
 				\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\section{SQL\,--\,otázky, pøíkady}
+	\section{SQL\,--\,otÃ¡zky, pÅ™Ã­kady}
 
 
-		\subsection{Hostitelskı SQL}
+		\subsection{HostitelskÃ½ SQL}
 			\begin{itemize}
-				\pojem{Charakteristika}{promìnné i sloupce mohou mít stejná jména}
-				\item Pøíkazy mají tvar: \texttt{EXEC SQL sql\_prikaz} a konèí støedníkem
-				\item Promìnné v hostitelském prostøedí se znaèí pøedponou ':'
-				\item Referované hostitelské promìnné musí bıt definovány v deklaraèní sekci
+				\pojem{Charakteristika}{promÄ›nnÃ© i sloupce mohou mÃ­t stejnÃ¡ jmÃ©na}
+				\item PÅ™Ã­kazy majÃ­ tvar: \texttt{EXEC SQL sql\_prikaz} a konÄÃ­ stÅ™ednÃ­kem
+				\item PromÄ›nnÃ© v hostitelskÃ©m prostÅ™edÃ­ se znaÄÃ­ pÅ™edponou ':'
+				\item ReferovanÃ© hostitelskÃ© promÄ›nnÃ© musÃ­ bÃ½t definovÃ¡ny v deklaraÄnÃ­ sekci
 			\end{itemize}
-		\subsection{Dynamickı SQL}
+		\subsection{DynamickÃ½ SQL}
 			\begin{itemize}
-				\pojem{Charakteristika}{poskytuje mo¾nost vytváøení pøíkazù SQL jako textovıch øetìzcù za bìhu}
-				\item Pøíklad pou¾ití:
+				\pojem{Charakteristika}{poskytuje moÅ¾nost vytvÃ¡Å™enÃ­ pÅ™Ã­kazÅ¯ SQL jako textovÃ½ch Å™etÄ›zcÅ¯ za bÄ›hu}
+				\item PÅ™Ã­klad pouÅ¾itÃ­:
 				\begin{itemize}
-					\item Vytvoøení pøíkazu: \\ \texttt{PREPARE jméno\_pøíkazu FROM øetìzec/promìnná}
-­ 					\item Vykonání pøíkazu: \\ \texttt{EXECUTE jm\_pøíkazu [INTO ...][ USING vstupní\_hodnoty]}
-­ 					\item Uvolnìní prostoru: \\ \texttt{DEALOCATE PREPARE jm\_pøíkazu}
-					\item Vytvoøení pøíkazu a bezprostøední provedení: \\ \texttt{EXECUTE IMMEDIATE øetìzec|promìnná}
+					\item VytvoÅ™enÃ­ pÅ™Ã­kazu: \\ \texttt{PREPARE jmÃ©no\_pÅ™Ã­kazu FROM Å™etÄ›zec/promÄ›nnÃ¡}
+Â­ 					\item VykonÃ¡nÃ­ pÅ™Ã­kazu: \\ \texttt{EXECUTE jm\_pÅ™Ã­kazu [INTO ...][ USING vstupnÃ­\_hodnoty]}
+Â­ 					\item UvolnÄ›nÃ­ prostoru: \\ \texttt{DEALOCATE PREPARE jm\_pÅ™Ã­kazu}
+					\item VytvoÅ™enÃ­ pÅ™Ã­kazu a bezprostÅ™ednÃ­ provedenÃ­: \\ \texttt{EXECUTE IMMEDIATE Å™etÄ›zec|promÄ›nnÃ¡}
 				\end{itemize}
 			\end{itemize}
 
-		\subsection{Procedury v prostøedí Oracle}
+		\subsection{Procedury v prostÅ™edÃ­ Oracle}
 		\begin{verbatim}
-		CREATE OR REPLACE PROCEDURE jméno(jméno_promìnné TYP_PROMÌNNÉ) 
+		CREATE OR REPLACE PROCEDURE jmÃ©no(jmÃ©no_promÄ›nnÃ© TYP_PROMÄšNNÃ‰) 
 		BEGIN
-		    tìlo procedury
+		    tÄ›lo procedury
 		END;	
 		\end{verbatim}
 
-		\subsection{Funkce v prostøedí Oracle}
+		\subsection{Funkce v prostÅ™edÃ­ Oracle}
 		\begin{verbatim}
-		CREATE OR REPLACE FUNCTION jméno(jméno_promìnné TYP_PROMÌNNÉ) 
+		CREATE OR REPLACE FUNCTION jmÃ©no(jmÃ©no_promÄ›nnÃ© TYP_PROMÄšNNÃ‰) 
 		    RETURN NUMBER
-		    IS jméno NUMBER(specifikace)
+		    IS jmÃ©no NUMBER(specifikace)
 		BEGIN
-		    tìlo funkce + return
+		    tÄ›lo funkce + return
 		END;
 		\end{verbatim}
 
-		\subsection{Triggery v prostøedí Oracle}
+		\subsection{Triggery v prostÅ™edÃ­ Oracle}
 		\begin{verbatim}
-		CREATE OR REPLACE TRIGGER jméno
+		CREATE OR REPLACE TRIGGER jmÃ©no
 		    [BEFORE|AFTER|INSTEAD OF][DELETE|INSERT|UPDATE|OR]
 		    FOR EACH ROW
 		BEGIN}
-		    tìlo procedury
+		    tÄ›lo procedury
 		END;
 		\end{verbatim}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\section{Normalizace}
-		\subsection{Teorie závislostí}
+		\subsection{Teorie zÃ¡vislostÃ­}
 			\begin{itemize}
-				\pojem{Funkèní závislost}{hodnota atributu relace urèuje jednoznaènì hodnotu jiného atributu té¾e relace}
+				\pojem{FunkÄnÃ­ zÃ¡vislost}{hodnota atributu relace urÄuje jednoznaÄnÄ› hodnotu jinÃ©ho atributu tÃ©Å¾e relace}
 				\begin{itemize}
 					\item Zapisujeme $X \rightarrow Y$
-					\item Vyplıvá z vıznamu atributù, pøedstavuje integritní omezení
-					\item \emph{Nech» X a Y jsou atributy relace R. Øekneme, ¾e Y funkènì závisí na X, právì kdy¾ pro libovolné dvì n-tice t$_1$ a t$_2$ ka¾dého pøípustného stavu relace R platí, ¾e je-li x$_1$, resp. y$_1$ hodnota atributu X, resp. Y v n-tici t$_1$ a x$_2$, resp. y$_2$ hodnota atributu X, resp. Y v n-tici t$_2$ a x$_1 = $ x$_2$, potom i y$_1 = $y$_2$.}
-					\item Praktickı dùsledek: opakuje-li se v relaci stejná hodnota determinantu, musí se opakovat i odpovídající stejné hodnoty závislého atributu
+					\item VyplÃ½vÃ¡ z vÃ½znamu atributÅ¯, pÅ™edstavuje integritnÃ­ omezenÃ­
+					\item \emph{NechÅ¥ X a Y jsou atributy relace R. Å˜ekneme, Å¾e Y funkÄnÄ› zÃ¡visÃ­ na X, prÃ¡vÄ› kdyÅ¾ pro libovolnÃ© dvÄ› n-tice t$_1$ a t$_2$ kaÅ¾dÃ©ho pÅ™Ã­pustnÃ©ho stavu relace R platÃ­, Å¾e je-li x$_1$, resp. y$_1$ hodnota atributu X, resp. Y v n-tici t$_1$ a x$_2$, resp. y$_2$ hodnota atributu X, resp. Y v n-tici t$_2$ a x$_1 = $ x$_2$, potom i y$_1 = $y$_2$.}
+					\item PraktickÃ½ dÅ¯sledek: opakuje-li se v relaci stejnÃ¡ hodnota determinantu, musÃ­ se opakovat i odpovÃ­dajÃ­cÃ­ stejnÃ© hodnoty zÃ¡vislÃ©ho atributu
 
-					\pojem{Plná funkèní závislost}{atribut je funkènì závislı na celém slo¾eném atributu a není funkènì závislı jen na nìkteré jeho èásti}
-					\item Je-li kandidátní klíè relace slo¾enı, stejné hodnoty slo¾ek se mohou opakovat \tedy musí se opakovat i hodnoty atributù, které jsou èásteènì (ne plnì) závislé
+					\pojem{PlnÃ¡ funkÄnÃ­ zÃ¡vislost}{atribut je funkÄnÄ› zÃ¡vislÃ½ na celÃ©m sloÅ¾enÃ©m atributu a nenÃ­ funkÄnÄ› zÃ¡vislÃ½ jen na nÄ›kterÃ© jeho ÄÃ¡sti}
+					\item Je-li kandidÃ¡tnÃ­ klÃ­Ä relace sloÅ¾enÃ½, stejnÃ© hodnoty sloÅ¾ek se mohou opakovat \tedy musÃ­ se opakovat i hodnoty atributÅ¯, kterÃ© jsou ÄÃ¡steÄnÄ› (ne plnÄ›) zÃ¡vislÃ©
 				\end{itemize}
-				\pojem{Tranzitivní závislost}{atribut je funkènì závislı na jiném funkènì závislém atributu}
+				\pojem{TranzitivnÃ­ zÃ¡vislost}{atribut je funkÄnÄ› zÃ¡vislÃ½ na jinÃ©m funkÄnÄ› zÃ¡vislÃ©m atributu}
 
-				\item Návrh databáze:
+				\item NÃ¡vrh databÃ¡ze:
 				\begin{itemize}
-					\item Proces návrhu zalo¾enı na teorii závislostí se nazıvá normalizace
-					\item Postup návrhu: seznam atributù $\rightarrow$ postupná dekompozice na schéma v dostateènì vysoké normální formì
-					\item Praktickı postup: datovı model $\rightarrow$ transformace na schéma relaèní databáze $\rightarrow$ zjemnìní vyu¾itím normalizace resp. normalizace ER modelu pøed transformací
-					\pojem{Problémy ¹patného návrhu}
+					\item Proces nÃ¡vrhu zaloÅ¾enÃ½ na teorii zÃ¡vislostÃ­ se nazÃ½vÃ¡ normalizace
+					\item Postup nÃ¡vrhu: seznam atributÅ¯ $\rightarrow$ postupnÃ¡ dekompozice na schÃ©ma v dostateÄnÄ› vysokÃ© normÃ¡lnÃ­ formÄ›
+					\item PraktickÃ½ postup: datovÃ½ model $\rightarrow$ transformace na schÃ©ma relaÄnÃ­ databÃ¡ze $\rightarrow$ zjemnÄ›nÃ­ vyuÅ¾itÃ­m normalizace resp. normalizace ER modelu pÅ™ed transformacÃ­
+					\pojem{ProblÃ©my Å¡patnÃ©ho nÃ¡vrhu}
 					\begin{enumerate}
-						\item Opakující se informace (redundance)
-						\item Nemo¾nost reprezentovat urèitou informaci
-						\item Ztráta informace
-						\item Slo¾itá kontrola integritních omezení
+						\item OpakujÃ­cÃ­ se informace (redundance)
+						\item NemoÅ¾nost reprezentovat urÄitou informaci
+						\item ZtrÃ¡ta informace
+						\item SloÅ¾itÃ¡ kontrola integritnÃ­ch omezenÃ­
 					\end{enumerate}
 				\end{itemize}	
 			\end{itemize}
 			\subsubsection{Normalizace\,--\,popis}
 				\begin{itemize}
-					\item Postupná transformace tabulky do vhodnìj¹ího tvaru (postupná dekompozice)
-					\item ®ádoucí vlastnosti dekompozice:
+					\item PostupnÃ¡ transformace tabulky do vhodnÄ›jÅ¡Ã­ho tvaru (postupnÃ¡ dekompozice)
+					\item Å½Ã¡doucÃ­ vlastnosti dekompozice:
 					\begin{itemize}
-						\pojem{Bezeztrátovost pøi zpìtném spojení (Loosless-Join/Nonloss decomp.)}{spojení tabulek, které vzniknou dekompozicí musí dát pøesnì pùvodní tabulku}
-						\pojem{Zachování závislostí}{v¹echny pùvodní závislosti musí bıt zachovány a snadno kontrolovatelné (v rámci jedné tabulky)}
-						\pojem{Odstranìní opakování informace (redundance)}
+						\pojem{BezeztrÃ¡tovost pÅ™i zpÄ›tnÃ©m spojenÃ­ (Loosless-Join/Nonloss decomp.)}{spojenÃ­ tabulek, kterÃ© vzniknou dekompozicÃ­ musÃ­ dÃ¡t pÅ™esnÄ› pÅ¯vodnÃ­ tabulku}
+						\pojem{ZachovÃ¡nÃ­ zÃ¡vislostÃ­}{vÅ¡echny pÅ¯vodnÃ­ zÃ¡vislosti musÃ­ bÃ½t zachovÃ¡ny a snadno kontrolovatelnÃ© (v rÃ¡mci jednÃ© tabulky)}
+						\pojem{OdstranÄ›nÃ­ opakovÃ¡nÃ­ informace (redundance)}
 					\end{itemize}
-					\pojem{Boyce-Coddova normální forma (BCNF)}
+					\pojem{Boyce-Coddova normÃ¡lnÃ­ forma (BCNF)}
 					\begin{itemize}
-						\item Odstraòuje opakování informace
-						\item V¹echny netriviální funkèní závislosti jsou dány závislostí na kandidátních klíèích
-						\item Ne ka¾dá dekompozice do BCNF zachovává závislosti \tedy potom staèí 3NF
+						\item OdstraÅˆuje opakovÃ¡nÃ­ informace
+						\item VÅ¡echny netriviÃ¡lnÃ­ funkÄnÃ­ zÃ¡vislosti jsou dÃ¡ny zÃ¡vislostÃ­ na kandidÃ¡tnÃ­ch klÃ­ÄÃ­ch
+						\item Ne kaÅ¾dÃ¡ dekompozice do BCNF zachovÃ¡vÃ¡ zÃ¡vislosti \tedy potom staÄÃ­ 3NF
 					\end{itemize}
 				\end{itemize}
 
-		\subsection{Normální formy}
+		\subsection{NormÃ¡lnÃ­ formy}
 			\begin{itemize}
-				\item Definuje po¾adavek na vlastnosti schématu relace z pohledu závislostí mezi atributy
-				\item Hierarchie normálních forem (Codd: 1NF a¾ 3NF, BCNF, 4NF, 5NF), tj, n-tá normální forma musí splòovat podmínky (n-1) normální formy a nìco navíc
-				\item Po¾adavky na návrh zalo¾enı na normalizaci:
+				\item Definuje poÅ¾adavek na vlastnosti schÃ©matu relace z pohledu zÃ¡vislostÃ­ mezi atributy
+				\item Hierarchie normÃ¡lnÃ­ch forem (Codd: 1NF aÅ¾ 3NF, BCNF, 4NF, 5NF), tj, n-tÃ¡ normÃ¡lnÃ­ forma musÃ­ splÅˆovat podmÃ­nky (n-1) normÃ¡lnÃ­ formy a nÄ›co navÃ­c
+				\item PoÅ¾adavky na nÃ¡vrh zaloÅ¾enÃ½ na normalizaci:
 				\begin{itemize}
-					\item Bezeztrátovost dekompozice
-					\item Zachování závislostí
-					\item Dosa¾ení minimálnì BCNF, resp. 3NF
+					\item BezeztrÃ¡tovost dekompozice
+					\item ZachovÃ¡nÃ­ zÃ¡vislostÃ­
+					\item DosaÅ¾enÃ­ minimÃ¡lnÄ› BCNF, resp. 3NF
 				\end{itemize}
 				\item Terminologie:
 				\begin{itemize}
-					\item Klíèovı atribut \tedy atribut, kterı je souèástí kandidátního klíèe
-					\item Superklíè \tedy nadmno¾ina kandidátního klíèe
+					\item KlÃ­ÄovÃ½ atribut \tedy atribut, kterÃ½ je souÄÃ¡stÃ­ kandidÃ¡tnÃ­ho klÃ­Äe
+					\item SuperklÃ­Ä \tedy nadmnoÅ¾ina kandidÃ¡tnÃ­ho klÃ­Äe
 				\end{itemize}
 			
-				\item \textbf{První normální forma \texttt{1NF}} \hfill {\small (atomické prvky)}
+				\item \textbf{PrvnÃ­ normÃ¡lnÃ­ forma \texttt{1NF}} \hfill {\small (atomickÃ© prvky)}
 				\begin{itemize}
-					\item relace je v první normální forme, právì kdy¾ \emph{v¹echny její jednoduché domény obsahují pouze atomické hodnoty}
+					\item relace je v prvnÃ­ normÃ¡lnÃ­ forme, prÃ¡vÄ› kdyÅ¾ \emph{vÅ¡echny jejÃ­ jednoduchÃ© domÃ©ny obsahujÃ­ pouze atomickÃ© hodnoty}
 				\end{itemize}
 
-				\item \textbf{Druhá normální forma \texttt{2NF}} \hfill {\small (vazba ven z kandidátního klíèe)}
+				\item \textbf{DruhÃ¡ normÃ¡lnÃ­ forma \texttt{2NF}} \hfill {\small (vazba ven z kandidÃ¡tnÃ­ho klÃ­Äe)}
 				\begin{itemize}
-					\item schéma relace je ve druhé normální formì, právì kdy¾ je v 1NF a \emph{ka¾dı její neklíèovı atribut je \underline{plnì} funkènì závislı na ka¾dém kandidátním klíèi}
+					\item schÃ©ma relace je ve druhÃ© normÃ¡lnÃ­ formÄ›, prÃ¡vÄ› kdyÅ¾ je v 1NF a \emph{kaÅ¾dÃ½ jejÃ­ neklÃ­ÄovÃ½ atribut je \underline{plnÄ›} funkÄnÄ› zÃ¡vislÃ½ na kaÅ¾dÃ©m kandidÃ¡tnÃ­m klÃ­Äi}
 				\end{itemize}
 
-				\item \textbf{Tøetí normální forma \texttt{3NF}} \hfill {\small (tranzitivnost)}
+				\item \textbf{TÅ™etÃ­ normÃ¡lnÃ­ forma \texttt{3NF}} \hfill {\small (tranzitivnost)}
 				\begin{itemize}
-					\item schéma relace se ve tøetí normální formì, právì kdy¾ je ve 2NF a \emph{neexistuje ¾ádnı neklíèovı atribut, kterı je tranzitivnì závislı na nìkterém kandidátním klíèi}
+					\item schÃ©ma relace se ve tÅ™etÃ­ normÃ¡lnÃ­ formÄ›, prÃ¡vÄ› kdyÅ¾ je ve 2NF a \emph{neexistuje Å¾Ã¡dnÃ½ neklÃ­ÄovÃ½ atribut, kterÃ½ je tranzitivnÄ› zÃ¡vislÃ½ na nÄ›kterÃ©m kandidÃ¡tnÃ­m klÃ­Äi}
 				\end{itemize}
 
-				\item \textbf{Boyce-Coddova normální forma \texttt{BCNF}}
+				\item \textbf{Boyce-Coddova normÃ¡lnÃ­ forma \texttt{BCNF}}
 				\begin{itemize}
-					\item schéma relace je v Boyce-Coddovì normální formì, jestli¾e \emph{pro ka¾dou netriviální funkèní závislost $X \rightarrow Y$ je $X$ superklíèem}
+					\item schÃ©ma relace je v Boyce-CoddovÄ› normÃ¡lnÃ­ formÄ›, jestliÅ¾e \emph{pro kaÅ¾dou netriviÃ¡lnÃ­ funkÄnÃ­ zÃ¡vislost $X \rightarrow Y$ je $X$ superklÃ­Äem}
 				\end{itemize}
 
-				\item \textbf{Ètvrtá normální forma \texttt{4NF}}
+				\item \textbf{ÄŒtvrtÃ¡ normÃ¡lnÃ­ forma \texttt{4NF}}
 				\begin{itemize}
-					\item vymezuje vlastnosti, které musí splòovat atributy relace s ohledem na vícehodnotové závislosti
+					\item vymezuje vlastnosti, kterÃ© musÃ­ splÅˆovat atributy relace s ohledem na vÃ­cehodnotovÃ© zÃ¡vislosti
 				\end{itemize}
 
-				\item \textbf{Pátá normální forma \texttt{5NF}}
+				\item \textbf{PÃ¡tÃ¡ normÃ¡lnÃ­ forma \texttt{5NF}}
 				\begin{itemize}
-					\item vymezuje vlastnosti, které musí splòovat atributy relace s ohledem na závislosti na spojení
+					\item vymezuje vlastnosti, kterÃ© musÃ­ splÅˆovat atributy relace s ohledem na zÃ¡vislosti na spojenÃ­
 				\end{itemize}
 			\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\section{B+ stromy}
-	Dynamická struktura, v uzlech mù¾e bıt ponechán prostor pro dal¹í rùst s tím, ¾e ka¾dı uzel s vıjimkou vrcholu je zaplnìn minimálnì z 50\,\%.
+	DynamickÃ¡ struktura, v uzlech mÅ¯Å¾e bÃ½t ponechÃ¡n prostor pro dalÅ¡Ã­ rÅ¯st s tÃ­m, Å¾e kaÅ¾dÃ½ uzel s vÃ½jimkou vrcholu je zaplnÄ›n minimÃ¡lnÄ› z 50\,\%.
 	\begin{itemize}
-		\item Více úrovòovı index ve tvaru vyvá¾eného n-nárního stromu, kde n je maximální poèet následníkù
-		\item Koøen \tedy minimálnì 2 následníci
-		\item Listy obsahují n ukazatelù na dal¹í
-		\item Uzel stromu má typicky velikost jednoho diskového bloku
-		\pojem{Sekvenèní èást}{tvoøena polo¾kami indexu, které obsahují hodnotu vyhledávacího klíèe a ukazatel do primárního souboru, uzly tvoøí jednosmìrnì vázanı seznam}
-		\pojem{Indexová èást}{tvoøí øídkı víceúrovòovı index èásti sekvenèní}
-		\item Uzel se skládá z n ukazatelù a n-1 hodnot, které urèují od-po které hodnoty jsou pod uzly rozdìlené
-		\item Vytvoøení indexu: \\ \texttt{CREATE [UNIQUE] INDEX nazev ON nazev\_bazove\_tabulky(jmeno\_sloupce [ASC|DESC], ...)}
+		\item VÃ­ce ÃºrovÅˆovÃ½ index ve tvaru vyvÃ¡Å¾enÃ©ho n-nÃ¡rnÃ­ho stromu, kde n je maximÃ¡lnÃ­ poÄet nÃ¡slednÃ­kÅ¯
+		\item KoÅ™en \tedy minimÃ¡lnÄ› 2 nÃ¡slednÃ­ci
+		\item Listy obsahujÃ­ n ukazatelÅ¯ na dalÅ¡Ã­
+		\item Uzel stromu mÃ¡ typicky velikost jednoho diskovÃ©ho bloku
+		\pojem{SekvenÄnÃ­ ÄÃ¡st}{tvoÅ™ena poloÅ¾kami indexu, kterÃ© obsahujÃ­ hodnotu vyhledÃ¡vacÃ­ho klÃ­Äe a ukazatel do primÃ¡rnÃ­ho souboru, uzly tvoÅ™Ã­ jednosmÄ›rnÄ› vÃ¡zanÃ½ seznam}
+		\pojem{IndexovÃ¡ ÄÃ¡st}{tvoÅ™Ã­ Å™Ã­dkÃ½ vÃ­ceÃºrovÅˆovÃ½ index ÄÃ¡sti sekvenÄnÃ­}
+		\item Uzel se sklÃ¡dÃ¡ z n ukazatelÅ¯ a n-1 hodnot, kterÃ© urÄujÃ­ od-po kterÃ© hodnoty jsou pod uzly rozdÄ›lenÃ©
+		\item VytvoÅ™enÃ­ indexu: \\ \texttt{CREATE [UNIQUE] INDEX nazev ON nazev\_bazove\_tabulky(jmeno\_sloupce [ASC|DESC], ...)}
 	\end{itemize}
 
 	\begin{figure}[h!]
